@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { View, Text, TextInput, Picker } from 'react-native';
+import { View, Text, TextInput, Picker, Button } from 'react-native';
 const Item = Picker.Item;
 
 export default class Post extends Component {
@@ -17,7 +17,7 @@ export default class Post extends Component {
   }
 
   handleSubmit() {
-    return fetch('http://localhost:3000/api/post/create' {
+    return fetch('http://localhost:3000/api/post/create', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -78,10 +78,11 @@ export default class Post extends Component {
           <Item label="Used - Like New" value="usedNew" />
           <Item label="Brand New" value="new" />
         </Picker>
+        <Button
+          title="Submit"
+          onPress={this.handleSubmit}
+        />
       </View>
-      <Button
-        onPress={handleSubmit}
-      />
     )
   }
 }
