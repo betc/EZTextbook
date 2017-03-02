@@ -1,46 +1,50 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Text, View, Image, Linking } from 'react-native';
 import Card from './Card';
 import CardSection from './CardSection';
 import Button from './Button';
 
-const BookDetail = ({ book }) => {
-  const { title, author, price, thumbnail_image, url } = book;
-  const {
-    thumbnailStyle,
-    headerContentStyle,
-    thumbnailContainerStyle,
-    headerTextStyle,
-    priceTextStyle
-  } = styles;
-  return (
-    <Card>
-      <CardSection>
-        <View style={thumbnailContainerStyle}>
-          <Image
-            style={thumbnailStyle}
-            source={{ uri: thumbnail_image }}
-          />
-        </View>
-        <View style={headerContentStyle}>
-          <Text style={headerTextStyle}>{title}</Text>
-          <Text style={headerTextStyle}>{author}</Text>
-          <Text style={priceTextStyle}>CDN{price}</Text>
-        </View>
-      </CardSection>
+// const BookDetail = ({ book }) => {
+class BookDetail extends Component {
 
-      <CardSection>
-        <Button onPress={() => Linking.openURL(url)}>
-          Buy Now
-        </Button>
-      </CardSection>
-      <CardSection>
-        <Button>
-          Make a Post
-        </Button>
-      </CardSection>
-    </Card>
-  );
+  render() {
+    const { title, author, price, thumbnail_image, url } = this.props.book;
+    const {
+      thumbnailStyle,
+      headerContentStyle,
+      thumbnailContainerStyle,
+      headerTextStyle,
+      priceTextStyle
+    } = styles;
+    return (
+      <Card>
+        <CardSection>
+          <View style={thumbnailContainerStyle}>
+            <Image
+              style={thumbnailStyle}
+              source={{ uri: thumbnail_image }}
+            />
+          </View>
+          <View style={headerContentStyle}>
+            <Text style={headerTextStyle}>{title}</Text>
+            <Text style={headerTextStyle}>{author}</Text>
+            <Text style={priceTextStyle}>CDN{price}</Text>
+          </View>
+        </CardSection>
+
+        <CardSection>
+          <Button onPress={() => Linking.openURL(url)}>
+            Buy Now
+          </Button>
+        </CardSection>
+        <CardSection>
+          <Button onPress={() => this.props.navigator.push({id: "Post", props: { title: title}})}>
+            Make a Post
+          </Button>
+        </CardSection>
+      </Card>
+    );
+  }
 };
 
 const styles = {

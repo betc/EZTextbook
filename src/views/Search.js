@@ -30,7 +30,7 @@ class Search extends Component {
           onChangeText={(search) => this.setState({search})}
           style={styles.searchBarStyle}
         />
-        <BookList data={filteredBooks} />
+        <BookList data={filteredBooks} navigator={this.props.navigator} />
       </View>
     )
   };

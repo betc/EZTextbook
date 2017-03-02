@@ -9,7 +9,7 @@ class BookList extends Component {
   renderBooks() {
     // return this.state.Books.map(book =>
     return this.props.data.map(book =>
-      <BookDetail key={book.title} book={book} />
+      <BookDetail key={book.title} book={book} navigator={this.props.navigator} />
     );
   }
   render() {
