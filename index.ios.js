@@ -14,7 +14,7 @@
  const EZTextbook = () => (
    <View style={{ flex: 1 }}>
      <Header headerText={'Search Books'} />
-     <SearchBar />
+     <Search />
    </View>
  );
 
