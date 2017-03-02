@@ -6,7 +6,7 @@
 		"isbn": "9780393969450",
 		"courseid": "CS136",
 		"url": "https://www.amazon.ca/s/ref=nb_sb_noss/168-9524256-0559956?url=search-alias%3Daps&field-keywords=C+Programming%3A+A+Modern+Approach",
-		"thumbnail_image": "/Users/Chenhao/Documents/Uwaterloo/CS446/Project/EZTextbook/img/C Programming.jpeg"
+		"thumbnail_image": "http://i.imgur.com/BBhojgp.jpg"
 	},
 	{
 		"title": "How to Design Programs",
@@ -15,7 +15,7 @@
 		"isbn": "9780585392967",
 		"courseid": "CS135",
 		"url": "https://www.amazon.ca/How-Design-Programs-Introduction-Programming/dp/0262062186/ref=sr_1_1?ie=UTF8&qid=1487868367&sr=8-1&keywords=How+to+Design+Programs",
-		"thumbnail_image": "/Users/Chenhao/Documents/Uwaterloo/CS446/Project/EZTextbook/img/How to Design Programs.jpg"
+		"thumbnail_image": "http://i.imgur.com/lAS8IK4.jpg"
 	},
 	{
 		"title": "Introduction to Algorithms",
@@ -24,7 +24,7 @@
 		"isbn": "9780262032933",
 		"courseid": "CS341",
 		"url": "https://www.amazon.ca/s/ref=nb_sb_ss_i_1_16?url=search-alias%3Dstripbooks&field-keywords=introduction+to+algorithms&sprefix=Introduction+to+%2Cstripbooks%2C139&crid=C5JSF45MRFBV&rh=n%3A916520%2Ck%3Aintroduction+to+algorithms",
-		"thumbnail_image": "/Users/Chenhao/Documents/Uwaterloo/CS446/Project/EZTextbook/img/Introduction to Algorithms.jpeg"
+		"thumbnail_image": "http://i.imgur.com/ZdlTMuP.jpg"
 	},
 	{
 		"title": "Software Architecture: Foundations, Theory",
@@ -33,7 +33,7 @@
 		"isbn": "9780470167748",
 		"courseid": "CS446",
 		"url": "https://www.amazon.ca/Software-Architecture-Foundations-Theory-Practice/dp/0470167742/ref=sr_1_4?s=books&ie=UTF8&qid=1487868861&sr=1-4&keywords=Software+Architecture",
-		"thumbnail_image": "/Users/Chenhao/Documents/Uwaterloo/CS446/Project/EZTextbook/img/Software Architecture.jpg"
+		"thumbnail_image": "http://i.imgur.com/nsTeLI5.jpg"
 	},
 	{
 		"title": "Thinking in C++",
@@ -42,7 +42,7 @@
 		"isbn": "9780201632071",
 		"courseid": "CS246",
 		"url": "https://www.amazon.ca/s/ref=nb_sb_noss?url=search-alias%3Dstripbooks&field-keywords=Thinking+in+C%2B%2B&rh=n%3A916520%2Ck%3AThinking+in+C%2B%2B",
-		"thumbnail_image": "/Users/Chenhao/Documents/Uwaterloo/CS446/Project/EZTextbook/img/Thinking in C++.jpeg"
+		"thumbnail_image": "http://i.imgur.com/UfNoZn8.jpg"
 	},
   {
     "title": "Calculus: Early Transcendentals",
@@ -51,7 +51,7 @@
 		"isbn": "9780495012375",
 		"courseid": "MATH137",
     "url": "https://www.amazon.ca/s/ref=nb_sb_noss_2?url=search-alias%3Dstripbooks&field-keywords=Calculus%3A+Early+Transcendentals+",
-    "thumbnail_image": "/Users/Chenhao/Documents/Uwaterloo/CS446/Project/EZTextbook/img/Calculus.jpg"
+    "thumbnail_image": "http://i.imgur.com/9cvq15L.jpg"
   },
   {
     "title": "Think Python",
@@ -60,7 +60,7 @@
 		"isbn": "8601234620983",
 		"courseid": "CS116",
     "url": "https://www.amazon.ca/s/ref=nb_sb_noss_2?url=search-alias%3Dstripbooks&field-keywords=Think+Python&rh=n%3A916520%2Ck%3AThink+Python",
-    "thumbnail_image": "/Users/Chenhao/Documents/Uwaterloo/CS446/Project/EZTextbook/img/Think Python.png"
+    "thumbnail_image": "http://i.imgur.com/GGNZRhp.png"
   },
   {
     "title": "Computer Networking: A Top-Down Approach",
@@ -69,6 +69,6 @@
 		"isbn": "9780201976991",
 		"courseid": "CS458",
     "url": "https://www.amazon.ca/s/ref=nb_sb_ss_i_1_16?url=search-alias%3Dstripbooks&field-keywords=computer+networking+a+top-down+approach&sprefix=Computer+Network%2Cstripbooks%2C142&crid=35E8HCCIKH1SB&rh=n%3A916520%2Ck%3Acomputer+networking+a+top-down+approach",
-    "thumbnail_image": "/Users/Chenhao/Documents/Uwaterloo/CS446/Project/EZTextbook/img/Computer Networking.jpg"
+    "thumbnail_image": "http://i.imgur.com/pXW6BvK.jpg"
   }
 ]
