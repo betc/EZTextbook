@@ -11,16 +11,16 @@ import {
   Text,
   DrawerLayoutAndroid,
   ToolbarAndroid,
-  View
+  View,
+  Navigator
 } from 'react-native';
 
-import NavItem from './NavItem';
-import Post from './Post';
-import Home from './Home';
+import Home from './src/views/Home';
+import Post from './src/views/Post';
+import Search from './src/views/Search';
 
-import Header from './src/components/Header';
 // import SearchBar from './src/components/SearchBar';
-import Search from './src/components/Search';
+import NavItem from './src/components/NavItem';
 import BookList from './src/components/BookList';
 import Button from './src/components/Button';
 
@@ -34,17 +34,6 @@ export default class EZTextbook extends Component {
       courses: [],
     };
   }
-  // var scene = <Home />;
-  //
-  // handleView(view) {
-  //   this.state.view = view;
-  //   if (this.state.view === "Home") {
-  //     this.scene = <Home />;
-  //   }
-  //   else if if (this.state.view === "Home") {
-  //     this.scene = <Post />;
-  //   }
-  // }
 
   componentDidMount () {
     fetch('https://api.uwaterloo.ca/v2/courses/CS.json?key=c687ee7c8cc53db208f2a34776316cb0')
@@ -57,62 +46,96 @@ export default class EZTextbook extends Component {
       });
   }
 
-  render() {
-    const navOptions = ["Home", "Find Textbooks", "Make a Post"];
-    const navigationButtons = navOptions.map((title) =>
-      <NavItem key={title} title={title} />
+  renderScene(route, navigator) {
+    const navOptions = [
+      {
+        id: 0,
+        name: "Home"
+      },
+      {
+        id: 1,
+        name: "Books for Sale"
+      },
+      {
+        id: 2,
+        name: "Books Wanted"
+      },
+      {
+        id: 3,
+        name: "Search Textbooks"
+      },
+      {
+        id: 4,
+        name: "Make a Post"
+      }];
+    let navigationButtons = navOptions.map((item) =>
+      <NavItem
+        key={item.id}
+        title={item.name}
+        onPress={() => navigator.push({id: item.id})} />
     );
-    var navigationView = (
-      <View style={{flex: 3, backgroundColor: '#fff'}}>
+    let navigationView = (
+      <View style={{flex: 3, backgroundColor: '#262626'}}>
+        <Text style={styles.header}>John Doe</Text>
         {navigationButtons}
       </View>
     );
+
+    let scene = <Home />
+
+    if (route.id === 0) {
+      scene = <Home />
+    }
+    else if (route.id === 3) {
+      scene = <Search />
+    }
+
     return (
       <DrawerLayoutAndroid
         drawerWidth={300}
         drawerPosition={DrawerLayoutAndroid.positions.Left}
-        ref={(drawer) => { this.drawer = drawer; }}
         renderNavigationView={() => navigationView}>
           <ToolbarAndroid
             navIcon={require('./img/menu.png')}
+            // ref={(drawer) => { this.drawer = drawer; }}
             onIconClicked={() => this.drawer.openDrawer()}
             style={styles.toolbar}
             title="EZTextbook"
           />
-          <View style={{ flex: 1 }}>
-            <Header headerText={'Search Books'} />
-            <Search />
-          </View>
+          {scene}
       </DrawerLayoutAndroid>
+    );
+  }
+
+  render() {
+
+    return (
+      <Navigator
+        initialRoute={{ id: 0 }}
+        renderScene={this.renderScene}
+      />
     );
   };
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
   toolbar: {
-    backgroundColor: '#E9EAED',
+    backgroundColor: '#ffcc00',
     height: 56,
   },
   button: {
     color: '#000',
     backgroundColor: '#fff',
     fontSize: 15,
+  },
+  header: {
+    color: "#e6e6e6",
+    fontSize: 25,
+    padding: 10,
+    paddingBottom: 20,
+    borderBottomWidth: 1,
+    borderColor: "#4d4d4d",
+    textAlign: "center",
   }
 });
 

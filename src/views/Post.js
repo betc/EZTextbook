@@ -68,6 +68,7 @@ export default class Post extends Component {
           selectedValue={this.state.condition}
           onValueChange={(condition) => this.setState({condition})}>
           <Item label="Used - Worn" value="30" />
+          <Item label="Used - Has writings" value="60" />
           <Item label="Used - Like New" value="90" />
           <Item label="Brand New" value="100" />
         </Picker>

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { View, Picker, TextInput } from 'react-native';
 
-import BookList from './BookList';
-import Courses from './Courses.json';
-import Books from './Books.json';
+import Header from '../components/Header';
+import BookList from '../components/BookList';
+import Courses from '../components/Courses.json';
+import Books from '../components/Books.json';
 
 class Search extends Component {
   // state = { Courses, Books, search: '' };
@@ -12,11 +13,6 @@ class Search extends Component {
     this.state = {
       search: "",
     };
-  }
-
-  updateSearch(event) {
-    console.log(event.target.value());
-    this.setState({search: event.target.value});
   }
 
   render() {
@@ -28,6 +24,7 @@ class Search extends Component {
     );
     return (
       <View>
+        <Header headerText={'Search Books'} />
         <TextInput
           placeholder='Search...'
           onChangeText={(search) => this.setState({search})}
