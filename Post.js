@@ -6,10 +6,11 @@ export default class Post extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      successMsg: "",
       title: "",
     	description: "",
-    	creator: "",
-    	book: "",
+    	creator: "58b3291604873f0b502a2a1f",
+    	book: "58b328f604873f0b502a29fa",
     	price: 0,
     	condition: "",
     	type: "Selling"
@@ -17,7 +18,9 @@ export default class Post extends Component {
   }
 
   handleSubmit() {
-    return fetch('http://localhost:3000/api/post/create', {
+    console.log(this.state);
+    this.state.successMsg = "Submitted";
+    return fetch('http://656063df.ngrok.io/api/post/create', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -32,14 +35,7 @@ export default class Post extends Component {
       	condition: this.state.condition,
       	type: this.state.type
       })
-    })
-      .then((response) => response.json())
-      .then((responseJson) => {
-        return responseJson.post;
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    });
   }
 
   render() {
@@ -47,15 +43,11 @@ export default class Post extends Component {
       <View style={{padding: 10}}>
         <Text>Buy/Sell</Text>
         <Picker
+          selectedValue={this.state.type}
           onValueChange={(type) => this.setState({type})}>
           <Item label="I'm selling a book" value="Selling" />
-          <Item label="I'm looking for a book" value="Buying" />
+          <Item label="I'm buying a book" value="Buying" />
         </Picker>
-        <Text>Course</Text>
-        <TextInput
-          style={{height: 40}}
-          placeholder="Course"
-        />
         <TextInput
           style={{height: 40}}
           onChangeText={(title) => this.setState({title})}
@@ -63,8 +55,8 @@ export default class Post extends Component {
         />
         <TextInput
           style={{height: 40}}
-          onChangeText={(creator) => this.setState({creator})}
-          placeholder="Author"
+          onChangeText={(description) => this.setState({description})}
+          placeholder="Description"
         />
         <TextInput
           style={{height: 40}}
@@ -73,15 +65,17 @@ export default class Post extends Component {
         />
         <Text>Condition</Text>
         <Picker
+          selectedValue={this.state.condition}
           onValueChange={(condition) => this.setState({condition})}>
-          <Item label="Used - Worn" value="usedWork" />
-          <Item label="Used - Like New" value="usedNew" />
-          <Item label="Brand New" value="new" />
+          <Item label="Used - Worn" value="30" />
+          <Item label="Used - Like New" value="90" />
+          <Item label="Brand New" value="100" />
         </Picker>
         <Button
           title="Submit"
-          onPress={this.handleSubmit}
+          onPress={this.handleSubmit.bind(this)}
         />
+        <Text>{this.state.successMsg}</Text>
       </View>
     )
   }

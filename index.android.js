@@ -11,38 +11,65 @@ import {
   Text,
   DrawerLayoutAndroid,
   ToolbarAndroid,
-  Button,
   View
 } from 'react-native';
 
+import NavItem from './NavItem';
 import Post from './Post';
+import Home from './Home';
+
+import Header from './src/components/Header';
+// import SearchBar from './src/components/SearchBar';
+import Search from './src/components/Search';
+import BookList from './src/components/BookList';
+import Button from './src/components/Button';
 
 var nativeImageSource = require('nativeImageSource');
 
 export default class EZTextbook extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      view: "Home",
+      courses: [],
+    };
+  }
+  // var scene = <Home />;
+  //
+  // handleView(view) {
+  //   this.state.view = view;
+  //   if (this.state.view === "Home") {
+  //     this.scene = <Home />;
+  //   }
+  //   else if if (this.state.view === "Home") {
+  //     this.scene = <Post />;
+  //   }
+  // }
+
+  componentDidMount () {
+    fetch('https://api.uwaterloo.ca/v2/courses/CS.json?key=c687ee7c8cc53db208f2a34776316cb0')
+      .then((response) => response.json())
+      .then((responseJson) => {
+        this.state.courses = responseJson.data;
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
   render() {
+    const navOptions = ["Home", "Find Textbooks", "Make a Post"];
+    const navigationButtons = navOptions.map((title) =>
+      <NavItem key={title} title={title} />
+    );
     var navigationView = (
-      <View style={{flex: 1, backgroundColor: '#fff'}}>
-        <Button
-          title="Home"
-        />
-        <Button
-          title="Find Textbooks"
-        />
-        <Button
-          title="Make a Post"
-        />
-        <Button
-          title="Shortlist"
-        />
-        <Button
-          title="Logout"
-        />
+      <View style={{flex: 3, backgroundColor: '#fff'}}>
+        {navigationButtons}
       </View>
     );
     return (
       <DrawerLayoutAndroid
-        drawerWidth={200}
+        drawerWidth={300}
         drawerPosition={DrawerLayoutAndroid.positions.Left}
         ref={(drawer) => { this.drawer = drawer; }}
         renderNavigationView={() => navigationView}>
@@ -52,7 +79,10 @@ export default class EZTextbook extends Component {
             style={styles.toolbar}
             title="EZTextbook"
           />
-          <Post />
+          <View style={{ flex: 1 }}>
+            <Header headerText={'Search Books'} />
+            <Search />
+          </View>
       </DrawerLayoutAndroid>
     );
   };
@@ -79,6 +109,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#E9EAED',
     height: 56,
   },
+  button: {
+    color: '#000',
+    backgroundColor: '#fff',
+    fontSize: 15,
+  }
 });
 
 AppRegistry.registerComponent('EZTextbook', () => EZTextbook);
