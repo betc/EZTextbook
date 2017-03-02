@@ -2,6 +2,7 @@ import React from 'react';
 import { Text, View, Image, Linking } from 'react-native';
 import Card from './Card';
 import CardSection from './CardSection';
+import ButtonSection from './ButtonSection';
 import Button from './Button';
 
 const BookDetail = ({ book }) => {
@@ -29,16 +30,21 @@ const BookDetail = ({ book }) => {
         </View>
       </CardSection>
 
-      <CardSection>
-        <Button onPress={() => Linking.openURL(url)}>
+      <ButtonSection>
+        <Button>
           Buy Now
         </Button>
-      </CardSection>
-      <CardSection>
+      </ButtonSection>
+      <ButtonSection>
         <Button>
           Make a Post
         </Button>
-      </CardSection>
+      </ButtonSection>
+      <ButtonSection>
+        <Button onPress={() => Linking.openURL(url)}>
+          Compare to Amazon
+        </Button>
+      </ButtonSection>
     </Card>
   );
 };

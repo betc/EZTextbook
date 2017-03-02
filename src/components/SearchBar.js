@@ -1,21 +1,13 @@
 import React, { Component } from 'react';
-import { View, Picker, TextInput } from 'react-native';
-
-import Courses from './Courses.json';
+import { TextInput } from 'react-native';
 
 class SearchBar extends Component {
-  state = { Courses };
-
-  // getCourses() {
-  //   return this.state.Courses.data.map(course =>
-  //     <Picker.Item label={course.title} value={course.title} />
-  //   );
-  // }
   render() {
     return (
-      <View>
-        <TextInput placeholder='search...' style={styles.searchBarStyle} />
-      </View>
+      <TextInput placeholder='Search by Book Title/ISBN/Course Number'
+      style={styles.searchBarStyle}
+      onChange={this.props.filterText}
+      />
     )
   };
 }
@@ -23,10 +15,12 @@ class SearchBar extends Component {
 const styles = {
   searchBarStyle: {
     height: 35,
-    borderColor: '#343d46',
-    borderWidth: 1,
+    borderColor: '#63717f',
+    borderWidth: 2,
     borderRadius: 5,
-    textShadowColor: 'red'
+    textShadowColor: 'red',
+    marginLeft: 1,
+    marginRight: 1
   }
 };
 export default SearchBar;

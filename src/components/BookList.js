@@ -1,22 +1,43 @@
 import React, { Component } from 'react';
-import { ScrollView } from 'react-native';
+import { View, ScrollView } from 'react-native';
 //import axios from 'axios';
 import BookDetail from './BookDetail';
-// import Books from './Books.json';
+import Books from './Books.json';
+import SearchBar from './SearchBar';
 
 class BookList extends Component {
-  // state = { Books };
-  renderBooks() {
-    // return this.state.Books.map(book =>
-    return this.props.data.map(book =>
-      <BookDetail key={book.title} book={book} />
-    );
+  constructor(props) {
+    super(props);
+    this.state = {
+      books: Books,
+      search: '',
+    };
+    this.filterText = this.filterText.bind(this);
   }
+
+  filterText(event) {
+    const searchText = event.nativeEvent.text;
+    this.setState({
+      search: searchText
+    });
+  }
+
+  renderBooks() {
+    return this.state.books.map(book => {
+      if (book.title.indexOf(this.state.search) !== -1 || book.courseid.indexOf(this.state.search) !== -1 || book.isbn.indexOf(this.state.search) !== -1) {
+        return <BookDetail key={book.title} book={book} />
+      }
+    });
+  }
+
   render() {
     return (
-      <ScrollView>
-        {this.renderBooks()}
-      </ScrollView>
+      <View>
+        <SearchBar filterText={this.filterText} />
+        <ScrollView>
+          {this.renderBooks()}
+        </ScrollView>
+      </View>
     );
   }
 }
