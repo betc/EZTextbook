@@ -66,7 +66,7 @@ export default class Post extends Component {
         <Text>Title</Text>
         <TextInput
           onChangeText={(title) => this.setState({title})}
-          value={this.state.type + " - " + this.props.title}
+          placeholder={this.state.type + " - " + this.props.title}
         />
         <Text>Description</Text>
         <TextInput
