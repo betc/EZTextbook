@@ -1,12 +1,12 @@
 import React, { Component, PropTypes } from 'react';
-import { StyleSheet, TouchableHighlight, Text } from 'react-native';
+import { StyleSheet, TouchableOpacity, Text } from 'react-native';
 
 export default class NavItem extends Component {
   render() {
     return (
-      <TouchableHighlight onPress={this.props.onPress}>
+      <TouchableOpacity onPress={this.props.onPress}>
         <Text style={styles.text}>{this.props.title}</Text>
-      </TouchableHighlight>
+      </TouchableOpacity>
     )
   }
 }

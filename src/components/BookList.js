@@ -24,8 +24,10 @@ class BookList extends Component {
 
   renderBooks() {
     return this.state.books.map(book => {
-      if (book.title.indexOf(this.state.search) !== -1 || book.courseid.indexOf(this.state.search) !== -1 || book.isbn.indexOf(this.state.search) !== -1) {
-        return <BookDetail key={book.title} book={book} />
+      if (book.title.toString().toLowerCase().indexOf(this.state.search.toString().toLowerCase()) !== -1 ||
+          book.courseid.toString().toLowerCase().indexOf(this.state.search.toString().toLowerCase()) !== -1 ||
+          book.isbn.indexOf(this.state.search) !== -1) {
+        return <BookDetail key={book.title} book={book} navigator={this.props.navigator} />
       }
     });
   }

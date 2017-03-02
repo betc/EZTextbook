@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Text, View, Image, Linking } from 'react-native';
 import Card from './Card';
 import CardSection from './CardSection';
 import ButtonSection from './ButtonSection';
 import Button from './Button';
 
-const BookDetail = ({ book }) => {
-  const { title, author, price, thumbnail_image, url } = book;
-  const {
+// const BookDetail = ({ book }) => {
+class BookDetail extends Component {
+  render() {
+    const { title, author, price, thumbnail_image, url } = this.props.book;
+    const {
     thumbnailStyle,
     headerContentStyle,
     thumbnailContainerStyle,
@@ -36,7 +38,7 @@ const BookDetail = ({ book }) => {
         </Button>
       </ButtonSection>
       <ButtonSection>
-        <Button>
+        <Button onPress={() => this.props.navigator.push({id: "Post", props: { title: title}})}>
           Make a Post
         </Button>
       </ButtonSection>
@@ -48,6 +50,7 @@ const BookDetail = ({ book }) => {
     </Card>
   );
 };
+}
 
 const styles = {
   headerContentStyle: {

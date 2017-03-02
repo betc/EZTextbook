@@ -12,20 +12,19 @@ import {
   DrawerLayoutAndroid,
   ToolbarAndroid,
   View,
-  Navigator
+  Navigator,
+  BackAndroid
 } from 'react-native';
 
 import Home from './src/views/Home';
 import Post from './src/views/Post';
-//import Search from './src/views/Search';
-import SearchBar from './src/Components/SearchBar';
+import Search from './src/views/Search';
+// import SearchBar from './src/Components/SearchBar';
 
 // import SearchBar from './src/components/SearchBar';
 import NavItem from './src/components/NavItem';
 import BookList from './src/components/BookList';
 import Button from './src/components/Button';
-
-var nativeImageSource = require('nativeImageSource');
 
 export default class EZTextbook extends Component {
   constructor(props) {
@@ -37,38 +36,53 @@ export default class EZTextbook extends Component {
   }
 
   componentDidMount () {
-    fetch('https://api.uwaterloo.ca/v2/courses/CS.json?key=c687ee7c8cc53db208f2a34776316cb0')
-      .then((response) => response.json())
-      .then((responseJson) => {
-        this.state.courses = responseJson.data;
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    // TO DO
+    // fetch('https://api.uwaterloo.ca/v2/courses/CS.json?key=c687ee7c8cc53db208f2a34776316cb0')
+    //   .then((response) => response.json())
+    //   .then((responseJson) => {
+    //     this.state.courses = responseJson.data;
+    //   })
+    //   .catch((error) => {
+    //     console.error(error);
+    //   });
+    // var navigator;
+    BackAndroid.addEventListener('hardwareBackPress', () => {
+      if (navigator && navigator.getCurrentRoutes().length > 1) {
+          navigator.pop();
+          return true;
+      }
+      return false;
+    });
+  }
+
+  openDrawer() {
+    this.refs['Drawer'].openDrawer();
   }
 
   renderScene(route, navigator) {
+    var drawer;
     const navOptions = [
       {
-        id: 0,
+        id: "Home",
         name: "Home"
       },
       {
-        id: 1,
+        id: "Selling",
         name: "Books for Sale"
       },
       {
-        id: 2,
+        id: "Buying",
         name: "Books Wanted"
       },
       {
-        id: 3,
+        id: "Search",
         name: "Search Textbooks"
       },
       {
-        id: 4,
-        name: "Make a Post"
-      }];
+        id: "Logout",
+        name: "Logout"
+      }
+    ];
     let navigationButtons = navOptions.map((item) =>
       <NavItem
         key={item.id}
@@ -84,11 +98,14 @@ export default class EZTextbook extends Component {
 
     let scene = <Home />
 
-    if (route.id === 0) {
+    if (route.id === "Home") {
       scene = <Home />
     }
-    else if (route.id === 3) {
-      scene = <SearchBar />
+    else if (route.id === "Search") {
+      scene = <Search navigator={navigator} />
+    }
+    else if (route.id === "Post") {
+      scene = <Post {...route.props} />
     }
 
     return (
@@ -98,12 +115,14 @@ export default class EZTextbook extends Component {
         renderNavigationView={() => navigationView}>
           <ToolbarAndroid
             navIcon={require('./img/menu.png')}
-            // ref={(drawer) => { this.drawer = drawer; }}
-            onIconClicked={() => this.drawer.openDrawer()}
+            ref={"Drawer"}
+            onIconClicked={this.openDrawer}
             style={styles.toolbar}
             title="EZTextbook"
           />
-          {scene}
+          <View style={styles.container}>
+            {scene}
+          </View>
       </DrawerLayoutAndroid>
     );
   }
@@ -113,13 +132,19 @@ export default class EZTextbook extends Component {
     return (
       <Navigator
         initialRoute={{ id: 0 }}
+        ref={(nav) => { navigator = nav; }}
         renderScene={this.renderScene}
+        // configureScene={() => ({ ...Navigator.SceneConfigs.FloatFromBottom, gestures: {}})}
       />
     );
   };
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff"
+  },
   toolbar: {
     backgroundColor: '#ffcc00',
     height: 56,
