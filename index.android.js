@@ -17,7 +17,8 @@ import {
 
 import Home from './src/views/Home';
 import Post from './src/views/Post';
-import Search from './src/views/Search';
+//import Search from './src/views/Search';
+import SearchBar from './src/Components/SearchBar';
 
 // import SearchBar from './src/components/SearchBar';
 import NavItem from './src/components/NavItem';
@@ -87,7 +88,7 @@ export default class EZTextbook extends Component {
       scene = <Home />
     }
     else if (route.id === 3) {
-      scene = <Search />
+      scene = <SearchBar />
     }
 
     return (
