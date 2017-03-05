@@ -19,7 +19,7 @@ export default class Post extends Component {
 
   handleSubmit() {
     this.setState({successMsg: "Receiving..."});
-    return fetch('http://8005d414.ngrok.io/api/post/create', {
+    return fetch('https://eztextbook.herokuapp.com/api/post/create', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
