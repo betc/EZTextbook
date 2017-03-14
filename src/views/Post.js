@@ -29,7 +29,7 @@ export default class Post extends Component {
       	description: this.state.description,
       	creator: this.state.creator,
       	book: this.state.book,
-      	price: parseInt(this.state.price),
+      	price: parseFloat(this.state.price),
       	condition: parseInt(this.state.condition),
       	type: this.state.type
       })

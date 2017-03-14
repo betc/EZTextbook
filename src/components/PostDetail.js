@@ -7,7 +7,7 @@ import Button from './Button';
 
 class PostDetail extends Component {
   render() {
-    const { title, description, book, price, condition, status, dateCreated } = this.props.post;
+    const { title, description, book, price, condition, status, dateCreated, type } = this.props.post;
     const {
       thumbnailStyle,
       headerContentStyle,
@@ -16,19 +16,23 @@ class PostDetail extends Component {
       priceTextStyle
     } = styles;
 
+    const role = type === "Buying" ? "Buyer" : "Seller";
+
   return (
     <Card>
       <CardSection>
         <View style={headerContentStyle}>
           <Text style={headerTextStyle}>{title}</Text>
-          <Text style={headerTextStyle}>{author}</Text>
-          <Text style={priceTextStyle}>CDN{price}</Text>
+          <Text style={headerTextStyle}>{description}</Text>
+          <Text style={headerTextStyle}>{status}</Text>
+          <Text style={headerTextStyle}>Condition: {condition}</Text>
+          <Text style={priceTextStyle}>CDN ${price}</Text>
         </View>
       </CardSection>
 
       <ButtonSection>
         <Button>
-          Contact {this.props.type}
+          Contact {role}
         </Button>
       </ButtonSection>
     </Card>
