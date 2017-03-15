@@ -19,6 +19,7 @@ import {
 import Home from './src/views/Home';
 import Post from './src/views/Post';
 import Search from './src/views/Search';
+import Login from './src/views/Login'
 // import SearchBar from './src/Components/SearchBar';
 
 
@@ -107,6 +108,8 @@ export default class EZTextbook extends Component {
     }
     else if (route.id === "Post") {
       scene = <Post {...route.props} />
+    } else if (route.id === "Logout") {
+        scene = <Login />
     }
 
     return (
