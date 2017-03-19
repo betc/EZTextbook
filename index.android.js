@@ -26,6 +26,7 @@ import Login from './src/views/Login';
 // import SearchBar from './src/components/SearchBar';
 import Selling from './src/views/Selling';
 
+import navOptions from './src/components/NavOptions';
 import NavItem from './src/components/NavItem';
 import BookList from './src/components/BookList';
 import Button from './src/components/Button';
@@ -34,7 +35,6 @@ export default class EZTextbook extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      view: "Home",
       courses: [],
     };
   }
@@ -51,56 +51,24 @@ export default class EZTextbook extends Component {
     //   });
     // var navigator;
     BackAndroid.addEventListener('hardwareBackPress', () => {
-      if (navigator && navigator.getCurrentRoutes().length > 1) {
-          navigator.pop();
+      if (this.refs.navigator && this.refs.navigator.getCurrentRoutes().length > 1) {
+          this.refs.navigator.pop();
           return true;
       }
       return false;
     });
   }
 
-  openDrawer() {
-    this.refs['Drawer'].openDrawer();
-  }
+  // openDraw() {
+  //   this.refs['Drawer'].openDrawer();
+  // }
+
+  // getNavigator(){
+  //   return this.refs.navigator;
+  // }
 
   renderScene(route, navigator) {
-    var drawer;
-    const navOptions = [
-      {
-        id: "Home",
-        name: "Home"
-      },
-      {
-        id: "Selling",
-        name: "Books for Sale"
-      },
-      {
-        id: "Buying",
-        name: "Books Wanted"
-      },
-      {
-        id: "Search",
-        name: "Search Textbooks"
-      },
-      {
-        id: "Logout",
-        name: "Logout"
-      }
-    ];
-    let navigationButtons = navOptions.map((item) =>
-      <NavItem
-        key={item.id}
-        title={item.name}
-        onPress={() => navigator.push({id: item.id})} />
-    );
-    let navigationView = (
-      <View style={{flex: 3, backgroundColor: '#262626'}}>
-        <Text style={styles.header}>John Doe</Text>
-        {navigationButtons}
-      </View>
-    );
-
-    let scene = <Home />
+    let scene = <Home />;
 
     if (route.id === "Home") {
       scene = <Home />
@@ -118,33 +86,47 @@ export default class EZTextbook extends Component {
     }
 
     return (
-      <DrawerLayoutAndroid
-        drawerWidth={300}
-        drawerPosition={DrawerLayoutAndroid.positions.Left}
-        renderNavigationView={() => navigationView}>
-          <ToolbarAndroid
-            navIcon={require('./img/menu.png')}
-            ref={"Drawer"}
-            onIconClicked={this.openDrawer}
-            style={styles.toolbar}
-            title="EZTextbook"
-          />
-          <View style={styles.container}>
-            {scene}
-          </View>
-      </DrawerLayoutAndroid>
+      <View style={styles.container}>
+        {scene}
+      </View>
     );
   }
 
   render() {
+    let navigationButtons = navOptions.map((item) =>
+      <NavItem
+        key={item.id}
+        title={item.name}
+        onPress={() => {this.refs.drawer.closeDrawer(); this.refs.navigator.push({id: item.id})}}
+      />
+    );
+    let navigationView = (
+      <View style={{flex: 3, backgroundColor: '#262626'}}>
+        <Text style={styles.header}>John Doe</Text>
+        {navigationButtons}
+      </View>
+    );
 
     return (
-      <Navigator
-        initialRoute={{ id: 0 }}
-        ref={(nav) => { navigator = nav; }}
-        renderScene={this.renderScene}
-        // configureScene={() => ({ ...Navigator.SceneConfigs.FloatFromBottom, gestures: {}})}
-      />
+      <DrawerLayoutAndroid
+        drawerWidth={300}
+        drawerPosition={DrawerLayoutAndroid.positions.Left}
+        ref="drawer"
+        renderNavigationView={() => navigationView}>
+          <ToolbarAndroid
+            navIcon={require('./img/menu.png')}
+            onIconClicked={() => this.refs.drawer.openDrawer()}
+            style={styles.toolbar}
+            title="EZTextbook"
+          />
+          <Navigator
+            initialRoute={{ id: 0 }}
+            // ref={(nav) => { navigator = nav; }}
+            ref="navigator"
+            renderScene={this.renderScene}
+            // configureScene={() => ({ ...Navigator.SceneConfigs.FloatFromBottom, gestures: {}})}
+          />
+      </DrawerLayoutAndroid>
     );
   };
 }
