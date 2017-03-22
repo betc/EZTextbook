@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\exploded-aar\com.android.support\support-media-compat\25.0.0\jars\libs\internal_impl-25.0.0.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="665d21a8a069c96b4d9e8b434f5096d865b4e261">
+        <dex dex="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\pre-dexed\debug\internal_impl-25.0.0-55abf002a0a081951dd37b6e72ef1a61e5583ba2.jar" />
+    </item>
+    <item
+        jar="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\25.0.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="d29714cc76b38157e3cbd034c66e1ec808eb4c19">
+        <dex dex="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\pre-dexed\debug\classes-ba0776c91e4caf0e3129c21fa473811fd10e17ff.jar" />
+    </item>
+    <item
+        jar="C:\Users\Sultaan\.gradle\caches\modules-2\files-2.1\com.squareup.okhttp3\okhttp-urlconnection\3.4.1\63994437f62bc861bc20c605d12962f7246116d1\okhttp-urlconnection-3.4.1.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="63994437f62bc861bc20c605d12962f7246116d1">
+        <dex dex="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\pre-dexed\debug\okhttp-urlconnection-3.4.1-e0b0a9d680ab4b2fc0a90ee6b86bf8655851a183.jar" />
+    </item>
+    <item
+        jar="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\exploded-aar\com.android.support\support-v4\25.0.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\pre-dexed\debug\classes-d2fa9cc615abf2c59e50bf8b635e925e330d6468.jar" />
+    </item>
+    <item
+        jar="C:\Users\Sultaan\.gradle\caches\modules-2\files-2.1\com.parse.bolts\bolts-applinks\1.4.0\8ad21bf21784dacce5f2043afb97218cc377e835\bolts-applinks-1.4.0.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="8ad21bf21784dacce5f2043afb97218cc377e835">
+        <dex dex="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\pre-dexed\debug\bolts-applinks-1.4.0-1e11d629101da9bc235a7f51d93b8368c2b6e352.jar" />
+    </item>
+    <item
+        jar="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\exploded-aar\EZTextbook\react-native-vector-icons\unspecified\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="346d542bff69c0c884577ae878e99ed873d5bb66">
+        <dex dex="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\pre-dexed\debug\classes-d07e99b0a51b2b574cc8811bed906cf6d2b0f343.jar" />
+    </item>
+    <item
+        jar="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\exploded-aar\com.android.support\support-compat\25.0.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="75b1f366ff0bbc78f8b1f7cf0dc82e7c53afef6a">
+        <dex dex="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\pre-dexed\debug\classes-ef1bdda16fb6a9a7eab1abb51d8ecc20ed93b130.jar" />
+    </item>
+    <item
+        jar="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\exploded-aar\com.android.support\support-fragment\25.0.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="07daa0b6e1d455c82a38422ffe287c18823d339a">
+        <dex dex="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\pre-dexed\debug\classes-cca2feee56b99359da03d4e6f83ad6ce6e82120f.jar" />
+    </item>
+    <item
+        jar="C:\Users\Sultaan\.gradle\caches\modules-2\files-2.1\com.squareup.okhttp3\okhttp-ws\3.4.1\8ace66ef7002d98f633377c9e67daeeb196d8c3b\okhttp-ws-3.4.1.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="8ace66ef7002d98f633377c9e67daeeb196d8c3b">
+        <dex dex="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\pre-dexed\debug\okhttp-ws-3.4.1-e9d955a49a142ab6b0a113b8f5c18dbf984cb767.jar" />
+    </item>
+    <item
+        jar="C:\Users\Sultaan\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\25.0.0\support-annotations-25.0.0.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="a22d2cc94da87b254451fa8ed28afc30b4653773">
+        <dex dex="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\pre-dexed\debug\support-annotations-25.0.0-305c25bb22c52d6b86a8961a0a458b08c3671147.jar" />
+    </item>
+    <item
+        jar="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\25.0.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="53a420cd4f49274db6bd43475f8006ba67ef6bbd">
+        <dex dex="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\pre-dexed\debug\classes-d69b8e3c00cc1099028218cf88bc6a8336fbe748.jar" />
+    </item>
+    <item
+        jar="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\exploded-aar\com.facebook.react\react-native\0.41.2\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="b49a04a3016689b372ecbb77f0c33e486e768cca">
+        <dex dex="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\pre-dexed\debug\classes-fcd4801c1edb2521863e99fdc622f85fcdadb49f.jar" />
+    </item>
+    <item
+        jar="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\exploded-aar\com.facebook.fresco\imagepipeline-base\0.11.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="ca63c521b5745ae9a09629d7ca67ff6bc2a967fe">
+        <dex dex="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\pre-dexed\debug\classes-61d8f610aff54509373c1640f9c99e14aad5bf2b.jar" />
+    </item>
+    <item
+        jar="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\exploded-aar\com.android.support\support-compat\25.0.0\jars\libs\internal_impl-25.0.0.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="f2e3b9bc1ec25f652e8007ce7774c991e38f6a00">
+        <dex dex="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\pre-dexed\debug\internal_impl-25.0.0-8c6f2d4e44f245735e8007650aa69090b9cccf31.jar" />
+    </item>
+    <item
+        jar="C:\Users\Sultaan\.gradle\caches\modules-2\files-2.1\com.parse.bolts\bolts-tasks\1.4.0\d85884acf6810a3bbbecb587f239005cbc846dc4\bolts-tasks-1.4.0.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="d85884acf6810a3bbbecb587f239005cbc846dc4">
+        <dex dex="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\pre-dexed\debug\bolts-tasks-1.4.0-3c2719c9328537c944b5ccf9321d785ece4c67e9.jar" />
+    </item>
+    <item
+        jar="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services\6.5.87\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="dd9247ea0fabe8ee479638c4b4a23e93752be256">
+        <dex dex="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\pre-dexed\debug\classes-f5391592f44fd3dcb4b4b583bf9f21d211b1a320.jar" />
+    </item>
+    <item
+        jar="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\25.0.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="8bc45ce1f63d1a391fd38b32a201be5a42f9c95d">
+        <dex dex="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\pre-dexed\debug\classes-688276629009ccef128442849e82b620d34f4c7c.jar" />
+    </item>
+    <item
+        jar="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\exploded-aar\com.facebook.react\react-native\0.41.2\jars\libs\infer-annotations-1.5.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="dcac634e137395f79693ec760f081a86eb2bd84e">
+        <dex dex="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\pre-dexed\debug\infer-annotations-1.5-89147287e4095d0aa9b742ace7da332267ef104b.jar" />
+    </item>
+    <item
+        jar="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\exploded-aar\com.android.support\support-fragment\25.0.0\jars\libs\internal_impl-25.0.0.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="ee5faf4dee5b6a4364bf51587871047dde7c703a">
+        <dex dex="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\pre-dexed\debug\internal_impl-25.0.0-4556d9061a33fd2d3a264f2bbf652e86a54aaad0.jar" />
+    </item>
+    <item
+        jar="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\exploded-aar\com.facebook.fresco\drawee\0.11.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="1137942adeb03984c1311b662363dd38fc238fd3">
+        <dex dex="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\pre-dexed\debug\classes-3a8f458467d718ebc01a51dd6ab1244c0a4bdeb7.jar" />
+    </item>
+    <item
+        jar="C:\Users\Sultaan\.gradle\caches\modules-2\files-2.1\com.squareup.okhttp3\okhttp\3.4.1\c7c4f9e35c2fd5900da24f9872e3971801f08ce0\okhttp-3.4.1.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="c7c4f9e35c2fd5900da24f9872e3971801f08ce0">
+        <dex dex="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\pre-dexed\debug\okhttp-3.4.1-9261a5de71928959bde3b8054d97c033fc8f40b0.jar" />
+    </item>
+    <item
+        jar="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\exploded-aar\com.android.support\support-core-ui\25.0.0\jars\libs\internal_impl-25.0.0.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="e5343c9d19cb19ff55f6b268c7f3fe8c9d224f6f">
+        <dex dex="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\pre-dexed\debug\internal_impl-25.0.0-7722e9e22f6413022a12848cc260ec1523834261.jar" />
+    </item>
+    <item
+        jar="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\exploded-aar\com.android.support\cardview-v7\25.0.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="8a372c4191f80489770a231f7be4820b204b886a">
+        <dex dex="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\pre-dexed\debug\classes-d342f3c8b1b3d2c477e530686c8516f7054218fa.jar" />
+    </item>
+    <item
+        jar="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\exploded-aar\com.android.support\support-core-utils\25.0.0\jars\libs\internal_impl-25.0.0.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="3b61a70884adaf0be3fc06c70c801e3e6df13133">
+        <dex dex="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\pre-dexed\debug\internal_impl-25.0.0-dec50a11944584f7cd27500384abd6507c57d126.jar" />
+    </item>
+    <item
+        jar="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\exploded-aar\com.facebook.soloader\soloader\0.1.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="8f615bca00639150c9eb6175d4b5471193f70794">
+        <dex dex="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\pre-dexed\debug\classes-8df1582dceb8f78c905b66e7284bcbfe18999172.jar" />
+    </item>
+    <item
+        jar="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\23.4.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="ec75036c3c52e451d0cde50a5aedaf5fd32354a0">
+        <dex dex="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\pre-dexed\debug\classes-f8895e7160896b01a4a27054128dcd76f914fb0c.jar" />
+    </item>
+    <item
+        jar="C:\Users\Sultaan\.gradle\caches\modules-2\files-2.1\javax.inject\javax.inject\1\6975da39a7040257bd51d21a231b76c915872d38\javax.inject-1.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="6975da39a7040257bd51d21a231b76c915872d38">
+        <dex dex="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\pre-dexed\debug\javax.inject-1-b2792557e670b7def0259240feff48b910be1093.jar" />
+    </item>
+    <item
+        jar="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\exploded-aar\com.facebook.fresco\fbcore\0.11.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="98786c1770b531b9194fb6448b2a2692c64074b6">
+        <dex dex="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\pre-dexed\debug\classes-cdd10672405cc137224b358d9194a6ba088e4301.jar" />
+    </item>
+    <item
+        jar="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\exploded-aar\com.android.support\support-core-utils\25.0.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="4ccbcda5c72027c7f7c14be9ff8640d9cb0d8da0">
+        <dex dex="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\pre-dexed\debug\classes-b416c059e658242989ab9e256e01e2637a446d1a.jar" />
+    </item>
+    <item
+        jar="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\exploded-aar\com.facebook.fbui.textlayoutbuilder\textlayoutbuilder\1.0.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="f90b593491e4044903f0bbf68dc3fa2790b151b9">
+        <dex dex="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\pre-dexed\debug\classes-bf6eacdcb3842cbfcf47cc661d08a0ccd56af9d3.jar" />
+    </item>
+    <item
+        jar="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\exploded-aar\com.android.support\support-core-ui\25.0.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="26674000177e45447a0326a6ad84612761199a13">
+        <dex dex="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\pre-dexed\debug\classes-1ef558b6fe8637f2f3fdb51f60a3c61a5c7e8e7c.jar" />
+    </item>
+    <item
+        jar="C:\Users\Sultaan\.gradle\caches\modules-2\files-2.1\com.squareup.okio\okio\1.9.0\f824591a0016efbaeddb8300bee54832a1398cfa\okio-1.9.0.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="f824591a0016efbaeddb8300bee54832a1398cfa">
+        <dex dex="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\pre-dexed\debug\okio-1.9.0-0436971b0ce03628d0a375ca32479a9a4a226cf3.jar" />
+    </item>
+    <item
+        jar="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\exploded-aar\com.android.support\customtabs\25.0.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="94ba691efc31bf53264db0716d9c9ec03843ea31">
+        <dex dex="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\pre-dexed\debug\classes-67f3dd49a81c373ee9e79b9d271c15d6330bb15c.jar" />
+    </item>
+    <item
+        jar="C:\Users\Sultaan\.gradle\caches\modules-2\files-2.1\com.nineoldandroids\library\2.4.0\e9b63380f3a242dbdbf103a2355ad7e43bad17cb\library-2.4.0.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="e9b63380f3a242dbdbf103a2355ad7e43bad17cb">
+        <dex dex="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\pre-dexed\debug\library-2.4.0-66075399440b6d872acb1a966c6e53720fce1537.jar" />
+    </item>
+    <item
+        jar="C:\Users\Sultaan\.gradle\caches\modules-2\files-2.1\com.facebook.fbui.textlayoutbuilder\staticlayout-proxy\1.0\f162442a19fff13995fbd51ba414d9ee05579080\staticlayout-proxy-1.0.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="f162442a19fff13995fbd51ba414d9ee05579080">
+        <dex dex="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\pre-dexed\debug\staticlayout-proxy-1.0-fdd4fc5ef993bc1bcb06d38c598e4a980cff575e.jar" />
+    </item>
+    <item
+        jar="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\exploded-aar\com.facebook.fresco\imagepipeline-okhttp3\0.11.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="2b8a01ad9da5d26d0067894c22e87597bca2c500">
+        <dex dex="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\pre-dexed\debug\classes-a196fdd2986ee68edf5c3493777cfb2e940359ac.jar" />
+    </item>
+    <item
+        jar="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\exploded-aar\com.facebook.fresco\imagepipeline\0.11.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="3341b66c54367e777a0647e2db96c045329bfeab">
+        <dex dex="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\pre-dexed\debug\classes-19d6577bbe1d1e212832ac9f7fc9f4fb6a607684.jar" />
+    </item>
+    <item
+        jar="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\exploded-aar\com.facebook.android\facebook-android-sdk\4.20.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="cb2ef781533c3f11c4e80341cbaebad275c66586">
+        <dex dex="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\pre-dexed\debug\classes-735a3d1d41d5e848516d86fd4611efe31c1d92e2.jar" />
+    </item>
+    <item
+        jar="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\exploded-aar\com.android.support\support-media-compat\25.0.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="76fb65a4b41ea42dab8a1310ed772a2420c96b52">
+        <dex dex="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\pre-dexed\debug\classes-74765553b5d9e1f31a2780aa9565ccfbe05b6815.jar" />
+    </item>
+    <item
+        jar="C:\Users\Sultaan\.gradle\caches\modules-2\files-2.1\com.google.code.findbugs\jsr305\3.0.0\5871fb60dc68d67da54a663c3fd636a10a532948\jsr305-3.0.0.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="5871fb60dc68d67da54a663c3fd636a10a532948">
+        <dex dex="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\pre-dexed\debug\jsr305-3.0.0-a54a9b0175f1a5700eeccc22f58ab9d1e2445e41.jar" />
+    </item>
+    <item
+        jar="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\exploded-aar\com.facebook.fresco\fresco\0.11.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="d31aadf33187c37a7cd63dc1b769f8c6e33f78c3">
+        <dex dex="C:\Users\Sultaan\OneDrive\University Things\Uni Year 4\CS 446\EZTextbook\android\app\build\intermediates\pre-dexed\debug\classes-82cf464c4821266cde4ca48b34a811bdcfc5e1c3.jar" />
+    </item>
+
+</items>
