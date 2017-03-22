@@ -1,8 +1,11 @@
 package com.eztextbook;
 
 import com.facebook.react.ReactActivity;
+import android.content.Intent;
+
 
 public class MainActivity extends ReactActivity {
+
 
     /**
      * Returns the name of the main component registered from JavaScript.
@@ -12,4 +15,18 @@ public class MainActivity extends ReactActivity {
     protected String getMainComponentName() {
         return "EZTextbook";
     }
+/*
+    @Override
+    protected List<ReactPackage> getPackages() {
+        ReactPackage packages[] = new ReactPackage[]{
+                new MainReactPackage(),
+        };
+        return Arrays.<ReactPackage>asList(packages);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        MainApplication.getCallbackManager().onActivityResult(requestCode, resultCode, data);
+    } */
 }

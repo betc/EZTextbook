@@ -13,7 +13,8 @@ import {
   ToolbarAndroid,
   View,
   Navigator,
-  BackAndroid
+  BackAndroid,
+  AsyncStorage
 } from 'react-native';
 
 import Home from './src/views/Home';
@@ -35,6 +36,7 @@ export default class EZTextbook extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      Login_Token: 'none',
       courses: [],
     };
   }
@@ -58,7 +60,18 @@ export default class EZTextbook extends Component {
       return false;
     });
   }
+  async getLoginToken() {
 
+    //try {
+        let value = await AsyncStorage.getItem('Login_Token')
+      //  if (value !== null) {
+            console.log("getLoginToken successful: value = " + value);
+      //  }
+    //} catch(error) {
+        console.log("Error occurred in getLoginToken: " + error);
+    //}
+    return value;
+  }
   // openDraw() {
   //   this.refs['Drawer'].openDrawer();
   // }
@@ -68,8 +81,24 @@ export default class EZTextbook extends Component {
   // }
 
   renderScene(route, navigator) {
-    let scene = <Home />;
 
+  let scene = <Home />;
+  if (getLoginToken()._65 === null) {
+    scene = <Login navigator={navigator} />
+  }
+   /* try{
+        AsyncStorage.getItem('Login_Token')
+        .then((keyValue) => {
+            console.log("in index.android.js. value = " + keyValue)
+            if (keyValue === null) {
+                    scene = <Login navigator={navigator} />;
+            }
+        }, (error) => { console.log(error) });
+
+  //  } catch (error) {
+    //    scene = <Login navigator={navigator} />;
+      //  console.log("in index.android.js. error = " + error);
+    }*/
     if (route.id === "Home") {
       scene = <Home />
     }
@@ -82,7 +111,8 @@ export default class EZTextbook extends Component {
     else if (route.id === "Post") {
       scene = <Post {...route.props} />
     } else if (route.id === "Logout") {
-        scene = <Login />
+        AsyncStorage.removeItem('Login_Token')
+        scene = <Login navigator={navigator} />
     }
 
     return (
