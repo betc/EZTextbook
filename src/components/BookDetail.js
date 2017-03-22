@@ -8,7 +8,7 @@ import Button from './Button';
 // const BookDetail = ({ book }) => {
 class BookDetail extends Component {
   render() {
-    const { title, author, price, thumbnail_image, url } = this.props.book;
+    const { title, thumbnail} = this.props.book;
     const {
     thumbnailStyle,
     headerContentStyle,
@@ -16,13 +16,14 @@ class BookDetail extends Component {
     headerTextStyle,
     priceTextStyle
   } = styles;
+  const imgUrl = thumbnail === '' ? "https://www.littlebrown.co.uk/assets/img/newsletter_placeholder.jpg" : thumbnail;
   return (
     <Card>
       <CardSection>
         <View style={thumbnailContainerStyle}>
           <Image
             style={thumbnailStyle}
-            source={{ uri: thumbnail_image }}
+            source={{ uri: imgUrl }}
           />
         </View>
         <View style={headerContentStyle}>
@@ -64,8 +65,8 @@ const styles = {
     color: 'red'
   },
   thumbnailStyle: {
-    height: 50,
-    width: 50
+    height: 100,
+    width: 80
   },
   thumbnailContainerStyle: {
     justifyContent: 'center',

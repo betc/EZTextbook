@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, ScrollView } from 'react-native';
+import { Text, View, ScrollView } from 'react-native';
 import BookDetail from './BookDetail';
 import Books from './Books.json';
 import SearchBar from './SearchBar';
@@ -30,9 +30,9 @@ class BookList extends Component {
   renderBooks() {
     //console.log(this.state.books);
     return this.state.books.map(book => {
-      if (book.title.toString().toLowerCase().indexOf(this.state.search.toString().toLowerCase()) !== -1 ||
+      if (this.state.search !== "" && (book.title.toString().toLowerCase().indexOf(this.state.search.toString().toLowerCase()) !== -1 ||
           book.courses.indexOf(this.state.search.toString().toUpperCase()) > -1 ||
-          book.isbn.indexOf(this.state.search) !== -1) {
+          book.isbn.indexOf(this.state.search) !== -1)) {
             return <BookDetail key={book.title} book={book} navigator={this.props.navigator} />
       }
     });
