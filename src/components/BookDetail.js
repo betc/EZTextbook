@@ -27,8 +27,6 @@ class BookDetail extends Component {
         </View>
         <View style={headerContentStyle}>
           <Text style={headerTextStyle}>{title}</Text>
-          <Text style={headerTextStyle}>{author}</Text>
-          <Text style={priceTextStyle}>CDN{price}</Text>
         </View>
       </CardSection>
 
@@ -55,7 +53,8 @@ class BookDetail extends Component {
 const styles = {
   headerContentStyle: {
     flexDirection: 'column',
-    justifyContent: 'space-around'
+    justifyContent: 'space-around',
+    flex: 0.8
   },
   headerTextStyle: {
     fontSize: 13

@@ -1,18 +1,23 @@
 import React, { Component } from 'react';
 import { View, ScrollView } from 'react-native';
-//import axios from 'axios';
 import BookDetail from './BookDetail';
 import Books from './Books.json';
 import SearchBar from './SearchBar';
+import axios from 'axios';
 
 class BookList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      books: Books,
+      books: [],
       search: '',
     };
     this.filterText = this.filterText.bind(this);
+  }
+
+  componentWillMount() {
+    axios.get('https://eztextbook.herokuapp.com/api/books')
+      .then(response => this.setState({books: response.data}));
   }
 
   filterText(event) {
@@ -23,11 +28,12 @@ class BookList extends Component {
   }
 
   renderBooks() {
+    //console.log(this.state.books);
     return this.state.books.map(book => {
       if (book.title.toString().toLowerCase().indexOf(this.state.search.toString().toLowerCase()) !== -1 ||
-          book.courseid.toString().toLowerCase().indexOf(this.state.search.toString().toLowerCase()) !== -1 ||
+          book.courses.indexOf(this.state.search.toString().toUpperCase()) > -1 ||
           book.isbn.indexOf(this.state.search) !== -1) {
-        return <BookDetail key={book.title} book={book} navigator={this.props.navigator} />
+            return <BookDetail key={book.title} book={book} navigator={this.props.navigator} />
       }
     });
   }
@@ -36,7 +42,7 @@ class BookList extends Component {
     return (
       <View>
         <SearchBar filterText={this.filterText} />
-        <ScrollView>
+        <ScrollView contentContainerStyle={styles.contentContainer}>
           {this.renderBooks()}
         </ScrollView>
       </View>
@@ -44,5 +50,10 @@ class BookList extends Component {
   }
 }
 
-// Make the component available to other parts of the app
+const styles = {
+  contentContainer: {
+    paddingBottom: 200
+  }
+};
+
 export default BookList;
