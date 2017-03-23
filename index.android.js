@@ -31,6 +31,8 @@ import NavItem from './src/components/NavItem';
 import BookList from './src/components/BookList';
 import Button from './src/components/Button';
 
+import { setLoginToken } from './src/ApiUtils';
+
 export default class EZTextbook extends Component {
   constructor(props) {
     super(props);
@@ -58,7 +60,11 @@ export default class EZTextbook extends Component {
       }
       return false;
     });
+
+    // setLoginToken('Login_Token', 'abc');
   }
+
+
   // async getLoginToken() {
 
   //   //try {
@@ -71,17 +77,10 @@ export default class EZTextbook extends Component {
   //   //}
   //   return value;
   // }
-  // openDraw() {
-  //   this.refs['Drawer'].openDrawer();
-  // }
-
-  // getNavigator(){
-  //   return this.refs.navigator;
-  // }
 
   renderScene(route, navigator) {
 
-  let scene = <Home navigator={navigator} />;
+    let scene = <Home navigator={navigator} />;
   // if (getLoginToken()._65 === null) {
   //   scene = <Login navigator={navigator} />
   // }
@@ -115,7 +114,7 @@ export default class EZTextbook extends Component {
     else if (route.id === "ViewPost") {
       scene = <ViewPost {...route.props} />
     } else if (route.id === "Login") {
-      scene = <Login />
+      scene = <Login navigator={navigator} />
     }
     else if (route.id === "Logout") {
         AsyncStorage.removeItem('Login_Token')

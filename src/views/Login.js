@@ -13,6 +13,7 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ApiUtils from '../ApiUtils'
 import Profile from './Profile';
+// import { setLoginToken } from '../ApiUtils';
 
 //import FbLoginButton from '../components/FbLoginButton';
 
@@ -42,10 +43,11 @@ export default class Login extends Component {
         .then(ApiUtils.checkStatus)
         .then((response) => response.json())
         .then((responseJson) => {
-            console.log(responseJson);
-            console.log("in login. login_token = " + responseJson.token);
-            AsyncStorage.setItem('Login_Token', responseJson.token);
+            // console.log(responseJson);
+            // console.log("in login. login_token = " + responseJson.token);
+            // AsyncStorage.setItem('Login_Token', responseJson.token);
 
+            ApiUtils.setLoginToken('Login_Token', 'abc');
             this.props.navigator.push({id: "Profile"});
 
         })

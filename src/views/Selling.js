@@ -1,16 +1,26 @@
 import React, { Component } from 'react';
-import { View, ScrollView, Text } from 'react-native';
+import { View, ScrollView, Text, AsyncStorage } from 'react-native';
 import PostDetail from '../components/PostDetail';
+import ApiUtils from '../ApiUtils'
+// import { getLoginToken } from '../ApiUtils';
 
 class Selling extends Component {
   constructor(props) {
     super(props);
     this.state = {
       posts: [],
+      token: ''
     };
   }
 
   componentDidMount() {
+    console.log
+    ApiUtils.getLoginToken('Login_Token').then((res) => {
+      this.setState({'token': res});
+      console.log('token: ', this.state.token)
+    });
+    
+
     return fetch('https://eztextbook.herokuapp.com/api/posts?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjU4ZDMyNGE4ODcxNzZlMTM1NGI4ZWQ0YSIsImlhdCI6MTQ5MDIzMjU0MH0.5cN06javzNAaCbT0DHFzDwmtzGppX_LVX72P4azl_Fk&type=Selling')
       .then((response) => response.json())
       .then((responseJson) => {
@@ -20,6 +30,7 @@ class Selling extends Component {
       .catch((error) => {
         console.error(error);
       });
+
   }
 
   renderPosts() {
