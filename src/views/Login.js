@@ -11,7 +11,7 @@ import {
 } from 'react-native';
  
 import Icon from 'react-native-vector-icons/FontAwesome';
-import ApiUtils from '../components/ApiUtils';
+import ApiUtils from '../ApiUtils';
 import Profile from './Profile';
 // import { setLoginToken } from '../ApiUtils';
 
@@ -43,15 +43,9 @@ export default class Login extends Component {
         .then(ApiUtils.checkStatus)
         .then((response) => response.json())
         .then((responseJson) => {
-            // console.log(responseJson);
-            // console.log("in login. login_token = " + responseJson.token);
             // AsyncStorage.setItem('Login_Token', responseJson.token);
-            ApiUtils.setToken('Login_Token', responseJson.token);
-            ApiUtils.getLoginToken.then( val => {this.setState({LoginToken: val});});
-            console.log('in login, trying getLoginToken from ApiUtils, value: ' + {this.state.LoginToken});
-            ApiUtils.setLoginToken('Login_Token', 'abc');
+            ApiUtils.setLoginToken('Login_Token', responseJson.token);
             this.props.navigator.push({id: "Profile"});
-
         })
         .catch((error) => {
              //   this.setState({errMsg: 'ERROR: Incorrect Email or Password'});

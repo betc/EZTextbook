@@ -8,6 +8,7 @@ import {
   TouchableHighlight
 } from 'react-native';
 import axios from 'axios';
+import ApiUtils from '../ApiUtils.js';
 
 class Profile extends Component {
   constructor() {
@@ -21,24 +22,29 @@ class Profile extends Component {
       editable: false,
       autoFocus: false,
       update: "Update Profile",
-      token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjU4ZDNlMTRjNGUzN2ZhMDAwNGNjNzFlMSIsImlhdCI6MTQ5MDI4NjQ4M30.miLJ-HQB9RCdvzl8XtqB7I0I2wk709nqUXsajA6BQgE"
+      token: ""
     };
   }
 
   componentWillMount() {
-    axios.get('https://eztextbook.herokuapp.com/api/user/profile?', {
-      params: {
+    ApiUtils.getLoginToken('Login_Token').then((res) => {
+      console.log("Response is " + res);
+      this.setState({token: res});
+      console.log("Token is " + this.state.token);
+      axios.get('https://eztextbook.herokuapp.com/api/user/profile?', {
+        params: {
         token: this.state.token
-      }
-    }).then((response) => {
-        if (response.status === 200) {
-          this.setState({
-            firstName: response.data.firstname,
-            lastName: response.data.lastname,
-            email: response.data.local.email
-          })
         }
-      })
+      }).then((response) => {
+          if (response.status === 200) {
+            this.setState({
+              firstName: response.data.firstname,
+              lastName: response.data.lastname,
+              email: response.data.local.email
+            })
+          }
+        })
+    })
   }
 
   handleChange(event) {
