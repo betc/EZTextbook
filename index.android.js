@@ -60,18 +60,18 @@ export default class EZTextbook extends Component {
       return false;
     });
   }
-  async getLoginToken() {
+  // async getLoginToken() {
 
-    //try {
-        let value = await AsyncStorage.getItem('Login_Token')
-      //  if (value !== null) {
-            console.log("getLoginToken successful: value = " + value);
-      //  }
-    //} catch(error) {
-        console.log("Error occurred in getLoginToken: " + error);
-    //}
-    return value;
-  }
+  //   //try {
+  //       let value = await AsyncStorage.getItem('Login_Token')
+  //     //  if (value !== null) {
+  //           console.log("getLoginToken successful: value = " + value);
+  //     //  }
+  //   //} catch(error) {
+  //       console.log("Error occurred in getLoginToken: " + error);
+  //   //}
+  //   return value;
+  // }
   // openDraw() {
   //   this.refs['Drawer'].openDrawer();
   // }
@@ -83,9 +83,9 @@ export default class EZTextbook extends Component {
   renderScene(route, navigator) {
 
   let scene = <Home />;
-  if (getLoginToken()._65 === null) {
-    scene = <Login navigator={navigator} />
-  }
+  // if (getLoginToken()._65 === null) {
+  //   scene = <Login navigator={navigator} />
+  // }
    /* try{
         AsyncStorage.getItem('Login_Token')
         .then((keyValue) => {
