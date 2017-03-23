@@ -9,8 +9,7 @@ export default class Post extends Component {
       successMsg: "",
       title: "",
     	description: "",
-    	creator: "58b3291604873f0b502a2a1f",
-    	book: "58b328f604873f0b502a29fa",
+    	creator: "58d324a887176e1354b8ed4a",
     	price: 0,
     	condition: 0,
     	type: "Selling"
@@ -19,7 +18,7 @@ export default class Post extends Component {
 
   handleSubmit() {
     this.setState({successMsg: "Receiving..."});
-    return fetch('https://eztextbook.herokuapp.com/api/post/create', {
+    return fetch('https://eztextbook.herokuapp.com/api/post/create?key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjU4ZDMyNGE4ODcxNzZlMTM1NGI4ZWQ0YSIsImlhdCI6MTQ5MDIzMjU0MH0.5cN06javzNAaCbT0DHFzDwmtzGppX_LVX72P4azl_Fk', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -28,7 +27,7 @@ export default class Post extends Component {
         title: this.state.title,
       	description: this.state.description,
       	creator: this.state.creator,
-      	book: this.state.book,
+      	book: this.props.book,
       	price: parseFloat(this.state.price),
       	condition: parseInt(this.state.condition),
       	type: this.state.type
@@ -36,16 +35,7 @@ export default class Post extends Component {
     }).then((response) => response.json())
       .then((responseJson) => {
         this.setState({successMsg: "Submitted!"});
-        // console.log(responseJson);
-        // console.log({
-        //   title: this.state.title,
-        // 	description: this.state.description,
-        // 	creator: this.state.creator,
-        // 	book: this.state.book,
-        // 	price: parseInt(this.state.price),
-        // 	condition: parseInt(this.state.condition),
-        // 	type: this.state.type
-        // })
+        // this.navigator.pop();
       })
       .catch((error) => {
         this.setState({successMsg: "An error occured."});

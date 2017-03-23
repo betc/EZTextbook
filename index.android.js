@@ -21,11 +21,8 @@ import Home from './src/views/Home';
 import Post from './src/views/Post';
 import Search from './src/views/Search';
 import Login from './src/views/Login';
-// import SearchBar from './src/Components/SearchBar';
-
-
-// import SearchBar from './src/components/SearchBar';
 import Selling from './src/views/Selling';
+import ViewPost from './src/views/ViewPost';
 
 import navOptions from './src/components/NavOptions';
 import NavItem from './src/components/NavItem';
@@ -103,14 +100,18 @@ export default class EZTextbook extends Component {
       scene = <Home />
     }
     else if (route.id === "Selling") {
-      scene = <Selling />
+      scene = <Selling navigator={navigator} />
     }
     else if (route.id === "Search") {
       scene = <Search navigator={navigator} />
     }
     else if (route.id === "Post") {
       scene = <Post {...route.props} />
-    } else if (route.id === "Logout") {
+    }
+    else if (route.id === "ViewPost") {
+      scene = <ViewPost {...route.props} />
+    }
+    else if (route.id === "Logout") {
         AsyncStorage.removeItem('Login_Token')
         scene = <Login navigator={navigator} />
     }
