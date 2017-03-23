@@ -9,26 +9,24 @@ class Selling extends Component {
     super(props);
     this.state = {
       posts: [],
-      token: ''
     };
   }
 
-  componentDidMount() {
-    console.log
-    ApiUtils.getLoginToken('Login_Token').then((res) => {
-      this.setState({'token': res});
-      console.log('token: ', this.state.token)
-    });
-    
 
-    return fetch('https://eztextbook.herokuapp.com/api/posts?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjU4ZDMyNGE4ODcxNzZlMTM1NGI4ZWQ0YSIsImlhdCI6MTQ5MDIzMjU0MH0.5cN06javzNAaCbT0DHFzDwmtzGppX_LVX72P4azl_Fk&type=Selling')
-      .then((response) => response.json())
-      .then((responseJson) => {
-        // console.log(responseJson);
-        this.setState({posts: responseJson});
-      })
-      .catch((error) => {
-        console.error(error);
+  componentDidMount() {
+      return ApiUtils.getLoginToken('Login_Token').then((res) => {
+        // this.setState({'token': res});
+        // console.log('token: ', this.state.token)
+
+        fetch(`https://eztextbook.herokuapp.com/api/posts?token=${res}&type=Selling)`)
+          .then((response) => response.json())
+          .then((responseJson) => {
+            // console.log(responseJson);
+            this.setState({posts: responseJson});
+          })
+          .catch((error) => {
+            console.error(error);
+          });
       });
 
   }
