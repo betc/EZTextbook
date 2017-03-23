@@ -50,7 +50,34 @@ class Register extends Component {
     if (this.state.password !== this.state.passwordConfirmation) {
       errorsArray.push("Password does not match the confirm password");
     }
-    this.setState({errors: errorsArray});
+    if (errorsArray.length == 0) {
+      return fetch('https://eztextbook.herokuapp.com/api/auth/signup/local', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          firstname: this.state.firstName,
+        	lastname: this.state.lastName,
+        	password: this.state.password,
+        	email: this.state.email
+        })
+      })
+      .then(response => response.json())
+      .then((responseJson) => {
+        if (responseJson.success == false) {
+          console.log(responseJson);
+          console.log("email exist");
+          errorsArray.push("Entered e-mail is already in use");
+          this.setState({errors: errorsArray});
+        } else {
+          console.log("User successfully created");
+          // todo: redirect to Login Page
+        }
+      })
+    } else {
+      this.setState({errors: errorsArray});
+    }
   }
 
   render() {
