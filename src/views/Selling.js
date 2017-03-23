@@ -11,7 +11,7 @@ class Selling extends Component {
   }
 
   componentDidMount() {
-    return fetch('https://eztextbook.herokuapp.com/api/posts?type=Selling')
+    return fetch('https://eztextbook.herokuapp.com/api/posts?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjU4ZDMyNGE4ODcxNzZlMTM1NGI4ZWQ0YSIsImlhdCI6MTQ5MDIzMjU0MH0.5cN06javzNAaCbT0DHFzDwmtzGppX_LVX72P4azl_Fk&type=Selling')
       .then((response) => response.json())
       .then((responseJson) => {
         // console.log(responseJson);
@@ -24,7 +24,7 @@ class Selling extends Component {
 
   renderPosts() {
     return this.state.posts.map((post) =>
-      <PostDetail key={post._id} post={post} />
+      <PostDetail key={post._id} post={post} navigator={this.props.navigator} />
     );
   }
 

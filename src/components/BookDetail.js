@@ -8,7 +8,7 @@ import Button from './Button';
 // const BookDetail = ({ book }) => {
 class BookDetail extends Component {
   render() {
-    const { title, thumbnail} = this.props.book;
+    const { _id, title, thumbnail} = this.props.book;
     const {
     thumbnailStyle,
     headerContentStyle,
@@ -37,7 +37,7 @@ class BookDetail extends Component {
         </Button>
       </ButtonSection>
       <ButtonSection>
-        <Button onPress={() => this.props.navigator.push({id: "Post", props: { title: title}})}>
+        <Button onPress={() => this.props.navigator.push({id: "Post", props: { title: title, book: _id}})}>
           Make a Post
         </Button>
       </ButtonSection>

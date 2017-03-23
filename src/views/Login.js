@@ -12,6 +12,7 @@ import {
  
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ApiUtils from '../ApiUtils'
+import Profile from './Profile';
 
 //import FbLoginButton from '../components/FbLoginButton';
 
@@ -45,7 +46,7 @@ export default class Login extends Component {
             console.log("in login. login_token = " + responseJson.token);
             AsyncStorage.setItem('Login_Token', responseJson.token);
 
-            this.props.navigator.push({id: "Home"});
+            this.props.navigator.push({id: "Profile"});
 
         })
         .catch((error) => {
@@ -143,4 +144,3 @@ const styles = StyleSheet.create({
 
  
 });
-

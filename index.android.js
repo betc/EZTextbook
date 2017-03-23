@@ -18,14 +18,13 @@ import {
 } from 'react-native';
 
 import Home from './src/views/Home';
+import Profile from './src/views/Profile';
+import Register from './src/views/Register';
 import Post from './src/views/Post';
 import Search from './src/views/Search';
 import Login from './src/views/Login';
-// import SearchBar from './src/Components/SearchBar';
-
-
-// import SearchBar from './src/components/SearchBar';
 import Selling from './src/views/Selling';
+import ViewPost from './src/views/ViewPost';
 
 import navOptions from './src/components/NavOptions';
 import NavItem from './src/components/NavItem';
@@ -82,7 +81,7 @@ export default class EZTextbook extends Component {
 
   renderScene(route, navigator) {
 
-  let scene = <Home />;
+  let scene = <Home navigator={navigator} />;
   // if (getLoginToken()._65 === null) {
   //   scene = <Login navigator={navigator} />
   // }
@@ -99,18 +98,26 @@ export default class EZTextbook extends Component {
     //    scene = <Login navigator={navigator} />;
       //  console.log("in index.android.js. error = " + error);
     }*/
-    if (route.id === "Home") {
-      scene = <Home />
+    if (route.id === "Profile") {
+      scene = <Profile />
+    } else if (route.id === "Register") {
+      scene = <Register navigator={navigator} />
     }
     else if (route.id === "Selling") {
-      scene = <Selling />
+      scene = <Selling navigator={navigator} />
     }
     else if (route.id === "Search") {
       scene = <Search navigator={navigator} />
     }
     else if (route.id === "Post") {
       scene = <Post {...route.props} />
-    } else if (route.id === "Logout") {
+    }
+    else if (route.id === "ViewPost") {
+      scene = <ViewPost {...route.props} />
+    } else if (route.id === "Login") {
+      scene = <Login />
+    }
+    else if (route.id === "Logout") {
         AsyncStorage.removeItem('Login_Token')
         scene = <Login navigator={navigator} />
     }

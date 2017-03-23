@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
-import { Text, View, Image, Linking } from 'react-native';
+import { Text, View, Image, Linking, TouchableOpacity } from 'react-native';
 import Card from './Card';
 import CardSection from './CardSection';
 import ButtonSection from './ButtonSection';
 import Button from './Button';
 
 class PostDetail extends Component {
+
   render() {
-    const { title, description, book, price, condition, status, dateCreated, type } = this.props.post;
+    const { _id, title, description, creator, book, price, condition, status, dateCreated, type } = this.props.post;
     const {
       thumbnailStyle,
       headerContentStyle,
@@ -20,21 +21,17 @@ class PostDetail extends Component {
 
   return (
     <Card>
-      <CardSection>
-        <View style={headerContentStyle}>
-          <Text style={headerTextStyle}>{title}</Text>
-          <Text style={headerTextStyle}>{description}</Text>
-          <Text style={headerTextStyle}>{status}</Text>
-          <Text style={headerTextStyle}>Condition: {condition}</Text>
-          <Text style={priceTextStyle}>CDN ${price}</Text>
-        </View>
-      </CardSection>
-
-      <ButtonSection>
-        <Button>
-          Contact {role}
-        </Button>
-      </ButtonSection>
+      <TouchableOpacity onPress={() => this.props.navigator.push({id: "ViewPost", props: {...this.props.post}})}>
+        <CardSection>
+          <View style={headerContentStyle}>
+            <Text style={headerTextStyle}>{title}</Text>
+            <Text style={headerTextStyle}>{description}</Text>
+            <Text style={headerTextStyle}>{status}</Text>
+            <Text style={headerTextStyle}>Condition: {condition}</Text>
+            <Text style={priceTextStyle}>CDN ${price}</Text>
+          </View>
+        </CardSection>
+      </TouchableOpacity>
     </Card>
   );
 };
