@@ -11,7 +11,7 @@ import {
 } from 'react-native';
  
 import Icon from 'react-native-vector-icons/FontAwesome';
-import ApiUtils from '../ApiUtils'
+import ApiUtils from '../components/ApiUtils';
 import Profile from './Profile';
 // import { setLoginToken } from '../ApiUtils';
 
@@ -24,11 +24,11 @@ export default class Login extends Component {
         this.state = {
             email: '',
             password: '',
-            errMsg: ''
+            LoginToken: ''
         };
     }
 
-     login = () => {
+      login = () => {
         fetch('https://eztextbook.herokuapp.com/api/auth/login/local' , {
         method: 'POST',
             headers: {
@@ -46,7 +46,9 @@ export default class Login extends Component {
             // console.log(responseJson);
             // console.log("in login. login_token = " + responseJson.token);
             // AsyncStorage.setItem('Login_Token', responseJson.token);
-
+            ApiUtils.setToken('Login_Token', responseJson.token);
+            ApiUtils.getLoginToken.then( val => {this.setState({LoginToken: val});});
+            console.log('in login, trying getLoginToken from ApiUtils, value: ' + {this.state.LoginToken});
             ApiUtils.setLoginToken('Login_Token', 'abc');
             this.props.navigator.push({id: "Profile"});
 

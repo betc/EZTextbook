@@ -13,7 +13,7 @@ var ApiUtils = {
   },
   getLoginToken:  function() {
     // Method 1: returns undefined
-        var retval;
+       // var retval;
  /*       AsyncStorage.getItem('Login_Token')
         .then((keyValue) => {
             console.log("in ApiUtils. value = " + keyValue);
@@ -25,15 +25,22 @@ var ApiUtils = {
     return retval; */
     //Method 2
      try{
-        retval = AsyncStorage.getItem('Login_Token');
+        const retval = AsyncStorage.getItem('Login_Token');
 
-        console.log("in ApiUtils.js. value = " + retval._65);
+        console.log("in ApiUtils.js. value = " + retval);
      } catch(error) {
-        console.log("in ApiUtils.js, error : " +error)
-        return null;
-     };
-     return retval;
+        console.log("in ApiUtils.js, error : " +error);
+     }
 
+  },
+
+   setToken(key, value) {
+    try {
+        AsyncStorage.setItem(key, value);
+        console.log("in ApiUtils.setToken, set key: " + key + " to value: " + value);
+    } catch (error) {
+        console.log('in ApiUtils.setToken, error: ' + error);
+    }
 
   }
 
