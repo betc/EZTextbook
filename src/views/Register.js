@@ -8,8 +8,8 @@ import {
 } from 'react-native';
 
 class Register extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       firstName: "",
       lastName: "",
@@ -69,7 +69,7 @@ class Register extends Component {
           alert("Entered e-mail is already in use");
         } else {
           alert("You have successfully registered an account");
-          // todo: redirect to Login Page
+          this.props.navigator.push({id: "Login"});
         }
       })
     } else {

@@ -18,6 +18,8 @@ import {
 } from 'react-native';
 
 import Home from './src/views/Home';
+import Profile from './src/views/Profile';
+import Register from './src/views/Register';
 import Post from './src/views/Post';
 import Search from './src/views/Search';
 import Login from './src/views/Login';
@@ -79,7 +81,7 @@ export default class EZTextbook extends Component {
 
   renderScene(route, navigator) {
 
-  let scene = <Home />;
+  let scene = <Home navigator={navigator} />;
   // if (getLoginToken()._65 === null) {
   //   scene = <Login navigator={navigator} />
   // }
@@ -96,8 +98,10 @@ export default class EZTextbook extends Component {
     //    scene = <Login navigator={navigator} />;
       //  console.log("in index.android.js. error = " + error);
     }*/
-    if (route.id === "Home") {
-      scene = <Home />
+    if (route.id === "Profile") {
+      scene = <Profile />
+    } else if (route.id === "Register") {
+      scene = <Register navigator={navigator} />
     }
     else if (route.id === "Selling") {
       scene = <Selling navigator={navigator} />
@@ -110,6 +114,8 @@ export default class EZTextbook extends Component {
     }
     else if (route.id === "ViewPost") {
       scene = <ViewPost {...route.props} />
+    } else if (route.id === "Login") {
+      scene = <Login />
     }
     else if (route.id === "Logout") {
         AsyncStorage.removeItem('Login_Token')

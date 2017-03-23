@@ -1,7 +1,17 @@
 import React, { Component, PropTypes } from 'react';
-import { Image, View, Text, StyleSheet, TouchableHighlight } from 'react-native';
+import { Image, View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 class Home extends Component {
+  constructor(props) {
+      super(props);
+  }
+
+  register() {
+    this.props.navigator.push({id: "Register"});
+  }
+  login() {
+    this.props.navigator.push({id: "Login"});
+  }
   render() {
     return (
       <View style={styles.container}>
@@ -15,22 +25,22 @@ class Home extends Component {
           source={require('../../img/Logo.png')}
           style={styles.logo}
         />
-        <TouchableHighlight style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={this.register.bind(this)}>
           <Text style={styles.buttonText}>
             Sign up for an account
           </Text>
-        </TouchableHighlight>
-        <TouchableHighlight style={styles.button}>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={this.login.bind(this)}>
           <Text style={styles.buttonText}>
             Log in to EZTextbook
           </Text>
-        </TouchableHighlight>
-        <TouchableHighlight style={styles.facebook}>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.facebook}>
           <Image
             source={require('../../img/facebook.png')}
             style={styles.imageStyle}
           />
-        </TouchableHighlight>
+        </TouchableOpacity>
       </View>
     )
   }
