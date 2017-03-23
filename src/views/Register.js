@@ -14,6 +14,7 @@ class Register extends Component {
       firstName: "",
       lastName: "",
       email: "",
+      phone: "",
       password: "",
       passwordConfirmation: "",
       errors: []
@@ -23,6 +24,14 @@ class Register extends Component {
   validateEmail(email) {
     const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     if (emailRegex.test(email))
+      return true;
+    else
+      return false;
+  }
+
+  validatePhone(mobile) {
+    const mobileRegex = /^[0-9]{10}$/;
+    if (mobileRegex.test(mobile))
       return true;
     else
       return false;
@@ -42,13 +51,16 @@ class Register extends Component {
       errorsArray.push("required field must be filled out");
     }
     if (!this.validateEmail(this.state.email)) {
-      errorsArray.push("You have entered an invalid email address");
+      errorsArray.push("e-mail address entered is invalid");
+    }
+    if (!this.validatePhone(this.state.phone)) {
+      errorsArray.push("mobile number consists of 10 digits only")
     }
     if (!this.validatePassword(this.state.password)) {
-      errorsArray.push("Password should be at least 6 characters long");
+      errorsArray.push("password should be at least 6 characters long");
     }
     if (this.state.password !== this.state.passwordConfirmation) {
-      errorsArray.push("Password does not match the confirm password");
+      errorsArray.push("password does not match the confirm password");
     }
     if (errorsArray.length == 0) {
       return fetch('https://eztextbook.herokuapp.com/api/auth/signup/local', {
@@ -59,8 +71,9 @@ class Register extends Component {
         body: JSON.stringify({
           firstname: this.state.firstName,
         	lastname: this.state.lastName,
-        	password: this.state.password,
-        	email: this.state.email
+          password: this.state.password,
+        	email: this.state.email,
+          phone: this.state.phone,
         })
       })
       .then(response => response.json())
@@ -99,6 +112,10 @@ class Register extends Component {
           style={styles.input} placeholder="Last Name (*required)"
         />
         <TextInput
+          onChangeText={(val) => this.setState({phone: val})}
+          style={styles.input} placeholder="Mobile Number"
+        />
+        <TextInput
           onChangeText={(val) => this.setState({password: val})}
           style={styles.input} placeholder="Password (*required)"
           secureTextEntry={true}
@@ -134,7 +151,7 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 50,
-    marginTop: 10,
+    marginTop: 8,
     padding: 5,
     fontSize: 18,
     borderWidth: 1.2,
@@ -147,7 +164,7 @@ const styles = StyleSheet.create({
     height: 50,
     backgroundColor: '#48BBEC',
     alignSelf: 'stretch',
-    marginTop: 30,
+    marginTop: 15,
     marginLeft: 3,
     marginRight: 3,
     justifyContent: 'center',
@@ -172,7 +189,7 @@ const styles = StyleSheet.create({
     marginBottom: 20
   },
   error: {
-    marginTop: 20,
+    marginTop: 10,
     alignSelf: 'center',
     color: 'red'
   }

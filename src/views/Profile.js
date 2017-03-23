@@ -7,19 +7,38 @@ import {
   View,
   TouchableHighlight
 } from 'react-native';
+import axios from 'axios';
 
 class Profile extends Component {
   constructor() {
     super();
     this.state = {
-      firstName: "John",
-      lastName: "Doe",
-      email: "johndoe@gmail.com",
-      mobile: "613-555-0151",
+      profile: [],
+      firstName: "",
+      lastName: "",
+      email: "",
+      mobile: "519-999-8888",
       editable: false,
       autoFocus: false,
-      update: "Update Profile"
+      update: "Update Profile",
+      token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjU4ZDNlMTRjNGUzN2ZhMDAwNGNjNzFlMSIsImlhdCI6MTQ5MDI4NjQ4M30.miLJ-HQB9RCdvzl8XtqB7I0I2wk709nqUXsajA6BQgE"
     };
+  }
+
+  componentWillMount() {
+    axios.get('https://eztextbook.herokuapp.com/api/user/profile?', {
+      params: {
+        token: this.state.token
+      }
+    }).then((response) => {
+        if (response.status === 200) {
+          this.setState({
+            firstName: response.data.firstname,
+            lastName: response.data.lastname,
+            email: response.data.local.email
+          })
+        }
+      })
   }
 
   handleChange(event) {
