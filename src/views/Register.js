@@ -66,12 +66,9 @@ class Register extends Component {
       .then(response => response.json())
       .then((responseJson) => {
         if (responseJson.success == false) {
-          console.log(responseJson);
-          console.log("email exist");
-          errorsArray.push("Entered e-mail is already in use");
-          this.setState({errors: errorsArray});
+          alert("Entered e-mail is already in use");
         } else {
-          console.log("User successfully created");
+          alert("You have successfully registered an account");
           // todo: redirect to Login Page
         }
       })
@@ -113,7 +110,7 @@ class Register extends Component {
         />
         <TouchableHighlight style={styles.button} onPress={this.onRegisterPressed.bind(this)}>
           <Text style={styles.buttonText}>
-            Create account
+            Create Account
           </Text>
         </TouchableHighlight>
         <Errors errors={this.state.errors} />
@@ -133,7 +130,7 @@ const Errors = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 40
+    marginTop: 20
   },
   input: {
     height: 50,
@@ -150,7 +147,7 @@ const styles = StyleSheet.create({
     height: 50,
     backgroundColor: '#48BBEC',
     alignSelf: 'stretch',
-    marginTop: 40,
+    marginTop: 30,
     marginLeft: 3,
     marginRight: 3,
     justifyContent: 'center',
