@@ -1,11 +1,12 @@
 import React, { Component, PropTypes } from 'react';
-import { View, Text, TextInput, Picker, Button, ProgressBarAndroid } from 'react-native';
-const Item = Picker.Item;
+import { View, Text, TextInput, Picker, Button, ProgressBarAndroid, Alert } from 'react-native';
+import ApiUtils from '../ApiUtils'
 
 export default class Post extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      token: "",
       successMsg: "",
       title: "",
     	description: "",
@@ -17,33 +18,39 @@ export default class Post extends Component {
   }
 
   handleSubmit() {
-    this.setState({successMsg: "Receiving..."});
-    return fetch('https://eztextbook.herokuapp.com/api/post/create?key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjU4ZDMyNGE4ODcxNzZlMTM1NGI4ZWQ0YSIsImlhdCI6MTQ5MDIzMjU0MH0.5cN06javzNAaCbT0DHFzDwmtzGppX_LVX72P4azl_Fk', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        title: this.state.title,
-      	description: this.state.description,
-      	creator: this.state.creator,
-      	book: this.props.book,
-      	price: parseFloat(this.state.price),
-      	condition: parseInt(this.state.condition),
-      	type: this.state.type
-      })
-    }).then((response) => response.json())
-      .then((responseJson) => {
-        this.setState({successMsg: "Submitted!"});
-        // this.navigator.pop();
-      })
-      .catch((error) => {
-        this.setState({successMsg: "An error occured."});
-        console.error(error);
-      });
+    return ApiUtils.getLoginToken('Login_Token').then((res) => {
+      this.setState({token: res});
+      this.setState({successMsg: "Receiving..."});
+      fetch(`https://eztextbook.herokuapp.com/api/post/create?token=${this.state.token}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          title: this.state.title,
+        	description: this.state.description,
+        	creator: this.state.creator,
+        	book: this.props.book,
+        	price: parseFloat(this.state.price),
+        	condition: parseInt(this.state.condition),
+        	type: this.state.type
+        })
+      }).then((response) => response.json())
+        .then((responseJson) => {
+          this.setState({successMsg: "Submitted!"});
+          Alert.alert("Successfully posted.")
+          // this.navigator.pop();
+        })
+        .catch((error) => {
+          this.setState({successMsg: "An error occured."});
+          Alert.alert("An error occcured.")
+          console.error(error);
+        });
+    });
   }
 
   render() {
+    const Item = Picker.Item;
     return (
       <View style={{padding: 10}}>
         <Text>Buy/Sell</Text>

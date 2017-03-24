@@ -8,6 +8,7 @@ class Selling extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      token: "",
       posts: [],
     };
   }
@@ -15,10 +16,10 @@ class Selling extends Component {
 
   componentDidMount() {
       return ApiUtils.getLoginToken('Login_Token').then((res) => {
-        // this.setState({'token': res});
+        this.setState({token: res});
         // console.log('token: ', this.state.token)
 
-        fetch(`https://eztextbook.herokuapp.com/api/posts?token=${res}&type=Selling)`)
+        fetch(`https://eztextbook.herokuapp.com/api/posts?token=${this.state.token}&type=Selling)`)
           .then((response) => response.json())
           .then((responseJson) => {
             // console.log(responseJson);

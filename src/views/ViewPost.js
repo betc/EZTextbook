@@ -22,7 +22,7 @@ class ViewPost extends Component {
       <Card>
           <View style={headerContentStyle}>
             <Text style={headerTextStyle}>{type}</Text>
-            <Text style={headerTextStyle}>sdfsdf</Text>
+            <Text style={headerTextStyle}>{creator.firstname} {creator.lastname}</Text>
             <Text style={headerTextStyle}>{title}</Text>
             <Text style={headerTextStyle}>{description}</Text>
             <Text style={headerTextStyle}>{status}</Text>
