@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { View, ScrollView, Text, AsyncStorage } from 'react-native';
-import PostDetail from '../components/PostDetail';
+import ViewPosts from './ViewPosts';
 import ApiUtils from '../ApiUtils'
-// import { getLoginToken } from '../ApiUtils';
 
-class Selling extends Component {
+class SellBuy extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -13,13 +12,12 @@ class Selling extends Component {
     };
   }
 
-
   componentDidMount() {
       return ApiUtils.getLoginToken('Login_Token').then((res) => {
         this.setState({token: res});
         // console.log('token: ', this.state.token)
 
-        fetch(`https://eztextbook.herokuapp.com/api/posts?token=${this.state.token}&type=Selling)`)
+        fetch(`https://eztextbook.herokuapp.com/api/posts?token=${this.state.token}&type=${this.props.type}`)
           .then((response) => response.json())
           .then((responseJson) => {
             // console.log(responseJson);
@@ -32,22 +30,12 @@ class Selling extends Component {
 
   }
 
-  renderPosts() {
-    return this.state.posts.map((post) =>
-      <PostDetail key={post._id} post={post} navigator={this.props.navigator} />
-    );
-  }
-
   render() {
     return (
-      <View>
-        <ScrollView>
-          {this.renderPosts()}
-        </ScrollView>
-      </View>
+      <ViewPosts posts={this.state.posts} navigator={this.props.navigator} />
     );
   }
 }
 
 // Make the component available to other parts of the app
-export default Selling;
+export default SellBuy;

@@ -25,6 +25,7 @@ class PostDetail extends Component {
         <CardSection>
           <View style={headerContentStyle}>
             <Text style={headerTextStyle}>{title}</Text>
+            <Text style={headerTextStyle}>{creator.firstname} {creator.lastname}</Text>
             <Text style={headerTextStyle}>{description}</Text>
             <Text style={headerTextStyle}>{status}</Text>
             <Text style={headerTextStyle}>Condition: {condition}</Text>

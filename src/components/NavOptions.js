@@ -5,11 +5,11 @@ const navOptions = [
   },
   {
     id: "Selling",
-    name: "Books for Sale",
+    name: "Books Selling",
   },
   {
     id: "Buying",
-    name: "Books Wanted",
+    name: "Books Buying",
   },
   {
     id: "Search",
