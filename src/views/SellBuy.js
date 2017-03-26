@@ -13,7 +13,7 @@ class SellBuy extends Component {
   }
 
   componentDidMount() {
-      return ApiUtils.getLoginToken('Login_Token').then((res) => {
+      return ApiUtils.getToken('Login_Token').then((res) => {
         this.setState({token: res});
         // console.log('token: ', this.state.token)
 
