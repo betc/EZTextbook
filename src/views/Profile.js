@@ -5,7 +5,8 @@ import {
   Text,
   TextInput,
   View,
-  TouchableHighlight
+  TouchableHighlight,
+  Alert
 } from 'react-native';
 import axios from 'axios';
 import ApiUtils from '../ApiUtils.js';
@@ -18,7 +19,7 @@ class Profile extends Component {
       firstName: "",
       lastName: "",
       email: "",
-      mobile: "519-999-8888",
+      mobile: "",
       editable: false,
       autoFocus: false,
       update: "Update Profile",
@@ -26,29 +27,41 @@ class Profile extends Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     ApiUtils.getLoginToken('Login_Token').then((res) => {
-      console.log("Response is " + res);
       this.setState({token: res});
-      console.log("Token is " + this.state.token);
       axios.get('https://eztextbook.herokuapp.com/api/user/profile?', {
         params: {
         token: this.state.token
         }
-      }).then((response) => {
-          if (response.status === 200) {
-            this.setState({
-              firstName: response.data.firstname,
-              lastName: response.data.lastname,
-              email: response.data.local.email
-            })
-          }
-        })
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          this.setState({
+            firstName: response.data.firstname,
+            lastName: response.data.lastname,
+            email: response.data.local.email,
+            mobile: response.data.phone
+          })
+        }
+      })
     })
   }
 
-  handleChange(event) {
-    // todo
+  updateField(fieldName, event) {
+    if (fieldName == 'First Name') {
+      this.setState({
+        firstName: event
+      })
+    } else if (fieldName == 'Last Name') {
+      this.setState({
+        lastName: event
+      })
+    } else {
+      this.setState({
+        mobile: event
+      })
+    }
   }
 
   updateProfile() {
@@ -59,16 +72,24 @@ class Profile extends Component {
         autoFocus: true
       });
     } else {
+      const url = 'https://eztextbook.herokuapp.com/api/user/profile/update?token=' + this.state.token;
+      axios.post(url, {
+        firstname: this.state.firstName,
+        lastname: this.state.lastName,
+        phone: this.state.mobile
+      })
+      .then(function(response){
+        Alert.alert("Profile Updated");
+      })
+      .then(function(error){
+        console.log(error);
+      });
       this.setState({
         update: "Update Profile",
         editable: false,
         autoFocus: false
       });
     }
-  }
-
-  changePassword() {
-    // todo
   }
 
   render() {
@@ -90,7 +111,7 @@ class Profile extends Component {
             defaultValue={this.state.firstName}
             editable={this.state.editable}
             autoFocus={this.state.autoFocus}
-            onChangeText={this.handleChange.bind(this)}
+            onChangeText={this.updateField.bind(this, 'First Name')}
           />
         </View>
         <View style={styles.cellStyle}>
@@ -102,7 +123,7 @@ class Profile extends Component {
             defaultValue={this.state.lastName}
             editable={this.state.editable}
             autoFocus={this.state.autoFocus}
-            onChangeText={this.handleChange.bind(this)}
+            onChangeText={this.updateField.bind(this, 'Last Name')}
           />
         </View>
         <Text style={styles.headingStyle}>
@@ -115,9 +136,7 @@ class Profile extends Component {
           <TextInput
             style={styles.contactInputStyle}
             defaultValue={this.state.email}
-            editable={this.state.editable}
-            autoFocus={this.state.autoFocus}
-            onChangeText={this.handleChange.bind(this)}
+            editable={false}
           />
         </View>
         <View style={styles.cellStyle}>
@@ -129,7 +148,7 @@ class Profile extends Component {
             defaultValue={this.state.mobile}
             editable={this.state.editable}
             autoFocus={this.state.autoFocus}
-            onChangeText={this.handleChange.bind(this)}
+            onChangeText={this.updateField.bind(this, 'Mobile')}
           />
         </View>
         <TouchableHighlight style={styles.button} onPress={this.updateProfile.bind(this)}>
@@ -137,9 +156,9 @@ class Profile extends Component {
             {this.state.update}
           </Text>
         </TouchableHighlight>
-        <TouchableHighlight style={styles.button} onPress={this.changePassword.bind(this)}>
+        <TouchableHighlight style={styles.button}>
           <Text style={styles.buttonText}>
-            Change Password
+            View Interests List
           </Text>
         </TouchableHighlight>
       </View>
