@@ -17,15 +17,12 @@ class PostDetail extends Component {
       priceTextStyle
     } = styles;
 
-    const role = type === "Buying" ? "Buyer" : "Seller";
-
   return (
     <Card>
       <TouchableOpacity onPress={() => this.props.navigator.push({id: "ViewPost", props: {...this.props.post}})}>
         <CardSection>
           <View style={headerContentStyle}>
             <Text style={headerTextStyle}>{title}</Text>
-            <Text style={headerTextStyle}>{creator.firstname} {creator.lastname}</Text>
             <Text style={headerTextStyle}>{description}</Text>
             <Text style={headerTextStyle}>{status}</Text>
             <Text style={headerTextStyle}>Condition: {condition}</Text>

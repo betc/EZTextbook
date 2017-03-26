@@ -1,14 +1,49 @@
 import React, { Component, PropTypes } from 'react';
-import { View, Text, TextInput, Picker, ProgressBarAndroid, Linking } from 'react-native';
+import { View, Text, TextInput, Picker, ProgressBarAndroid, Linking, TouchableOpacity } from 'react-native';
+import Communications from 'react-native-communications';
+
 import Card from '../components/Card';
 import CardSection from '../components/CardSection';
 import ButtonSection from '../components/ButtonSection';
 import Button from '../components/Button';
+import ApiUtils from '../ApiUtils'
 
 class ViewPost extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      token: '',
+      id: '',
+      firstname: '',
+      lastname: '',
+      email: '',
+      phone: null
+    };
+  }
+
+  componentDidMount() {
+    return ApiUtils.getToken('Login_Token').then((res) => {
+      this.setState({token: res});
+      // console.log('creator ' + this.props.creator)
+      fetch(`https://eztextbook.herokuapp.com/api/user/visit/profile/${this.props.creator}?token=${this.state.token}`)
+        .then((response) => response.json())
+        .then((responseJson) => {
+          // console.log(responseJson);
+          this.setState({firstname: responseJson.firstname});
+          this.setState({lastname: responseJson.lastname});
+          this.setState({phone: responseJson.phone});
+          this.setState({email: responseJson.local.email});
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    });
+  }
 
   render() {
-    const { title, description, creator, book, price, condition, status, dateCreated, type } = this.props;
+    const { _id, title, description, creator, book, price, condition, status, dateCreated, type } = this.props;
+    // this.setState({id: _id});
+
 
     const {
       thumbnailStyle,
@@ -17,12 +52,13 @@ class ViewPost extends Component {
       headerTextStyle,
       priceTextStyle
     } = styles;
-
+    const role = type === 'Buying' ? 'Buyer' : 'Seller';
+    const message = 'RE: ' + title;
     return (
       <Card>
           <View style={headerContentStyle}>
             <Text style={headerTextStyle}>{type}</Text>
-            <Text style={headerTextStyle}>{creator.firstname} {creator.lastname}</Text>
+            <Text style={headerTextStyle}>{this.state.firstname} {this.state.lastname}</Text>
             <Text style={headerTextStyle}>{title}</Text>
             <Text style={headerTextStyle}>{description}</Text>
             <Text style={headerTextStyle}>{status}</Text>
@@ -30,12 +66,17 @@ class ViewPost extends Component {
             <Text style={priceTextStyle}>CDN ${price}</Text>
           </View>
 
-        <ButtonSection>
-          <Button onClick={() => Linking.openURL('mailto:somethingemail@gmail.com?subject=abcdefg&body=body')}>
-            Contact
-          </Button>
-        </ButtonSection>
+          <TouchableOpacity onPress={() => Communications.email([this.state.email], null, null, message, '- Sent from EZTextbook')}>
+            <View style={styles.holder}>
+              <Text style={styles.text}>{`Email ${role}`}</Text>
+            </View>
+          </TouchableOpacity>
 
+          <TouchableOpacity onPress={() => Communications.text(this.state.phone, message)}>
+            <View style={styles.holder}>
+              <Text style={styles.text}>SMS Message</Text>
+            </View>
+          </TouchableOpacity>
       </Card>
     )
   }
