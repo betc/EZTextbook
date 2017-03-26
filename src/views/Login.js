@@ -86,7 +86,9 @@ export default class Login extends Component {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: 'gold'
+        marginTop: 20,
+        alignItems: 'center',
+        backgroundColor: '#F5FCFF'
 	},
 	backgroundImage: {
 		flex: 1,
@@ -98,11 +100,11 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 	},
 	logo: {
-		color: 'black',
-		fontSize: 40,
-		fontStyle: 'italic',
-		fontWeight: 'bold',
-		marginBottom: 20,
+		fontSize: 30,
+        fontWeight: "800",
+        alignSelf: 'center',
+        color: '#8073B9',
+        marginTop: 20
 	},
 	inputContainer: {
 		margin: 20,
@@ -115,30 +117,33 @@ const styles = StyleSheet.create({
 		backgroundColor: 'rgba(255,255,255,0.2)',
 	},
 	input: {
-		fontSize: 16,
-		height: 40,
-		padding: 10,
-		marginBottom: 10,
-		backgroundColor: 'rgba(255,255,255,1)'
+	    height: 50,
+        marginTop: 8,
+        padding: 5,
+        fontSize: 18,
+        borderWidth: 1.2,
+        borderColor: '#48bbec',
+        borderRadius: 5,
+        marginLeft: 5,
+        marginRight: 5
 	},
 	buttonContainer: {
-		alignSelf: 'stretch',
-		margin: 20,
-		padding: 20,
-		backgroundColor: 'blue',
-		borderWidth: 1,
-		borderColor: '#fff',
-		backgroundColor: 'rgba(255,255,255,0.6)',
+	    height: 50,
+        backgroundColor: '#48BBEC',
+        alignSelf: 'stretch',
+        marginTop: 15,
+        marginLeft: 3,
+        marginRight: 3,
+        justifyContent: 'center',
+        borderRadius: 6,
 	},
 	buttonText: {
-		fontSize: 16,
-		fontWeight: 'bold',
-		textAlign: 'center',
+        fontSize: 22,
+        color: '#FFF',
+        alignSelf: 'center'
 	},
 	error: {
 	    fontSize: 20,
 	    color: 'red'
-	}
-
- 
+	} 
 });

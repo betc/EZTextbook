@@ -19,7 +19,8 @@ var ApiUtils = {
 		  console.log('store token');
 		  await AsyncStorage.setItem(key, value);
 		} catch (error) {
-		  console.log(error);
+		  console.log("ApiUtils.setToken, error: " + error);
+		  throw("ApiUtils.setToken error: " + error);
 		}
 	},
 	async getToken(key) {
@@ -31,8 +32,19 @@ var ApiUtils = {
 	      return value;
 	    }
 	  } catch (error) {
-	    console.log(error);
+	    console.log("ApiUtils.getToken, error: " + error);
+	    throw("ApiUtils.getToken error: " + error);
 	  }
+	},
+
+	async removeToken(key) {
+	    try {
+	        const value = await AsyncStorage.removeItem(key);
+
+	    } catch (error) {
+	        console.log("ApiUtils.removeToken, error: " + error);
+	        throw("ApiUtils.removeToken error: " + error);
+	    }
 	}
 };
 
