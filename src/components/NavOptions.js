@@ -1,6 +1,6 @@
 const navOptions = [
   {
-    id: "Home",
+    id: "Profile",
     name: "Home",
   },
   {

@@ -57,7 +57,9 @@ export default class EZTextbook extends Component {
   renderScene(route, navigator) {
     let scene = <Home navigator={navigator} />;
     if (route.id === 'Home') {
-        scene = <Profile />
+      scene = <Home navigator={navigator} />
+    } else if (route.id === 'Profile') {
+        scene = <Profile navigator={navigator} />
     } else if (route.id === 'Register') {
         scene = <Register navigator={navigator} />
     } else if (route.id === 'Selling') {
@@ -114,7 +116,7 @@ export default class EZTextbook extends Component {
             title='EZTextbook'
           />
           <Navigator
-            initialRoute={{ id: 0 }}
+            initialRoute={{ id: "Home"}}
             ref='navigator'
             renderScene={this.renderScene}
           />
