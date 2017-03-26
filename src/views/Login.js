@@ -43,8 +43,10 @@ export default class Login extends Component {
         .then(ApiUtils.checkStatus)
         .then((response) => response.json())
         .then((responseJson) => {
-            // AsyncStorage.setItem('Login_Token', responseJson.token);
             ApiUtils.setToken('Login_Token', responseJson.token);
+            ApiUtils.getToken('Login_Token').then((value) =>
+              { console.log("Login_Token set to : " + value)}
+            );
             this.props.navigator.push({id: "Home"});
         })
         .catch((error) => {
@@ -62,7 +64,7 @@ export default class Login extends Component {
 					<View style={styles.content}>
 						<Text style={styles.logo}>Login To EZTextbook</Text>
 						<Text style={styles.error}>{this.state.errMsg}</Text>
-						<View style={styles.inputContainer}>
+					    <View style={styles.inputContainer}>
 							<TextInput underlineColorAndroid='transparent' style={styles.input}
 							    onChangeText={(email) => this.setState({email})}
 								value={this.state.email} placeholder='email'>
@@ -86,7 +88,6 @@ export default class Login extends Component {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-        marginTop: 20,
         alignItems: 'center',
         backgroundColor: '#F5FCFF'
 	},
@@ -109,6 +110,7 @@ const styles = StyleSheet.create({
 	inputContainer: {
 		margin: 20,
 		marginBottom: 0,
+		marginTop: 50,
 		padding: 20,
 		paddingBottom: 10,
 		alignSelf: 'stretch',
@@ -118,6 +120,7 @@ const styles = StyleSheet.create({
 	},
 	input: {
 	    height: 50,
+	    width: 300,
         marginTop: 8,
         padding: 5,
         fontSize: 18,
@@ -129,9 +132,10 @@ const styles = StyleSheet.create({
 	},
 	buttonContainer: {
 	    height: 50,
+	    width: 300,
         backgroundColor: '#48BBEC',
-        alignSelf: 'stretch',
-        marginTop: 15,
+        alignSelf: 'center',
+        marginTop: 30,
         marginLeft: 3,
         marginRight: 3,
         justifyContent: 'center',

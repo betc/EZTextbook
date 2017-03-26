@@ -22,6 +22,8 @@ var ApiUtils = {
 	  try {
 	    const value = await AsyncStorage.getItem(key);
 	    if (value !== null){
+	      // We have data!!
+	      console.log('apiutils.getToken token: ', value);
 	      return value;
 	    }
 	  } catch (error) {
