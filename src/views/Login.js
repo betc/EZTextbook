@@ -36,7 +36,7 @@ export default class Login extends Component {
                 'Content-Type' : 'application/json',
             },
                 body: JSON.stringify({
-                    email: this.state.email,
+                    email: this.state.email.trim(),
                     password: this.state.password,
                 })
         })
@@ -47,7 +47,7 @@ export default class Login extends Component {
             ApiUtils.getToken('Login_Token').then((value) =>
               { console.log("Login_Token set to : " + value)}
             );
-            this.props.navigator.push({id: "Home"});
+            this.props.navigator.push({id: "Profile"});
         })
         .catch((error) => {
              //   this.setState({errMsg: 'ERROR: Incorrect Email or Password'});

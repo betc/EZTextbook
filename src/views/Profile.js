@@ -16,6 +16,7 @@ class Profile extends Component {
     super();
     this.state = {
       profile: [],
+      rating: "100",
       firstName: "",
       lastName: "",
       email: "",
@@ -38,6 +39,7 @@ class Profile extends Component {
       .then((response) => {
         if (response.status === 200) {
           this.setState({
+            rating: response.data.rating,
             firstName: response.data.firstname,
             lastName: response.data.lastname,
             email: response.data.local.email,
@@ -97,6 +99,9 @@ class Profile extends Component {
           source={require('../../img/profile.jpg')}
           style={styles.imageStyle}
         />
+        <Text style={styles.ratingStyle}>
+          Rating: {this.state.rating}
+        </Text>
         <Text style={styles.headingStyle}>
           General Information:
         </Text>
@@ -167,7 +172,7 @@ class Profile extends Component {
 const styles = StyleSheet.create({
   containerStyle: {
     flex: 1,
-    marginTop: 40
+    marginTop: 10
   },
   imageStyle: {
     alignSelf: 'center',
@@ -177,8 +182,13 @@ const styles = StyleSheet.create({
     borderRadius: 75,
     borderColor: '#800080'
   },
+  ratingStyle: {
+    color: '#550080',
+    fontWeight: '600',
+    alignSelf: 'center'
+  },
   headingStyle: {
-    marginTop: 10,
+    marginTop: 5,
     color: '#550080',
     fontSize: 20,
     fontWeight: '700',
@@ -186,7 +196,6 @@ const styles = StyleSheet.create({
   },
   cellStyle: {
     alignSelf: 'center',
-    marginTop: 5,
     flexDirection: 'row'
   },
   textStyle: {
@@ -196,30 +205,23 @@ const styles = StyleSheet.create({
     fontWeight: '800'
   },
   generalInputStyle: {
+    marginTop: 5,
+    fontWeight: '800',
     height: 35,
-    width: 80,
-    borderColor: 'rgba(0,0,0,0)',
-    borderWidth: 2
+    width: 80
   },
   contactInputStyle: {
+    marginTop: 5,
+    fontWeight: '800',
     height: 35,
     width: 200,
-    borderColor: 'rgba(0,0,0,0)',
-    borderWidth: 2
-  },
-  commentInputStyle: {
-    marginTop: 10,
-    marginBottom: 10,
-    height: 100,
-    borderWidth: 2,
-    borderColor: '#550080'
   },
   button: {
     height: 50,
     width: 250,
     backgroundColor: '#48BBEC',
     alignSelf: 'center',
-    marginTop: 30,
+    marginTop: 20,
     marginLeft: 3,
     marginRight: 3,
     justifyContent: 'center',
