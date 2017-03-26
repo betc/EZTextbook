@@ -51,7 +51,7 @@ class BookDetail extends Component {
         </Button>
       </ButtonSection>
       <ButtonSection>
-        <Button onPress={() => this.props.navigator.push({id: "Post", props: { title: title, book: _id}})}>
+        <Button onPress={() => this.props.navigator.push({id: "Post", props: { title: title, book: _id, navigator: this.props.navigator}})}>
           Make a Post
         </Button>
       </ButtonSection>

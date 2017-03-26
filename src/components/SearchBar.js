@@ -9,7 +9,7 @@ class SearchBar extends Component {
           source={require('../../img/search.png')}
           style={styles.imageStyle}
         />
-        <TextInput placeholder='Search by Book Title/ISBN/Course Number'
+        <TextInput placeholder={this.props.placeholder}
         style={styles.searchBarStyle}
         onChange={this.props.filterText}
         />

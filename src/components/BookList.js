@@ -41,7 +41,7 @@ class BookList extends Component {
   render() {
     return (
       <View>
-        <SearchBar filterText={this.filterText} />
+        <SearchBar filterText={this.filterText} placeholder='Search by Book Title/ISBN/Course Number' />
         <ScrollView contentContainerStyle={styles.contentContainer}>
           {this.renderBooks()}
         </ScrollView>

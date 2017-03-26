@@ -1,24 +1,24 @@
 import React, { Component, PropTypes } from 'react';
 import { View, Text, TextInput, Picker, Button, ProgressBarAndroid, Alert } from 'react-native';
-import ApiUtils from '../ApiUtils'
+import ApiUtils from '../ApiUtils';
 
 export default class Post extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      token: "",
-      successMsg: "",
-      title: "",
-    	description: "",
-    	creator: "58d324a887176e1354b8ed4a",
+      token: '',
+      successMsg: '',
+      title: '',
+    	description: '',
     	price: 0,
     	condition: 0,
-    	type: "Selling"
+    	type: 'Selling',
+      images: []
     };
   }
 
   handleSubmit() {
-    return ApiUtils.getLoginToken('Login_Token').then((res) => {
+    return ApiUtils.getToken('Login_Token').then((res) => {
       this.setState({token: res});
       this.setState({successMsg: "Receiving..."});
       fetch(`https://eztextbook.herokuapp.com/api/post/create?token=${this.state.token}`, {
@@ -29,9 +29,8 @@ export default class Post extends Component {
         body: JSON.stringify({
           title: this.state.title,
         	description: this.state.description,
-        	creator: this.state.creator,
         	book: this.props.book,
-        	price: parseFloat(this.state.price),
+        	price: parseFloat(this.state.price).toFixed(2),
         	condition: parseInt(this.state.condition),
         	type: this.state.type
         })
@@ -39,7 +38,7 @@ export default class Post extends Component {
         .then((responseJson) => {
           this.setState({successMsg: "Submitted!"});
           Alert.alert("Successfully posted.")
-          // this.navigator.pop();
+          this.props.navigator.pop();
         })
         .catch((error) => {
           this.setState({successMsg: "An error occured."});
