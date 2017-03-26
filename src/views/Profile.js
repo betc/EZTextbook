@@ -81,9 +81,6 @@ class Profile extends Component {
       })
       .then(function(response){
         Alert.alert("Profile Updated");
-      })
-      .then(function(error){
-        console.log(error);
       });
       this.setState({
         update: "Update Profile",

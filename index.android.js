@@ -1,9 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
 import React, { Component } from 'react';
 import {
   AppRegistry,
@@ -45,18 +39,8 @@ export default class EZTextbook extends Component {
   }
 
   componentWillMount () {
-    // TO DO
-    // fetch('https://api.uwaterloo.ca/v2/courses/CS.json?key=c687ee7c8cc53db208f2a34776316cb0')
-    //   .then((response) => response.json())
-    //   .then((responseJson) => {
-    //     this.state.courses = responseJson.data;
-    //   })
-    //   .catch((error) => {
-    //     console.error(error);
-    //   });
-    // var navigator;
+    // get username from profile
     ApiUtils.getToken('userName').then((res) => {
-      console.log(res);
       this.setState({
         userName: res
       });
@@ -68,57 +52,32 @@ export default class EZTextbook extends Component {
       }
       return false;
     });
-
-    // setToken('Login_Token', 'abc');
   }
 
-
-  // async getToken() {
-
-  //   //try {
-  //       let value = await AsyncStorage.getItem('Login_Token')
-  //     //  if (value !== null) {
-  //           console.log("getToken successful: value = " + value);
-  //     //  }
-  //   //} catch(error) {
-  //       console.log("Error occurred in getToken: " + error);
-  //   //}
-  //   return value;
-  // }
-
   renderScene(route, navigator) {
-
     let scene = <Home navigator={navigator} />;
-
     if (route.id === 'Home') {
-      scene = <Profile />
+        scene = <Profile />
     } else if (route.id === 'Register') {
-      scene = <Register navigator={navigator} />
-    }
-    else if (route.id === 'Selling') {
-      scene = <SellBuy type='Selling' navigator={navigator} />
-    }
-    else if (route.id === 'Buying') {
-      scene = <SellBuy type='Buying' navigator={navigator} />
-    }
-    else if (route.id === 'Search') {
-      scene = <Search navigator={navigator} />
-    }
-    else if (route.id === 'Post') {
-      scene = <Post {...route.props} />
-    }
-    else if (route.id === 'ViewPosts') {
-      scene = <ViewPosts {...route.props} />
-    }
-    else if (route.id === 'ViewPost') {
-      scene = <ViewPost {...route.props} />
-    }
-    else if (route.id === 'Login') {
-      scene = <Login navigator={navigator} />
-    }
-    else if (route.id === 'Logout') {
-        AsyncStorage.removeItem('Login_Token')
+        scene = <Register navigator={navigator} />
+    } else if (route.id === 'Selling') {
+        scene = <SellBuy type='Selling' navigator={navigator} />
+    } else if (route.id === 'Buying') {
+        scene = <SellBuy type='Buying' navigator={navigator} />
+    } else if (route.id === 'Search') {
+        scene = <Search navigator={navigator} />
+    } else if (route.id === 'Post') {
+        scene = <Post {...route.props} />
+    } else if (route.id === 'ViewPosts') {
+        scene = <ViewPosts {...route.props} />
+    } else if (route.id === 'ViewPost') {
+        scene = <ViewPost {...route.props} />
+    } else if (route.id === 'Login') {
         scene = <Login navigator={navigator} />
+    } else if (route.id === 'Logout') {
+        ApiUtils.removeToken('Login_Token');
+        route.id = 0;
+        scene = <Home navigator={navigator} />
     }
 
     return (
@@ -142,7 +101,6 @@ export default class EZTextbook extends Component {
         {navigationButtons}
       </View>
     );
-
     return (
       <DrawerLayoutAndroid
         drawerWidth={300}
@@ -157,10 +115,8 @@ export default class EZTextbook extends Component {
           />
           <Navigator
             initialRoute={{ id: 0 }}
-            // ref={(nav) => { navigator = nav; }}
             ref='navigator'
             renderScene={this.renderScene}
-            // configureScene={() => ({ ...Navigator.SceneConfigs.FloatFromBottom, gestures: {}})}
           />
       </DrawerLayoutAndroid>
     );
