@@ -13,7 +13,7 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ApiUtils from '../ApiUtils';
 import Profile from './Profile';
-// import { setLoginToken } from '../ApiUtils';
+// import { setToken } from '../ApiUtils';
 
 //import FbLoginButton from '../components/FbLoginButton';
 
@@ -44,8 +44,8 @@ export default class Login extends Component {
         .then((response) => response.json())
         .then((responseJson) => {
             // AsyncStorage.setItem('Login_Token', responseJson.token);
-            ApiUtils.setLoginToken('Login_Token', responseJson.token);
-            this.props.navigator.push({id: "Profile"});
+            ApiUtils.setToken('Login_Token', responseJson.token);
+            this.props.navigator.push({id: "Home"});
         })
         .catch((error) => {
              //   this.setState({errMsg: 'ERROR: Incorrect Email or Password'});

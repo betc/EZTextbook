@@ -14,7 +14,7 @@ var ApiUtils = {
       throw error;
     }
   },
-	async setLoginToken(key, value) {
+	async setToken(key, value) {
 		try {
 		  console.log('store token');
 		  await AsyncStorage.setItem(key, value);
@@ -22,7 +22,7 @@ var ApiUtils = {
 		  console.log(error);
 		}
 	},
-	async getLoginToken(key) {
+	async getToken(key) {
 	  try {
 	    const value = await AsyncStorage.getItem(key);
 	    if (value !== null){
@@ -38,7 +38,7 @@ var ApiUtils = {
 
 export { ApiUtils as default };
 
-// export async function setLoginToken(key, value) {
+// export async function setToken(key, value) {
 // 	try {
 // 	  console.log('store token');
 // 	  await AsyncStorage.setItem(key, value);
@@ -47,7 +47,7 @@ export { ApiUtils as default };
 // 	}
 // }
 
-// export async function getLoginToken(key) {
+// export async function getToken(key) {
 //   try {
 //     const value = await AsyncStorage.getItem(key);
 //     if (value !== null){
@@ -60,4 +60,4 @@ export { ApiUtils as default };
 //   }
 // }
 
-// export { setLoginToken, getLoginToken }
+// export { setToken, getToken }

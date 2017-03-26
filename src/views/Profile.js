@@ -28,7 +28,7 @@ class Profile extends Component {
   }
 
   componentDidMount() {
-    ApiUtils.getLoginToken('Login_Token').then((res) => {
+    ApiUtils.getToken('Login_Token').then((res) => {
       this.setState({token: res});
       axios.get('https://eztextbook.herokuapp.com/api/user/profile?', {
         params: {
@@ -43,6 +43,7 @@ class Profile extends Component {
             email: response.data.local.email,
             mobile: response.data.phone
           })
+          ApiUtils.setToken('userName', this.state.firstName + ' ' + this.state.lastName);
         }
       })
     })

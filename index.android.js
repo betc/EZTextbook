@@ -32,7 +32,7 @@ import NavItem from './src/components/NavItem';
 import BookList from './src/components/BookList';
 import Button from './src/components/Button';
 
-import { setLoginToken } from './src/ApiUtils';
+import ApiUtils from './src/ApiUtils';
 
 export default class EZTextbook extends Component {
   constructor(props) {
@@ -40,10 +40,11 @@ export default class EZTextbook extends Component {
     this.state = {
       Login_Token: 'none',
       courses: [],
+      userName: ""
     };
   }
 
-  componentDidMount () {
+  componentWillMount () {
     // TO DO
     // fetch('https://api.uwaterloo.ca/v2/courses/CS.json?key=c687ee7c8cc53db208f2a34776316cb0')
     //   .then((response) => response.json())
@@ -54,6 +55,12 @@ export default class EZTextbook extends Component {
     //     console.error(error);
     //   });
     // var navigator;
+    ApiUtils.getToken('userName').then((res) => {
+      console.log(res);
+      this.setState({
+        userName: res
+      });
+    })
     BackAndroid.addEventListener('hardwareBackPress', () => {
       if (this.refs.navigator && this.refs.navigator.getCurrentRoutes().length > 1) {
           this.refs.navigator.pop();
@@ -62,19 +69,19 @@ export default class EZTextbook extends Component {
       return false;
     });
 
-    // setLoginToken('Login_Token', 'abc');
+    // setToken('Login_Token', 'abc');
   }
 
 
-  // async getLoginToken() {
+  // async getToken() {
 
   //   //try {
   //       let value = await AsyncStorage.getItem('Login_Token')
   //     //  if (value !== null) {
-  //           console.log("getLoginToken successful: value = " + value);
+  //           console.log("getToken successful: value = " + value);
   //     //  }
   //   //} catch(error) {
-  //       console.log("Error occurred in getLoginToken: " + error);
+  //       console.log("Error occurred in getToken: " + error);
   //   //}
   //   return value;
   // }
@@ -83,7 +90,7 @@ export default class EZTextbook extends Component {
 
     let scene = <Home navigator={navigator} />;
 
-    if (route.id === 'Profile') {
+    if (route.id === 'Home') {
       scene = <Profile />
     } else if (route.id === 'Register') {
       scene = <Register navigator={navigator} />
@@ -131,7 +138,7 @@ export default class EZTextbook extends Component {
     );
     let navigationView = (
       <View style={{flex: 3, backgroundColor: '#262626'}}>
-        <Text style={styles.header}>John Doe</Text>
+        <Text style={styles.header}>{this.state.userName}</Text>
         {navigationButtons}
       </View>
     );
