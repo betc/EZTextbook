@@ -22,8 +22,10 @@ import ViewPost from './ViewPost';
 import ViewPosts from './ViewPosts';
 import BarcodeScanner from './BarcodeScanner';
 
-import NavOptions from '../constants/NavOptions';
+import navOptions from '../constants/NavOptions';
 import NavItem from '../components/NavItem';
+import BookList from '../components/BookList';
+import Button from '../components/Button';
 
 import ApiUtils from '../ApiUtils';
 
@@ -31,13 +33,14 @@ export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      view: 'Profile',
+      view: '',
       userName: ''
     };
   }
 
   componentWillMount () {
     // get username from profile
+    console.log('componentWillMount');
     ApiUtils.getToken('userName').then((res) => {
       this.setState({
         userName: res
@@ -52,39 +55,51 @@ export default class App extends Component {
     });
   }
 
+  componentWillUpdate() {
+    console.log('componentWillUpdate');
+  }
+
+  componentDidMount() {
+    console.log('componentDidMount');
+  }
+
+  componentDidUpdate() {
+    console.log('componentDidUpdate');
+  }
+
   renderScene(route, navigator) {
-    let scene = <Home />;
-    switch(route.id) {
-      case 'Profile':
+    console.log(this.state.userName);
+    let scene = <Home navigator={navigator} />;
+    if (this.state.userName !== '') {
         scene = <Profile />;
-        break;
-      case 'Selling':
-        scene = <SellBuy type='Selling' navigator={navigator} />;
-        break;
-      case 'Buying':
-        scene = <SellBuy type='Buying' navigator={navigator} />;
-        break;
-      case 'Search':
-        scene = <Search navigator={navigator} />;
-      case 'Post':
-        scene = <Post {...route.props} />;
-      case 'ViewPosts':
-        scene = <ViewPosts {...route.props} />;
-        break;
-      case 'ViewPost':
-        scene = <ViewPost {...route.props} />;
-        break;
-      case 'Logout':
-        ApiUtils.removeToken('Login_Token');
+    }
+    // let scene = {this.state.userName === '' ? <Home navigator={navigator} /> : <Profile />};
+    if (route.id === 'Profile') {
+        scene = <Profile />
+    } else if (route.id === 'Register') {
+        scene = <Register navigator={navigator} />
+    } else if (route.id === 'Selling') {
+        scene = <SellBuy type='Selling' navigator={navigator} />
+    } else if (route.id === 'Buying') {
+        scene = <SellBuy type='Buying' navigator={navigator} />
+    } else if (route.id === 'Search') {
+        scene = <Search navigator={navigator} />
+    } else if (route.id === 'Post') {
+        scene = <Post {...route.props} />
+    } else if (route.id === 'ViewPosts') {
+        scene = <ViewPosts {...route.props} />
+    } else if (route.id === 'ViewPost') {
+        scene = <ViewPost {...route.props} />
+    } else if (route.id === 'Login') {
+        scene = <Login navigator={navigator} />
+    } else if (route.id === 'Logout') {
+        // ApiUtils.removeToken('Login_Token');
         // route.id = 0;
         scene = <Home navigator={navigator} />;
-        break;
-      case 'BarcodeScanner':
+    } else if (route.id === 'BarcodeScanner') {
         scene = <BarcodeScanner navigator={navigator} />
-        break;
-      default:
+    } else {
         scene = <Profile />;
-        break;
     }
 
     return (
@@ -95,15 +110,21 @@ export default class App extends Component {
   }
 
   render() {
-    let navigationButtons = NavOptions.map((item) =>
+    let navigationButtons = navOptions.map((item) =>
       <NavItem
         key={item.id}
         title={item.name}
         onPress={() => {
+          console.log(this.refs.navigator)
           this.setState({view: item.id});
           this.refs.drawer.closeDrawer();
           if (item.id === 'Logout') {
-            this.props.entrance.resetTo({id: item.id});
+            ApiUtils.removeToken('Login_Token').then((res) => {
+                ApiUtils.setToken('userName', '').then((res) => {
+                this.setState({userName: ''});
+                this.refs.navigator.resetTo({id: item.id});
+              })
+            });
           }
           else {
             routes = this.refs.navigator.getCurrentRoutes();
@@ -126,20 +147,21 @@ export default class App extends Component {
         drawerWidth={300}
         drawerPosition={DrawerLayoutAndroid.positions.Left}
         ref='drawer'
+        drawerLockMode={this.state.toolbar ? 'unlocked' : 'locked-closed'}
         renderNavigationView={() => navigationView}>
-          <ToolbarAndroid
-            navIcon={require('../../img/menu.png')}
-            onIconClicked={() => this.refs.drawer.openDrawer()}
-            style={styles.toolbar}
-            title={this.state.view}
-          />
-          <View style={styles.container}>
-            <Navigator
-              initialRoute={{ id: 'Home' }}
-              ref='navigator'
-              renderScene={this.renderScene}
+          <View style={{height: (this.state.userName === '') ? 0 : 56}}>
+            <ToolbarAndroid
+              navIcon={require('../../img/menu.png')}
+              onIconClicked={() => this.refs.drawer.openDrawer()}
+              style={styles.toolbar}
+              title={this.state.view}
             />
           </View>
+          <Navigator
+            initialRoute={{ id: 0 }}
+            ref='navigator'
+            renderScene={this.renderScene.bind(this)}
+          />
       </DrawerLayoutAndroid>
     );
   };
