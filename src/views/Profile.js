@@ -46,6 +46,7 @@ class Profile extends Component {
             mobile: response.data.phone
           })
           ApiUtils.setToken('userName', this.state.firstName + ' ' + this.state.lastName);
+          ApiUtils.setToken('userId', response.data._id);
         }
       })
     })
@@ -165,6 +166,11 @@ class Profile extends Component {
             View Interests List
           </Text>
         </TouchableHighlight>
+        <TouchableHighlight style={styles.button}>
+          <Text style={styles.buttonText}>
+            View My Posts
+          </Text>
+        </TouchableHighlight>
       </View>
     )
   }
@@ -218,8 +224,8 @@ const styles = StyleSheet.create({
     width: 200,
   },
   button: {
-    height: 50,
-    width: 250,
+    height: 35,
+    width: 220,
     backgroundColor: '#48BBEC',
     alignSelf: 'center',
     marginTop: 20,
@@ -229,7 +235,7 @@ const styles = StyleSheet.create({
     borderRadius: 6,
   },
   buttonText: {
-    fontSize: 22,
+    fontSize: 18,
     color: '#FFF',
     fontWeight: '500',
     alignSelf: 'center'
