@@ -5,12 +5,24 @@ import Header from '../components/Header';
 import BookList from '../components/BookList';
 
 class Search extends Component {
+/*    constructor(props) {
+        super(props);
+        this.state = {
+            books: [],
+        };
+    }
+*/
+    componentWillMount() {
+ //       if (this.props.books !== []) this.setState({books: this.props.books});
+        console.log("in Search");
+        console.log(this.props.books);
+    }
 
   render() {
     return (
       <View>
         <Header headerText={'Search Books'} />
-        <BookList navigator={this.props.navigator} />
+        <BookList navigator={this.props.navigator}  books={this.props.books}/>
       </View>
     )
   };

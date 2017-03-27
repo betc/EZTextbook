@@ -16,23 +16,35 @@ class BarcodeScanner extends Component {
       books: [],
     };
   }
+
+    componentWillMount() {
+        console.log("before rendering Barcode Scanner. this.props is: "+ this.props)
+        console.log("before rendering Barcode Scanner. this.props.navigator is: "+ this.props.navigator)
+
+    }
  
-  barcodeReceived(e) {
-		//alert("Barcode Scanned!",  "ISBN: " + code.data);
+  barcodeReceived(code) {
+        console.log("this.props is: " + this.props)
+		alert("Barcode Scanned!",  "ISBN: " + code.data);
 		ApiUtils.getToken('Login_Token').then((token) => {
 			fetch('https://eztextbook.herokuapp.com/api/book/search/criteria?isbn='+ code.data +'&token='+ token)
 			.then(ApiUtils.checkStatus)
 			.then(response => response.json())
-			.then(res => {
-				console.log("after barcode scan in BookList, re = :" + res)
-				if(res === null) {
+			.then((responseJson) => {
+				console.log(responseJson);
+				if(responseJson === null) {
+
 					alert("Sorry, we couldn't find that book in our database")
+					this.props.navigator.pop(); //replace({id: 'Home'});
 				} else {
+
 					let temp = [];
-					temp.push(res);
+					temp.push(responseJson);
+
 					this.setState({books: temp});
+					console.log(temp);
 				}
-				this.props.navigator.push({id: 'Search'});
+				this.props.navigator.push({id: 'Search' , props: {books: this.state.books, navigator: this.props.navigator}} );
 			//	this.render();
 			}).catch(error =>
 				console.log("in BookList._onBarCodeScan, error: "+error)
@@ -49,7 +61,7 @@ class BarcodeScanner extends Component {
                 }
                 style={styles.preview}
                 aspect={Camera.constants.Aspect.fill}
-                onBarCodeRead={this.barcodeReceived}
+                onBarCodeRead={this.barcodeReceived.bind(this)}
                 defaultTouchToFocus
                 type={Camera.constants.Type.back}
             >

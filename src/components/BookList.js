@@ -16,8 +16,11 @@ class BookList extends Component {
   }
 
   componentWillMount() {
-    axios.get('https://eztextbook.herokuapp.com/api/books?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjU4ZDMyNGE4ODcxNzZlMTM1NGI4ZWQ0YSIsImlhdCI6MTQ5MDIzMjU0MH0.5cN06javzNAaCbT0DHFzDwmtzGppX_LVX72P4azl_Fk')
+    if (this.props.books !== []) { this.setState({books: this.props.books}); }
+    else {
+     axios.get('https://eztextbook.herokuapp.com/api/books?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjU4ZDMyNGE4ODcxNzZlMTM1NGI4ZWQ0YSIsImlhdCI6MTQ5MDIzMjU0MH0.5cN06javzNAaCbT0DHFzDwmtzGppX_LVX72P4azl_Fk')
       .then(response => this.setState({books: response.data}));
+    }
   }
 
   filterText(event) {

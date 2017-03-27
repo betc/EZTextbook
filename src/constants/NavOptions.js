@@ -5,15 +5,19 @@ const navOptions = [
   },
   {
     id: "Selling",
-    name: "Books Selling",
+    name: "View 'Selling' Posts",
   },
   {
     id: "Buying",
-    name: "Books Buying",
+    name: "View 'Buying' Post",
   },
   {
     id: "Search",
     name: "Search Textbooks",
+  },
+  {
+    id: "BarcodeScanner",
+    name: "Scan Barcode",
   },
   {
     id: "Logout",

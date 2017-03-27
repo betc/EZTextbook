@@ -20,6 +20,7 @@ import Login from './Login';
 import SellBuy from './SellBuy';
 import ViewPost from './ViewPost';
 import ViewPosts from './ViewPosts';
+import BarcodeScanner from './BarcodeScanner';
 
 import NavOptions from '../constants/NavOptions';
 import NavItem from '../components/NavItem';
@@ -63,7 +64,6 @@ export default class App extends Component {
       case 'Buying':
         scene = <SellBuy type='Buying' navigator={navigator} />;
         break;
-        break;
       case 'Search':
         scene = <Search navigator={navigator} />;
       case 'Post':
@@ -78,6 +78,9 @@ export default class App extends Component {
         ApiUtils.removeToken('Login_Token');
         // route.id = 0;
         scene = <Home navigator={navigator} />;
+        break;
+      case 'BarcodeScanner':
+        scene = <BarcodeScanner navigator={navigator} />
         break;
       default:
         scene = <Profile />;
