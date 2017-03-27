@@ -6,6 +6,7 @@ import android.util.Log;
 import com.facebook.react.ReactApplication;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.imagepicker.ImagePickerPackage;
+import com.lwansbrough.RCTCamera.RCTCameraPackage;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -20,6 +21,12 @@ import com.facebook.soloader.SoLoader;
 import java.util.Arrays;
 import java.util.List;
 
+<<<<<<< HEAD
+=======
+import com.oblador.vectoricons.VectorIconsPackage;
+import com.lwansbrough.RCTCamera.RCTCameraPackage;
+
+>>>>>>> trimmed login email, added barcode scanner
 public class MainApplication extends Application implements ReactApplication {
 
 //  private static CallbackManager mCallbackManager = CallbackManager.Factory.create();
@@ -38,8 +45,14 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+<<<<<<< HEAD
           new VectorIconsPackage(),
           new ImagePickerPackage()
+=======
+            new RCTCameraPackage(),
+		  new VectorIconsPackage()
+      //    new FBSDKPackage(mCallbackManager)
+>>>>>>> trimmed login email, added barcode scanner
       );
       //    new FBSDKPackage(mCallbackManager)
     }
