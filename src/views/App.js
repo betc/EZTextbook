@@ -30,21 +30,26 @@ import ApiUtils from '../ApiUtils';
 
 export default class App extends Component {
   constructor(props) {
+    console.log('constructor');
     super(props);
     this.state = {
-      view: '',
-      userName: ''
+      view: 'Profile',
+      userName: '',
+      loggedIn: false
     };
+
+    this.triggerLogin = this.triggerLogin.bind(this);
   }
 
   componentWillMount () {
     // get username from profile
     console.log('componentWillMount');
     ApiUtils.getToken('userName').then((res) => {
-      this.setState({
-        userName: res
-      });
-    })
+      this.setState({userName: res});
+      if (res) {
+        this.setState({loggedIn: true});
+      }
+    });
     BackAndroid.addEventListener('hardwareBackPress', () => {
       if (this.refs.navigator && this.refs.navigator.getCurrentRoutes().length > 1) {
           this.refs.navigator.pop();
@@ -66,15 +71,34 @@ export default class App extends Component {
     console.log('componentDidUpdate');
   }
 
+  shouldComponentUpdate(newProps, newState) {
+    console.log('shouldComponentUpdate');
+    // console.log('new props: ',newProps);
+    console.log('new state: ',newState);
+    // if (newState.loggedIn) {
+    //   ApiUtils.getToken('userName').then((res) => {
+    //     this.setState({
+    //       userName: res
+    //     });
+    //   })
+    // }
+    return true;
+  }
+
   renderScene(route, navigator) {
-    console.log(this.state.userName);
+    console.log('renderScene: ',route.id);
+    // let scene = {this.state.view ? <Profile /> : <Home navigator={navigator} />};
     let scene = <Home navigator={navigator} />;
-    if (this.state.userName !== '') {
+    if (this.state.loggedIn) {
+        console.log('logged in pls go to profile')
         scene = <Profile />;
     }
-    // let scene = {this.state.userName === '' ? <Home navigator={navigator} /> : <Profile />};
+
+    // if (route.id === 'Home') {
+    //   scene = <Home navigator={navigator} />;
+    // }
     if (route.id === 'Profile') {
-        scene = <Profile />
+      scene = <Profile />;
     } else if (route.id === 'Register') {
         scene = <Register navigator={navigator} />
     } else if (route.id === 'Selling') {
@@ -90,12 +114,12 @@ export default class App extends Component {
     } else if (route.id === 'ViewPost') {
         scene = <ViewPost {...route.props} />
     } else if (route.id === 'Login') {
-        scene = <Login navigator={navigator} />
+        scene = <Login trigger={this.triggerLogin} navigator={navigator} />
     }
     else if (route.id === 'Logout') {
         // ApiUtils.removeToken('Login_Token');
         // route.id = 0;
-        scene = <Home navigator={navigator} />
+      scene = <Home navigator={navigator} />
     }
 
     return (
@@ -105,24 +129,35 @@ export default class App extends Component {
     );
   }
 
+  triggerLogin() {
+    console.log('trigger');
+    // e.preventDefault();
+    this.setState({loggedIn: true});
+    this.setState({view: 'Profile'});
+  }
+
   render() {
     let navigationButtons = navOptions.map((item) =>
       <NavItem
         key={item.id}
         title={item.name}
         onPress={() => {
-          console.log(this.refs.navigator)
-          this.setState({view: item.id});
+          // console.log(this.refs.navigator)
           this.refs.drawer.closeDrawer();
           if (item.id === 'Logout') {
+            this.setState({view: ''});
             ApiUtils.removeToken('Login_Token').then((res) => {
                 ApiUtils.setToken('userName', '').then((res) => {
+                this.setState({loggedIn: false});
                 this.setState({userName: ''});
                 this.refs.navigator.resetTo({id: item.id});
               })
+              // this.setState({userName: ''});
+              // this.refs.navigator.resetTo({id: item.id});
             });
           }
           else {
+            this.setState({view: item.id});
             routes = this.refs.navigator.getCurrentRoutes();
             current = routes[routes.length-1];
             if (current.id !== item.id) {
@@ -143,9 +178,9 @@ export default class App extends Component {
         drawerWidth={300}
         drawerPosition={DrawerLayoutAndroid.positions.Left}
         ref='drawer'
-        drawerLockMode={this.state.toolbar ? 'unlocked' : 'locked-closed'}
+        drawerLockMode={this.state.loggedIn ? 'unlocked' : 'locked-closed'}
         renderNavigationView={() => navigationView}>
-          <View style={{height: (this.state.userName === '') ? 0 : 56}}>
+          <View style={{height: (this.state.loggedIn) ? 56 : 0}}>
             <ToolbarAndroid
               navIcon={require('../../img/menu.png')}
               onIconClicked={() => this.refs.drawer.openDrawer()}
@@ -154,7 +189,7 @@ export default class App extends Component {
             />
           </View>
           <Navigator
-            initialRoute={{ id: 0 }}
+            initialRoute={this.state.userName ? { id: 'Profile' } : { id: 'Home' }}
             ref='navigator'
             renderScene={this.renderScene.bind(this)}
           />
