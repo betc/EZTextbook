@@ -3,12 +3,12 @@ import {
   AppRegistry,
 } from 'react-native';
 
-import App from './src/views/App';
+import Entrance from './src/views/Entrance';
 
 export default class EZTextbook extends Component {
   render() {
     return (
-      <App />
+      <Entrance />
     );
   };
 }

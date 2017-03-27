@@ -21,10 +21,8 @@ import SellBuy from './SellBuy';
 import ViewPost from './ViewPost';
 import ViewPosts from './ViewPosts';
 
-import navOptions from '../components/NavOptions';
+import NavOptions from '../constants/NavOptions';
 import NavItem from '../components/NavItem';
-import BookList from '../components/BookList';
-import Button from '../components/Button';
 
 import ApiUtils from '../ApiUtils';
 
@@ -32,9 +30,8 @@ export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      Login_Token: 'none',
-      courses: [],
-      userName: ""
+      view: 'Profile',
+      userName: ''
     };
   }
 
@@ -55,29 +52,36 @@ export default class App extends Component {
   }
 
   renderScene(route, navigator) {
-    let scene = <Home navigator={navigator} />;
-    if (route.id === 'Home') {
-        scene = <Profile />
-    } else if (route.id === 'Register') {
-        scene = <Register navigator={navigator} />
-    } else if (route.id === 'Selling') {
-        scene = <SellBuy type='Selling' navigator={navigator} />
-    } else if (route.id === 'Buying') {
-        scene = <SellBuy type='Buying' navigator={navigator} />
-    } else if (route.id === 'Search') {
-        scene = <Search navigator={navigator} />
-    } else if (route.id === 'Post') {
-        scene = <Post {...route.props} />
-    } else if (route.id === 'ViewPosts') {
-        scene = <ViewPosts {...route.props} />
-    } else if (route.id === 'ViewPost') {
-        scene = <ViewPost {...route.props} />
-    } else if (route.id === 'Login') {
-        scene = <Login navigator={navigator} />
-    } else if (route.id === 'Logout') {
+    let scene = <Home />;
+    switch(route.id) {
+      case 'Profile':
+        scene = <Profile />;
+        break;
+      case 'Selling':
+        scene = <SellBuy type='Selling' navigator={navigator} />;
+        break;
+      case 'Buying':
+        scene = <SellBuy type='Buying' navigator={navigator} />;
+        break;
+        break;
+      case 'Search':
+        scene = <Search navigator={navigator} />;
+      case 'Post':
+        scene = <Post {...route.props} />;
+      case 'ViewPosts':
+        scene = <ViewPosts {...route.props} />;
+        break;
+      case 'ViewPost':
+        scene = <ViewPost {...route.props} />;
+        break;
+      case 'Logout':
         ApiUtils.removeToken('Login_Token');
-        route.id = 0;
-        scene = <Home navigator={navigator} />
+        // route.id = 0;
+        scene = <Home navigator={navigator} />;
+        break;
+      default:
+        scene = <Profile />;
+        break;
     }
 
     return (
@@ -88,11 +92,24 @@ export default class App extends Component {
   }
 
   render() {
-    let navigationButtons = navOptions.map((item) =>
+    let navigationButtons = NavOptions.map((item) =>
       <NavItem
         key={item.id}
         title={item.name}
-        onPress={() => {this.refs.drawer.closeDrawer(); this.refs.navigator.push({id: item.id})}}
+        onPress={() => {
+          this.setState({view: item.id});
+          this.refs.drawer.closeDrawer();
+          if (item.id === 'Logout') {
+            this.props.entrance.resetTo({id: item.id});
+          }
+          else {
+            routes = this.refs.navigator.getCurrentRoutes();
+            current = routes[routes.length-1];
+            if (current.id !== item.id) {
+              this.refs.navigator.push({id: item.id});
+            }
+          }
+        }}
       />
     );
     let navigationView = (
@@ -111,13 +128,15 @@ export default class App extends Component {
             navIcon={require('../../img/menu.png')}
             onIconClicked={() => this.refs.drawer.openDrawer()}
             style={styles.toolbar}
-            title='EZTextbook'
+            title={this.state.view}
           />
-          <Navigator
-            initialRoute={{ id: 0 }}
-            ref='navigator'
-            renderScene={this.renderScene}
-          />
+          <View style={styles.container}>
+            <Navigator
+              initialRoute={{ id: 'Home' }}
+              ref='navigator'
+              renderScene={this.renderScene}
+            />
+          </View>
       </DrawerLayoutAndroid>
     );
   };
