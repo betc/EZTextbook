@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { View, Text, TextInput, Picker, ProgressBarAndroid, Linking, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, Picker, ProgressBarAndroid, Linking, TouchableOpacity, Alert } from 'react-native';
 import Communications from 'react-native-communications';
 
 import Card from '../components/Card';
@@ -41,9 +41,6 @@ class ViewPost extends Component {
   }
 
   markSpam() {
-    console.log("spam");
-    console.log(this.state.token);
-    console.log(this.props._id);
     fetch(`https://eztextbook.herokuapp.com/api/post/report?token=${this.state.token}`, {
       method: 'PUT',
       headers: {
@@ -55,12 +52,32 @@ class ViewPost extends Component {
     })
     .then(response => response.json())
     .then((responseJson) => {
-        console.log(responseJson);
+        if (responseJson.success !== false) {
+          Alert.alert('You have reported this post as a spam');
+        } else {
+          Alert.alert('You cannot report a post spam twice');
+        }
     });
   }
 
   addToList() {
-    console.log("added to Interest List");
+    fetch(`https://eztextbook.herokuapp.com/api/user/interests/add?token=${this.state.token}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        post: this.props._id
+      })
+    })
+    .then(response => response.json())
+    .then((responseJson) => {
+        if (responseJson.success !== false) {
+          Alert.alert('Post added to your interest list');
+        } else {
+          Alert.alert("You've already added this post to your interest list");
+        }
+    });
   }
 
   render() {
