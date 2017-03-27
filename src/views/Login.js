@@ -43,11 +43,13 @@ export default class Login extends Component {
         .then(ApiUtils.checkStatus)
         .then((response) => response.json())
         .then((responseJson) => {
-            ApiUtils.setToken('Login_Token', responseJson.token);
-            ApiUtils.getToken('Login_Token').then((value) =>
-              { console.log("Login_Token set to : " + value)}
-            );
-            this.props.navigator.resetTo({id: 'Profile'});
+            ApiUtils.setToken('Login_Token', responseJson.token).then((value => {
+              this.props.trigger();
+              this.props.navigator.resetTo({id: 'Profile'});
+            }));
+            // ApiUtils.getToken('Login_Token').then((value) =>
+            //   { console.log("Login_Token set to : " + value)}
+            // );
         })
         .catch((error) => {
              //   this.setState({errMsg: 'ERROR: Incorrect Email or Password'});

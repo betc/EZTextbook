@@ -93,6 +93,7 @@ class Profile extends Component {
   }
 
   render() {
+
     return (
       <View style={styles.containerStyle}>
         <Image
