@@ -28,7 +28,7 @@ export default class Login extends Component {
         };
     }
 
-      login = () => {
+    login = () => {
         fetch('https://eztextbook.herokuapp.com/api/auth/login/local' , {
         method: 'POST',
             headers: {
@@ -66,7 +66,7 @@ export default class Login extends Component {
 						<Text style={styles.error}>{this.state.errMsg}</Text>
 					    <View style={styles.inputContainer}>
 							<TextInput underlineColorAndroid='transparent' style={styles.input}
-							    onChangeText={(email) => this.setState({email})}
+							    onChangeText={(email) => this.setState({email: email.trim()})}
 								value={this.state.email} placeholder='email'>
 							</TextInput>
 							<TextInput secureTextEntry={true} underlineColorAndroid='transparent' style={styles.input}
