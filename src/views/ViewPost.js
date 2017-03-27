@@ -35,22 +35,25 @@ class ViewPost extends Component {
   componentWillMount() {
     ApiUtils.getToken('Login_Token').then((res) => {
       this.setState({token: res});
-      fetch(`https://eztextbook.herokuapp.com/api/user/visit/profile/${this.props.creator}?token=${this.state.token}`)
+      fetch(`https://eztextbook.herokuapp.com/api/user/visit/profile/${this.props.creator._id}?token=${this.state.token}`)
         .then((response) => response.json())
         .then((responseJson) => {
           this.setState({firstname: responseJson.firstname});
           this.setState({lastname: responseJson.lastname});
           this.setState({phone: responseJson.phone});
-          this.setState({email: responseJson.local.email});
+          if (typeof responseJson.local != 'undefined') {
+            this.setState({email: responseJson.local.email});
+          } else {
+            if (typeof responseJson.facebook.email != 'undefined')
+              this.setState({email: responseJson.facebook.email});
+          }
         })
         .catch((error) => {
           console.error(error);
         });
-      console.log('token is ' + this.state.token);
       fetch(`https://eztextbook.herokuapp.com/api/post/${this.props._id}?token=${this.state.token}`)
         .then((response) => response.json())
         .then((responseJson) => {
-          console.log(responseJson);
           this.setState({
             id: responseJson._id,
             title: responseJson.title,
@@ -67,7 +70,7 @@ class ViewPost extends Component {
     ApiUtils.getToken('userId').then((result) => {
       this.setState({creatorId: result});
       this.setState({
-        hide: !(this.props.creator === this.state.creatorId)
+        hide: !(this.props.creator._id === this.state.creatorId)
       });
     });
   }
@@ -137,7 +140,6 @@ class ViewPost extends Component {
   }
 
   editPost() {
-    console.log('post id ' + this.state.id);
     if (this.state.update == "Update Post") {
       this.setState({
         update: "Save Change",
