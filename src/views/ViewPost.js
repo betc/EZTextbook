@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { View, Text, TextInput, Picker, ProgressBarAndroid, Linking, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, Picker, ProgressBarAndroid, Linking, TouchableOpacity, Alert } from 'react-native';
 import Communications from 'react-native-communications';
 
 import Card from '../components/Card';
@@ -40,6 +40,46 @@ class ViewPost extends Component {
     });
   }
 
+  markSpam() {
+    fetch(`https://eztextbook.herokuapp.com/api/post/report?token=${this.state.token}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        post: this.props._id
+      })
+    })
+    .then(response => response.json())
+    .then((responseJson) => {
+        if (responseJson.success !== false) {
+          Alert.alert('You have reported this post as a spam');
+        } else {
+          Alert.alert('You cannot report a post spam twice');
+        }
+    });
+  }
+
+  addToList() {
+    fetch(`https://eztextbook.herokuapp.com/api/user/interests/add?token=${this.state.token}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        post: this.props._id
+      })
+    })
+    .then(response => response.json())
+    .then((responseJson) => {
+        if (responseJson.success !== false) {
+          Alert.alert('Post added to your interest list');
+        } else {
+          Alert.alert("You've already added this post to your interest list");
+        }
+    });
+  }
+
   render() {
     const { _id, title, description, creator, book, price, condition, status, dateCreated, type } = this.props;
     // this.setState({id: _id});
@@ -57,24 +97,33 @@ class ViewPost extends Component {
     return (
       <Card>
           <View style={headerContentStyle}>
-            <Text style={headerTextStyle}>{type}</Text>
-            <Text style={headerTextStyle}>{this.state.firstname} {this.state.lastname}</Text>
-            <Text style={headerTextStyle}>{title}</Text>
-            <Text style={headerTextStyle}>{description}</Text>
-            <Text style={headerTextStyle}>{status}</Text>
+            <Text style={headerTextStyle}>Post Type: {type}</Text>
+            <Text style={headerTextStyle}>Creator: {this.state.firstname} {this.state.lastname}</Text>
+            <Text style={headerTextStyle}>Title: {title}</Text>
+            <Text style={headerTextStyle}>Description: {description}</Text>
+            <Text style={headerTextStyle}>Status: {status}</Text>
             <Text style={headerTextStyle}>Condition: {condition}</Text>
-            <Text style={priceTextStyle}>CDN ${price}</Text>
+            <Text style={priceTextStyle}>Price: ${price}CAD</Text>
           </View>
 
-          <TouchableOpacity onPress={() => Communications.email([this.state.email], null, null, message, '- Sent from EZTextbook')}>
+          <TouchableOpacity style={styles.buttonStyle} onPress={() => Communications.email([this.state.email], null, null, message, '- Sent from EZTextbook')}>
             <View style={styles.holder}>
               <Text style={styles.text}>{`Email ${role}`}</Text>
             </View>
           </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => Communications.text(this.state.phone, message)}>
+          <TouchableOpacity style={styles.buttonStyle} onPress={() => Communications.text(this.state.phone, message)}>
             <View style={styles.holder}>
               <Text style={styles.text}>SMS Message</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.buttonStyle} onPress={this.markSpam.bind(this)}>
+            <View style={styles.holder}>
+              <Text style={styles.text}>Mark as Spam</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.buttonStyle} onPress={this.addToList.bind(this)}>
+            <View style={styles.holder}>
+              <Text style={styles.text}>Add to Interest List</Text>
             </View>
           </TouchableOpacity>
       </Card>
@@ -103,6 +152,16 @@ const styles = {
     alignItems: 'center',
     marginLeft: 10,
     marginRight: 10,
+  },
+  buttonStyle: {
+    marginTop: 5,
+    height: 20,
+    width: 200,
+    justifyContent: 'center',
+    backgroundColor: '#bddbfa',
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: '#84bbf3',
   }
 };
 
