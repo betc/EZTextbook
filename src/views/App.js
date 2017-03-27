@@ -31,7 +31,7 @@ import ApiUtils from '../ApiUtils';
 
 export default class App extends Component {
   constructor(props) {
-    console.log('constructor');
+    // console.log('constructor');
     super(props);
     this.state = {
       view: 'Profile',
@@ -44,12 +44,13 @@ export default class App extends Component {
 
   componentWillMount () {
     // get username from profile
-    console.log('componentWillMount');
+    // console.log('componentWillMount');
     ApiUtils.getToken('userName').then((res) => {
       this.setState({userName: res});
       if (res) {
         this.setState({loggedIn: true});
       }
+      return res;
     });
     BackAndroid.addEventListener('hardwareBackPress', () => {
       if (this.refs.navigator && this.refs.navigator.getCurrentRoutes().length > 1) {
@@ -60,34 +61,34 @@ export default class App extends Component {
     });
   }
 
-  componentWillUpdate() {
-    console.log('componentWillUpdate');
-  }
-
-  componentDidMount() {
-    console.log('componentDidMount');
-  }
-
-  componentDidUpdate() {
-    console.log('componentDidUpdate');
-  }
-
-  shouldComponentUpdate(newProps, newState) {
-    console.log('shouldComponentUpdate');
-    // console.log('new props: ',newProps);
-    console.log('new state: ',newState);
-    // if (newState.loggedIn) {
-    //   ApiUtils.getToken('userName').then((res) => {
-    //     this.setState({
-    //       userName: res
-    //     });
-    //   })
-    // }
-    return true;
-  }
+  // componentWillUpdate() {
+  //   console.log('componentWillUpdate');
+  // }
+  //
+  // componentDidMount() {
+  //   console.log('componentDidMount');
+  // }
+  //
+  // componentDidUpdate() {
+  //   console.log('componentDidUpdate');
+  // }
+  //
+  // shouldComponentUpdate(newProps, newState) {
+  //   console.log('shouldComponentUpdate');
+  //   // console.log('new props: ',newProps);
+  //   console.log('new state: ',newState);
+  //   // if (newState.loggedIn) {
+  //   //   ApiUtils.getToken('userName').then((res) => {
+  //   //     this.setState({
+  //   //       userName: res
+  //   //     });
+  //   //   })
+  //   // }
+  //   return true;
+  // }
 
   renderScene(route, navigator) {
-    console.log('renderScene: ',route.id);
+    // console.log('renderScene: ',route.id);
     // let scene = {this.state.view ? <Profile /> : <Home navigator={navigator} />};
     let scene = <Home navigator={navigator} />;
     if (this.state.loggedIn) {
@@ -149,11 +150,13 @@ export default class App extends Component {
           if (item.id === 'Logout') {
             this.setState({view: ''});
             ApiUtils.removeToken('Login_Token').then((res) => {
-                ApiUtils.setToken('userName', '').then((res) => {
+              ApiUtils.setToken('userName', '').then((res) => {
                 this.setState({loggedIn: false});
                 this.setState({userName: ''});
                 this.refs.navigator.resetTo({id: item.id});
-              })
+                return res;
+              });
+              return res;
               // this.setState({userName: ''});
               // this.refs.navigator.resetTo({id: item.id});
             });

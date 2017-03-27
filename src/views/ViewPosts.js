@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, ScrollView, Text, AsyncStorage, Slider, Picker } from 'react-native';
 import SearchBar from '../components/SearchBar';
-import PostDetail from '../components/PostDetail';
+import ViewPostsItem from '../components/ViewPostsItem';
 
 class ViewPosts extends Component {
   constructor(props) {
@@ -17,7 +17,7 @@ class ViewPosts extends Component {
     return this.props.posts.map(post => {
       if (post.title.toString().toLowerCase().indexOf(this.state.search.toString().toLowerCase()) !== -1 &&
           (post.condition === parseInt(this.state.condition) || this.state.condition === '-1')) {
-          return <PostDetail key={post._id} post={post} navigator={this.props.navigator} />
+          return <ViewPostsItem key={post._id} post={post} navigator={this.props.navigator} />
       }
     });
   }
