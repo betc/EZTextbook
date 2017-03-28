@@ -59,22 +59,6 @@ class ViewPost extends Component {
         .catch((error) => {
           console.error(error);
         });
-      fetch(`https://eztextbook.herokuapp.com/api/post/${this.props._id}?token=${this.state.token}`)
-        .then((response) => response.json())
-        .then((responseJson) => {
-          this.setState({
-            id: responseJson._id,
-            title: responseJson.title,
-            description: responseJson.description,
-            status: responseJson.status,
-            condition: responseJson.condition,
-            price: responseJson.price,
-            images: responseJson.images
-          });
-        })
-        .catch((error) => {
-          console.error(error);
-        });
     });
     ApiUtils.getToken('userId').then((result) => {
       if (typeof this.props.creator === 'object') {
