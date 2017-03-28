@@ -35,12 +35,6 @@ class Home extends Component {
             Log in to EZTextbook
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.facebook}>
-          <Image
-            source={require('../../img/facebook.png')}
-            style={styles.imageStyle}
-          />
-        </TouchableOpacity>
       </View>
     )
   }
