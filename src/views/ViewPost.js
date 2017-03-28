@@ -15,14 +15,13 @@ class ViewPost extends Component {
     this.state = {
       token: '',
       creatorId: '',
-      id: '',
       firstname: '',
       lastname: '',
       email: '',
       phone: null,
       title: '',
       description: '',
-      status: 'open',
+      status: '',
       condition: '100',
       price: '',
       editable: false,
@@ -33,9 +32,15 @@ class ViewPost extends Component {
   }
 
   componentWillMount() {
+    this.setState({
+      title: this.props.title,
+      description: this.props.description,
+      status: this.props.status,
+      condition: this.props.condition,
+      price: this.props.price,
+    });
     ApiUtils.getToken('Login_Token').then((res) => {
       this.setState({token: res});
-      // console.log('profile ', `${this.props}`);
       var creatorid = this.props.creator._id ? this.props.creator._id : this.props.creator;
       fetch(`https://eztextbook.herokuapp.com/api/user/visit/profile/${creatorid}?token=${this.state.token}`)
         .then((response) => response.json())
@@ -53,27 +58,17 @@ class ViewPost extends Component {
         .catch((error) => {
           console.error(error);
         });
-      fetch(`https://eztextbook.herokuapp.com/api/post/${this.props._id}?token=${this.state.token}`)
-        .then((response) => response.json())
-        .then((responseJson) => {
-          this.setState({
-            id: responseJson._id,
-            title: responseJson.title,
-            description: responseJson.description,
-            status: responseJson.status,
-            condition: responseJson.condition,
-            price: responseJson.price,
-          });
-        })
-        .catch((error) => {
-          console.error(error);
-        });
     });
     ApiUtils.getToken('userId').then((result) => {
-      this.setState({creatorId: result});
-      this.setState({
-        hide: !(this.props.creator._id === this.state.creatorId)
-      });
+      if (typeof this.props.creator === 'object') {
+        this.setState({
+          hide: !(this.props.creator._id === result)
+        });
+      } else {
+        this.setState({
+          hide: !(this.props.creator === result)
+        });
+      }
     });
   }
 
@@ -155,7 +150,7 @@ class ViewPost extends Component {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          _id: this.state.id,
+          _id: this.props._id,
           title: this.state.title,
           description: this.state.description,
           status: this.state.status,
@@ -171,7 +166,7 @@ class ViewPost extends Component {
             Alert.alert("Post Updated");
           }
           this.setState({
-            update: "Update Profile",
+            update: "Update Post",
             editable: false,
             autoFocus: false
           });
@@ -217,7 +212,16 @@ class ViewPost extends Component {
               />
             </View>
             <View style={styles.cellStyle}>
-              <Text style={headerTextStyle}>Title: </Text>
+              <Text style={headerTextStyle}>Book Title: </Text>
+              <TextInput
+                style={styles.input}
+                defaultValue={this.props.book.title}
+                editable={false}
+                autoFocus={false}
+              />
+            </View>
+            <View style={styles.cellStyle}>
+              <Text style={headerTextStyle}>Post Title: </Text>
               <TextInput
                 style={styles.input}
                 defaultValue={this.state.title}
@@ -238,10 +242,13 @@ class ViewPost extends Component {
             </View>
             <View style={styles.cellStyle}>
               <Text style={headerTextStyle}>Status: </Text>
-              <Picker enabled={this.state.editable}>
-                <Picker.Item label="open" value="open" />
-                <Picker.Item label="close" value="close" />
-                <Picker.Item label="on hold" value="on hold" />
+              <Picker
+                enabled={this.state.editable}
+                selectedValue={this.state.status}
+                onValueChange={(val) => this.setState({status: val})}>
+                <Picker.Item label="open" value="Open" />
+                <Picker.Item label="closed" value="Closed" />
+                <Picker.Item label="on hold" value="On hold" />
               </Picker>
             </View>
             <View style={styles.cellStyle}>
