@@ -4,41 +4,14 @@ import Card from './Card';
 import CardSection from './CardSection';
 import ButtonSection from './ButtonSection';
 import Button from './Button';
-import ApiUtils from '../ApiUtils.js';
 
 // const BookDetail = ({ book }) => {
 class BookDetail extends Component {
   constructor() {
     super();
     this.state = {
-      posts: [],
-      token: ""
+      posts: []
     };
-  }
-
-  componentWillMount() {
-    ApiUtils.getToken('Login_Token').then((res) => {
-      this.setState({
-        token: res
-      });
-    })
-  }
-
-  viewPosts() {
-    console.log("I am viewPosts");
-    const bookId = this.props.book._id;
-    console.log('Book id is ' + bookId);
-    console.log('Token is ' + this.state.token);
-    fetch(`https://eztextbook.herokuapp.com/api/post/search/criteria?token=${this.state.token}&book=${bookId}`)
-      .then((response) => response.json())
-      .then((responseJson) => {
-        this.setState({posts: responseJson});
-        console.log(this.state.posts);
-        this.props.navigator.push({id: "ViewPosts", props: { posts: this.state.posts, navigator: this.props.navigator}})
-      })
-      .catch((error) => {
-        console.error(error);
-      });
   }
   render() {
     const { _id, title, thumbnail, feds, uwbook, amazon} = this.props.book;
@@ -79,12 +52,19 @@ class BookDetail extends Component {
       </CardSection>
 
       <ButtonSection>
-        <Button onPress={this.viewPosts.bind(this)}>
+        <Button onPress={() =>
+          this.props.navigator.push({
+            id: 'ViewPosts',
+            props: {criteria: {bookid: _id}, navigator: this.props.navigator}
+        })}>
           View Posts
         </Button>
       </ButtonSection>
       <ButtonSection>
-        <Button onPress={() => this.props.navigator.push({id: "Post", props: { title: title, book: _id, navigator: this.props.navigator}})}>
+        <Button onPress={() => this.props.navigator.push({
+          id: 'Post',
+          props: { title: title, book: _id, navigator: this.props.navigator}
+        })}>
           Make a Post
         </Button>
       </ButtonSection>

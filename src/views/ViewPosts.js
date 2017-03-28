@@ -52,7 +52,7 @@ class ViewPosts extends Component {
           <Item label="Used - Like New" value="90" />
           <Item label="Brand New" value="100" />
         </Picker>
-        <ScrollView>
+        <ScrollView style={styles.contentContainer}>
           {this.renderPosts()}
         </ScrollView>
       </View>
@@ -61,6 +61,9 @@ class ViewPosts extends Component {
 }
 
 const styles = {
+  contentContainer: {
+    marginBottom: 100
+  },
   picker: {
     fontSize: 9
   }

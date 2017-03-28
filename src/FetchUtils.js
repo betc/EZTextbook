@@ -25,7 +25,7 @@ export function getPosts(criteria) {
     path = '/api/user/posts';
   }
   else if (criteria.bookid) {
-    path = 'post/search/criteria';
+    path = '/api/post/search/criteria';
     bookid = criteria.bookid;
   }
   else if (criteria.wishlist) {
@@ -38,7 +38,7 @@ export function getPosts(criteria) {
     return fetch(`${BASE}${path}?token=${token}&type=${type}&book=${bookid}`)
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log(responseJson);
+        // console.log(responseJson);
         return responseJson;
       })
       .catch((error) => {

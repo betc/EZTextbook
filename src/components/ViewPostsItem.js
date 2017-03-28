@@ -8,6 +8,7 @@ import Button from './Button';
 class ViewPostsItem extends Component {
 
   render() {
+    console.log('post props ', this.props.post);
     const { _id, title, description, creator, book, price, condition, status, dateCreated, type } = this.props.post;
     const {
       thumbnailStyle,
@@ -22,11 +23,12 @@ class ViewPostsItem extends Component {
       <TouchableOpacity onPress={() => this.props.navigator.push({id: 'ViewPost', props: {...this.props.post}})}>
         <CardSection>
           <View style={headerContentStyle}>
-            <Text style={headerTextStyle}>{title}</Text>
-            <Text style={headerTextStyle}>{description}</Text>
-            <Text style={headerTextStyle}>{status}</Text>
+            <Text style={headerTextStyle}>Post Title: {title}</Text>
+            <Text style={headerTextStyle}>Book Title: {book.title}</Text>
+            <Text style={headerTextStyle}>Description: {description}</Text>
+            <Text style={headerTextStyle}>Status: {status}</Text>
             <Text style={headerTextStyle}>Condition: {condition}</Text>
-            <Text style={priceTextStyle}>CDN ${price}</Text>
+            <Text style={priceTextStyle}>CND ${price}</Text>
           </View>
         </CardSection>
       </TouchableOpacity>

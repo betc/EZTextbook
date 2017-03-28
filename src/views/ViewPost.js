@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { View, Text, TextInput, Picker, ProgressBarAndroid, Linking, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, TextInput, Picker, Linking, TouchableOpacity, Alert, Image } from 'react-native';
 import Communications from 'react-native-communications';
 
 import Card from '../components/Card';
@@ -15,16 +15,16 @@ class ViewPost extends Component {
     this.state = {
       token: '',
       creatorId: '',
-      id: '',
       firstname: '',
       lastname: '',
       email: '',
       phone: null,
       title: '',
       description: '',
-      status: 'open',
+      status: '',
       condition: '100',
       price: '',
+      images: [],
       editable: false,
       autoFocus: false,
       hide: true,
@@ -33,12 +33,19 @@ class ViewPost extends Component {
   }
 
   componentWillMount() {
+    this.setState({
+      title: this.props.title,
+      description: this.props.description,
+      status: this.props.status,
+      condition: this.props.condition,
+      price: this.props.price,
+    });
     ApiUtils.getToken('Login_Token').then((res) => {
       this.setState({token: res});
-      fetch(`https://eztextbook.herokuapp.com/api/user/visit/profile/${this.props.creator._id}?token=${this.state.token}`)
+      var creatorid = this.props.creator._id ? this.props.creator._id : this.props.creator;
+      fetch(`https://eztextbook.herokuapp.com/api/user/visit/profile/${creatorid}?token=${this.state.token}`)
         .then((response) => response.json())
         .then((responseJson) => {
-          console.log('view post json user ', responseJson);
           this.setState({firstname: responseJson.firstname});
           this.setState({lastname: responseJson.lastname});
           this.setState({phone: responseJson.phone});
@@ -52,27 +59,17 @@ class ViewPost extends Component {
         .catch((error) => {
           console.error(error);
         });
-      fetch(`https://eztextbook.herokuapp.com/api/post/${this.props._id}?token=${this.state.token}`)
-        .then((response) => response.json())
-        .then((responseJson) => {
-          this.setState({
-            id: responseJson._id,
-            title: responseJson.title,
-            description: responseJson.description,
-            status: responseJson.status,
-            condition: responseJson.condition,
-            price: responseJson.price,
-          });
-        })
-        .catch((error) => {
-          console.error(error);
-        });
     });
     ApiUtils.getToken('userId').then((result) => {
-      this.setState({creatorId: result});
-      this.setState({
-        hide: !(this.props.creator._id === this.state.creatorId)
-      });
+      if (typeof this.props.creator === 'object') {
+        this.setState({
+          hide: !(this.props.creator._id === result)
+        });
+      } else {
+        this.setState({
+          hide: !(this.props.creator === result)
+        });
+      }
     });
   }
 
@@ -154,7 +151,7 @@ class ViewPost extends Component {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          _id: this.state.id,
+          _id: this.props._id,
           title: this.state.title,
           description: this.state.description,
           status: this.state.status,
@@ -170,7 +167,7 @@ class ViewPost extends Component {
             Alert.alert("Post Updated");
           }
           this.setState({
-            update: "Update Profile",
+            update: "Update Post",
             editable: false,
             autoFocus: false
           });
@@ -192,6 +189,10 @@ class ViewPost extends Component {
     } = styles;
     const role = type === 'Buying' ? 'Buyer' : 'Seller';
     const message = 'RE: ' + title;
+    let images = this.state.images.map((url) => {
+      // console.log('image url ',`https://eztextbook.herokuapp.com/images/${url}?token=${this.state.token}`)
+      return <Image key={url} style={styles.image} source={{uri: `https://eztextbook.herokuapp.com/images/${url}?token=${this.state.token}`}} />;
+    });
     return (
       <Card>
           <View style={headerContentStyle}>
@@ -216,7 +217,16 @@ class ViewPost extends Component {
               />
             </View>
             <View style={styles.cellStyle}>
-              <Text style={headerTextStyle}>Title: </Text>
+              <Text style={headerTextStyle}>Book Title: </Text>
+              <TextInput
+                style={styles.input}
+                defaultValue={this.props.book.title}
+                editable={false}
+                autoFocus={false}
+              />
+            </View>
+            <View style={styles.cellStyle}>
+              <Text style={headerTextStyle}>Post Title: </Text>
               <TextInput
                 style={styles.input}
                 defaultValue={this.state.title}
@@ -237,10 +247,13 @@ class ViewPost extends Component {
             </View>
             <View style={styles.cellStyle}>
               <Text style={headerTextStyle}>Status: </Text>
-              <Picker enabled={this.state.editable}>
-                <Picker.Item label="open" value="open" />
-                <Picker.Item label="close" value="close" />
-                <Picker.Item label="on hold" value="on hold" />
+              <Picker
+                enabled={this.state.editable}
+                selectedValue={this.state.status}
+                onValueChange={(val) => this.setState({status: val})}>
+                <Picker.Item label="open" value="Open" />
+                <Picker.Item label="closed" value="Closed" />
+                <Picker.Item label="on hold" value="On hold" />
               </Picker>
             </View>
             <View style={styles.cellStyle}>
@@ -262,6 +275,9 @@ class ViewPost extends Component {
                 autoFocus={this.state.autoFocus}
                 onChangeText={this.updateField.bind(this, 'Price')}
               />
+            </View>
+            <View style={{flexDirection:'row', flexWrap:'wrap', marginBottom: 20}}>
+              {images}
             </View>
           </View>
           <TouchableOpacity style={styles.buttonStyle} onPress={() => Communications.email([this.state.email], null, null, message, '- Sent from EZTextbook')}>
@@ -340,6 +356,11 @@ const styles = {
   cellStyle: {
     flexDirection: 'column'
   },
+  image: {
+    borderRadius: 10,
+    width: 70,
+    height: 70
+  }
 };
 
 export default ViewPost;

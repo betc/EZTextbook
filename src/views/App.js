@@ -10,6 +10,7 @@ import {
   BackAndroid,
   AsyncStorage
 } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 import Home from './Home';
 import Profile from './Profile';
@@ -21,7 +22,7 @@ import ViewPost from './ViewPost';
 import ViewPosts from './ViewPosts';
 import BarcodeScanner from './BarcodeScanner';
 
-import navOptions from '../constants/NavOptions';
+import NavOptions from '../constants/NavOptions';
 import NavItem from '../components/NavItem';
 import BookList from '../components/BookList';
 import Button from '../components/Button';
@@ -139,10 +140,11 @@ export default class App extends Component {
   }
 
   render() {
-    let navigationButtons = navOptions.map((item) =>
+    let navigationButtons = NavOptions.map((item) =>
       <NavItem
         key={item.id}
         title={item.name}
+        icon={item.icon}
         onPress={() => {
           // console.log(this.refs.navigator)
           this.refs.drawer.closeDrawer();
