@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { View, Text, TextInput, Picker, ProgressBarAndroid, Linking, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, TextInput, Picker, Linking, TouchableOpacity, Alert, Image } from 'react-native';
 import Communications from 'react-native-communications';
 
 import Card from '../components/Card';
@@ -24,6 +24,7 @@ class ViewPost extends Component {
       status: '',
       condition: '100',
       price: '',
+      images: [],
       editable: false,
       autoFocus: false,
       hide: true,
@@ -54,6 +55,22 @@ class ViewPost extends Component {
             if (typeof responseJson.facebook.email != 'undefined')
               this.setState({email: responseJson.facebook.email});
           }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+      fetch(`https://eztextbook.herokuapp.com/api/post/${this.props._id}?token=${this.state.token}`)
+        .then((response) => response.json())
+        .then((responseJson) => {
+          this.setState({
+            id: responseJson._id,
+            title: responseJson.title,
+            description: responseJson.description,
+            status: responseJson.status,
+            condition: responseJson.condition,
+            price: responseJson.price,
+            images: responseJson.images
+          });
         })
         .catch((error) => {
           console.error(error);
@@ -188,6 +205,10 @@ class ViewPost extends Component {
     } = styles;
     const role = type === 'Buying' ? 'Buyer' : 'Seller';
     const message = 'RE: ' + title;
+    let images = this.state.images.map((url) => {
+      // console.log('image url ',`https://eztextbook.herokuapp.com/images/${url}?token=${this.state.token}`)
+      return <Image key={url} style={styles.image} source={{uri: `https://eztextbook.herokuapp.com/images/${url}?token=${this.state.token}`}} />;
+    });
     return (
       <Card>
           <View style={headerContentStyle}>
@@ -271,6 +292,9 @@ class ViewPost extends Component {
                 onChangeText={this.updateField.bind(this, 'Price')}
               />
             </View>
+            <View style={{flexDirection:'row', flexWrap:'wrap', marginBottom: 20}}>
+              {images}
+            </View>
           </View>
           <TouchableOpacity style={styles.buttonStyle} onPress={() => Communications.email([this.state.email], null, null, message, '- Sent from EZTextbook')}>
             <View style={styles.holder}>
@@ -348,6 +372,11 @@ const styles = {
   cellStyle: {
     flexDirection: 'column'
   },
+  image: {
+    borderRadius: 10,
+    width: 70,
+    height: 70
+  }
 };
 
 export default ViewPost;

@@ -165,8 +165,10 @@ export default class Post extends Component {
         </Picker>
         <Text>Upload Photos</Text>
         <View style={{flexDirection:'row', flexWrap:'wrap', marginBottom: 20}}>
-          <TouchableOpacity onPress={this.imagePicker.bind(this)}>
-            <View style={[styles.avatar, styles.avatarContainer]}>
+          <TouchableOpacity onPress={
+            this.state.images.length <= 2 ? this.imagePicker.bind(this) : () => Alert.alert('Maximum images exceeded.')
+          }>
+            <View style={[styles.image, styles.imageContainer]}>
               <Text>+</Text>
             </View>
           </TouchableOpacity>
@@ -177,7 +179,7 @@ export default class Post extends Component {
             images.splice(index, 1);
             this.setState({images: images });
           }}>
-            <Image style={styles.avatar} source={imageUrl} />
+            <Image style={styles.image} source={imageUrl} />
           </TouchableOpacity>)}
         </View>
         <Button
@@ -197,13 +199,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#F5FCFF'
   },
-  avatarContainer: {
+  imageContainer: {
     borderColor: '#9B9B9B',
     borderWidth: 1 / PixelRatio.get(),
     justifyContent: 'center',
     alignItems: 'center'
   },
-  avatar: {
+  image: {
     borderRadius: 75,
     width: 50,
     height: 50

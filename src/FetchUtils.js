@@ -38,7 +38,7 @@ export function getPosts(criteria) {
     return fetch(`${BASE}${path}?token=${token}&type=${type}&book=${bookid}`)
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log(responseJson);
+        // console.log(responseJson);
         return responseJson;
       })
       .catch((error) => {
