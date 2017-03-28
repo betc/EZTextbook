@@ -92,14 +92,14 @@ export default class App extends Component {
     let scene = <Home navigator={navigator} />;
     if (this.state.loggedIn) {
         console.log('logged in pls go to profile')
-        scene = <Profile />;
+        scene = <Profile navigator={navigator} />;
     }
 
     // if (route.id === 'Home') {
     //   scene = <Home navigator={navigator} />;
     // }
     if (route.id === 'Profile') {
-      scene = <Profile />;
+      scene = <Profile navigator={navigator} />;
     } else if (route.id === 'Register') {
         scene = <Register navigator={navigator} />
     } else if (route.id === 'Selling') {
@@ -110,8 +110,8 @@ export default class App extends Component {
         scene = <Search navigator={navigator} />
     } else if (route.id === 'Post') {
         scene = <Post {...route.props} />
-    // } else if (route.id === 'ViewPosts') {
-    //     scene = <ViewPosts {...route.props} />
+    } else if (route.id === 'ViewPosts') {
+        scene = <ViewPosts {...route.props} />
     } else if (route.id === 'ViewPost') {
         scene = <ViewPost {...route.props} />
     } else if (route.id === 'Login') {

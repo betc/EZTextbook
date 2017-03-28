@@ -38,6 +38,7 @@ class ViewPost extends Component {
       fetch(`https://eztextbook.herokuapp.com/api/user/visit/profile/${this.props.creator._id}?token=${this.state.token}`)
         .then((response) => response.json())
         .then((responseJson) => {
+          console.log('view post json user ', responseJson);
           this.setState({firstname: responseJson.firstname});
           this.setState({lastname: responseJson.lastname});
           this.setState({phone: responseJson.phone});

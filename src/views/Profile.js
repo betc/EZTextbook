@@ -161,12 +161,20 @@ class Profile extends Component {
             {this.state.update}
           </Text>
         </TouchableHighlight>
-        <TouchableHighlight style={styles.button}>
+        <TouchableHighlight style={styles.button} onPress={ () =>
+          this.props.navigator.push({
+            id: 'ViewPosts',
+            props: {criteria: {wishlist: true}, navigator: this.props.navigator}
+        })}>
           <Text style={styles.buttonText}>
             View Interests List
           </Text>
         </TouchableHighlight>
-        <TouchableHighlight style={styles.button}>
+        <TouchableHighlight style={styles.button} onPress={ () =>
+          this.props.navigator.push({
+            id: 'ViewPosts',
+            props: {criteria: {user: true}, navigator: this.props.navigator}
+        })}>
           <Text style={styles.buttonText}>
             View My Posts
           </Text>

@@ -19,7 +19,7 @@ class ViewPostsItem extends Component {
 
   return (
     <Card>
-      <TouchableOpacity onPress={() => this.props.navigator.push({id: "ViewPost", props: {...this.props.post}})}>
+      <TouchableOpacity onPress={() => this.props.navigator.push({id: 'ViewPost', props: {...this.props.post}})}>
         <CardSection>
           <View style={headerContentStyle}>
             <Text style={headerTextStyle}>{title}</Text>
