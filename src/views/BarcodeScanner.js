@@ -31,8 +31,11 @@ class BarcodeScanner extends Component {
 	this.setState({barcode: e.data});
 	console.log(e.data);
     Alert.alert(
-      "Barcode Found! \nData:$" + e.data +"$"
+      "Barcode Found! \nData: " + e.data
     );
+  }
+  setBook(book) {
+    this.setState({book});
   }
 
   renderBook() {
@@ -43,9 +46,10 @@ class BarcodeScanner extends Component {
 		.then((responseJson) => {
 		    console.log(responseJson);
 			if (responseJson.success !== false) {
-				this.setState({
+			/*	this.setState({
 				  book: responseJson
-				})
+				}) */
+				this.setBook(responseJson);
 			}
 		})
 		.catch(error =>
