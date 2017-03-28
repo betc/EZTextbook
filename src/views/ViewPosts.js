@@ -10,7 +10,10 @@ class ViewPosts extends Component {
     this.state = {
       search: '',
       condition: '-1',
-      posts: []
+      order: 'none',
+      posts: [],
+      postsCopy: [],
+      update: true,
     };
     this.filterText = this.filterText.bind(this);
   }
@@ -18,7 +21,29 @@ class ViewPosts extends Component {
   componentDidMount() {
     getPosts(this.props.criteria)
     .then((response) => {
-      this.setState({posts: response});
+      this.setState({
+        posts: response,
+        postsCopy: response
+      });
+    });
+  }
+
+  sortPosts(selected) {
+    let sortedPosts = this.state.posts.slice();
+    if (selected === 'ascending') {
+      sortedPosts.sort(function(a, b) {
+        return a.price - b.price
+      });
+    } else if (selected === 'descending') {
+      sortedPosts.sort(function(a, b) {
+        return b.price - a.price
+      });
+    } else {
+      sortedPosts = this.state.postsCopy.slice();
+    }
+    this.setState({
+      order: selected,
+      posts: sortedPosts
     });
   }
 
@@ -51,6 +76,14 @@ class ViewPosts extends Component {
           <Item label="Used - Has Writings" value="60" />
           <Item label="Used - Like New" value="90" />
           <Item label="Brand New" value="100" />
+        </Picker>
+        <Text>Sort Posts by Price from:</Text>
+        <Picker
+          selectedValue={this.state.order}
+          onValueChange={(order) => this.sortPosts(order)}>
+          <Item label="None" value="none" />
+          <Item label="Low to High" value="ascending" />
+          <Item label="High to Low" value="descending" />
         </Picker>
         <ScrollView style={styles.contentContainer}>
           {this.renderPosts()}
