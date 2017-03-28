@@ -10,6 +10,10 @@ import {
 import Camera from 'react-native-camera';
 import ApiUtils from '../ApiUtils';
 import BookDetail from '../components/BookDetail';
+import Card from '../components/Card';
+import CardSection from '../components/CardSection';
+import ButtonSection from '../components/ButtonSection';
+import Button from '../components/Button';
 
 class BarcodeScanner extends Component {
   constructor(props) {
@@ -49,13 +53,17 @@ class BarcodeScanner extends Component {
 	    return (
 	        <View style={styles.scanButton}>
 	            <TouchableOpacity
-	                onPress={this.scanAgain.bind(this)}
-	                style={styles.afterScan}>
-	                <Text>Book Not Found. Press Here To Scan Another Barcode</Text>
+	                onPress={this.scanAgain.bind(this)}>
+	                <Text style={styles.afterScanText}>Book Not Found. Press Me To Scan Another Barcode</Text>
 	            </TouchableOpacity>
 	        </View>
         )
 	} else {
+	 //   return (this.renderScannedBook.bind(this));
+	/* this.props.navigator.replace({
+          id: 'BookDetail',
+          props:{ book: this.state.book, navigator: this.props.navigator}
+      });*/
 	  return <BookDetail book={this.state.book} navigator={this.props.navigator}/>
 	}
   }
@@ -76,7 +84,7 @@ class BarcodeScanner extends Component {
 	  )
 	} else {
 	  return (
-	  <View>
+	  <View style={styles.content}>
 		{this.renderBook()}
 	  </View>
 	  )
@@ -88,6 +96,58 @@ class BarcodeScanner extends Component {
 		this.renderBarcode()
 	);
   }
+
+  renderScannedBook() {
+      const { _id, title, thumbnail, feds, uwbook, amazon} = this.state.book;
+      const imgUrl = thumbnail === '' ? "https://www.littlebrown.co.uk/assets/img/newsletter_placeholder.jpg" : thumbnail;
+      return (
+        <Card>
+          <CardSection>
+            <View style={styles.thumbnailContainerStyle}>
+              <Image
+                style={styles.thumbnailStyle}
+                source={{ uri: imgUrl }}
+              />
+            </View>
+            <View style={styles.bookContentStyle}>
+              <Text style={styles.bookTitle}>{title}</Text>
+              <View style={styles.priceStyle}>
+                <Text style={styles.dealer}>Amazon: </Text>
+                <Text style={styles.bookPrice}> ${amazon}</Text>
+              </View>
+              <View style={styles.priceStyle}>
+                <Text style={styles.dealer}>UW BookStore: </Text>
+                <Text style={styles.bookPrice}> ${uwbook}</Text>
+              </View>
+              <View style={styles.priceStyle}>
+                <Text style={styles.dealer}>Feds Used Books: </Text>
+                <Text style={styles.bookPrice}> ${feds}</Text>
+              </View>
+            </View>
+          </CardSection>
+
+          <ButtonSection>
+            <Button onPress={() =>
+              this.props.navigator.push({
+                id: 'ViewPosts',
+                props: {criteria: {bookid: _id}, navigator: this.props.navigator}
+            })}>
+              View Posts
+            </Button>
+          </ButtonSection>
+          <ButtonSection>
+            <Button onPress={() => this.props.navigator.push({
+              id: 'Post',
+              props: { title: title, book: _id, navigator: this.props.navigator}
+            })}>
+              Make a Post
+            </Button>
+          </ButtonSection>
+        </Card>
+      );
+  }
+
+
 }
 
 
@@ -99,6 +159,14 @@ const styles = StyleSheet.create({
 	alignItems: "center",
 	backgroundColor: "transparent",
   },
+  content: {
+    height: 500,
+  //  width: 300,
+    justifyContent: 'center',
+  //  alignItems: 'center',
+   // backgroundColor: '#FFFFFF',
+   paddingBottom: 200,
+  },
   preview: {
 	flex: 1,
 	justifyContent: 'flex-end',
@@ -106,12 +174,11 @@ const styles = StyleSheet.create({
   },
   afterScan: {
     alignSelf: 'center',
-    fontSize: 20,
     color: '#FFF',
   },
   scanButton: {
-    height: 50,
-    width: 300,
+    height: 110,
+    width: 250,
     backgroundColor: '#48BBEC',
     alignSelf: 'center',
     marginTop: 30,
@@ -119,7 +186,45 @@ const styles = StyleSheet.create({
     marginRight: 3,
     justifyContent: 'center',
     borderRadius: 6,
-  }
+  },
+  afterScanText: {
+    padding: 10,
+    fontSize: 20,
+    alignSelf: 'center',
+    justifyContent: 'center',
+    color: 'white',
+  },
+    bookContentStyle: {
+      flexDirection: 'column',
+      justifyContent: 'space-around',
+      flex: 0.8
+    },
+    bookTitle: {
+      fontWeight: '500',
+      color: '#4169e1'
+    },
+    priceStyle: {
+      flexDirection: 'row',
+      justifyContent: 'flex-start'
+    },
+    dealer: {
+      fontWeight: '600',
+      color: '#999'
+    },
+    bookPrice: {
+      color: '#c40000'
+    },
+    thumbnailStyle: {
+      height: 100,
+      width: 80
+    },
+    thumbnailContainerStyle: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginLeft: 10,
+      marginRight: 10,
+    }
+
 
 });
 
