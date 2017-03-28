@@ -29,6 +29,8 @@ class ViewPost extends Component {
       autoFocus: false,
       hide: true,
       update: "Update Post",
+      inWishList: false,
+      interestsListButton: ''
     };
   }
 
@@ -55,6 +57,27 @@ class ViewPost extends Component {
             if (typeof responseJson.facebook.email != 'undefined')
               this.setState({email: responseJson.facebook.email});
           }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+      fetch(`https://eztextbook.herokuapp.com/api/user/interests?token=${this.state.token}`)
+        .then((response) => response.json())
+        .then((responseJson) => {
+          console.log(responseJson);
+          const interestsList = [];
+          for(i = 0; i < responseJson.length; i++) {
+            interestsList.push(responseJson[i]._id);
+          }
+          this.setState({
+            inWishList: interestsList.indexOf(this.props._id) !== -1
+          });
+          console.log(interestsList);
+          console.log(this.props._id);
+          console.log(this.state.inWishList);
+          this.setState({
+            interestsListButton: this.state.inWishList ? 'Delete from Interest List' : 'Add To Interest List'
+          });
         })
         .catch((error) => {
           console.error(error);
@@ -93,24 +116,46 @@ class ViewPost extends Component {
     });
   }
 
-  addToList() {
-    fetch(`https://eztextbook.herokuapp.com/api/user/interests/add?token=${this.state.token}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        post: this.props._id
+  modifyInterestsList() {
+    if (this.state.inWishList) {
+      fetch(`https://eztextbook.herokuapp.com/api/user/interests/delete?token=${this.state.token}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          post: this.props._id
+        })
       })
-    })
-    .then(response => response.json())
-    .then((responseJson) => {
-        if (responseJson.success !== false) {
-          Alert.alert('Post added to your interest list');
-        } else {
-          Alert.alert("You've already added this post to your interest list");
-        }
-    });
+      .then(response => response.json())
+      .then((responseJson) => {
+        console.log(responseJson);
+        Alert.alert('Post deleted from your interest list');
+        this.setState({
+          inWishList: false,
+          interestsListButton: 'Add To Interest List'
+        });
+      });
+    } else {
+      fetch(`https://eztextbook.herokuapp.com/api/user/interests/add?token=${this.state.token}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          post: this.props._id
+        })
+      })
+      .then(response => response.json())
+      .then((responseJson) => {
+        console.log(responseJson);
+        Alert.alert('Post added to your interest list');
+        this.setState({
+          inWishList: true,
+          interestsListButton: 'Delete From Interest List'
+        });
+      });
+    }
   }
 
   updateField(fieldName, event) {
@@ -190,7 +235,6 @@ class ViewPost extends Component {
     const role = type === 'Buying' ? 'Buyer' : 'Seller';
     const message = 'RE: ' + title;
     let images = this.state.images.map((url) => {
-      // console.log('image url ',`https://eztextbook.herokuapp.com/images/${url}?token=${this.state.token}`)
       return <Image key={url} style={styles.image} source={{uri: `https://eztextbook.herokuapp.com/images/${url}?token=${this.state.token}`}} />;
     });
     return (
@@ -295,9 +339,9 @@ class ViewPost extends Component {
               <Text style={styles.text}>Mark as Spam</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.buttonStyle} onPress={this.addToList.bind(this)}>
+          <TouchableOpacity style={styles.buttonStyle} onPress={this.modifyInterestsList.bind(this)}>
             <View style={styles.holder}>
-              <Text style={styles.text}>Add to Interest List</Text>
+              <Text style={styles.text}>{this.state.interestsListButton}</Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity style={[styles.buttonStyle, this.state.hide ? styles.hidden : {}]} onPress={this.editPost.bind(this)}>
