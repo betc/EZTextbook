@@ -4,7 +4,8 @@ import {
   TextInput,
   TouchableHighlight,
   Text,
-  View
+  View,
+  Alert
 } from 'react-native';
 
 class Register extends Component {
@@ -31,7 +32,7 @@ class Register extends Component {
 
   validatePhone(mobile) {
     const mobileRegex = /^[0-9]{10}$/;
-    if (mobileRegex.test(mobile))
+    if (mobileRegex.test(mobile) || mobile === '')
       return true;
     else
       return false;
@@ -72,7 +73,7 @@ class Register extends Component {
           firstname: this.state.firstName,
         	lastname: this.state.lastName,
           password: this.state.password,
-        	email: this.state.email,
+        	email: this.state.email.trim(),
           phone: this.state.phone,
         })
       })
@@ -81,7 +82,7 @@ class Register extends Component {
         if (responseJson.success == false) {
           alert("Entered e-mail is already in use");
         } else {
-          alert("You have successfully registered an account");
+          Alert.alert('Verification has been sent to ' + this.state.email, 'Check your email to finish creating your EZTextbook account');
           this.props.navigator.push({id: "Login"});
         }
       })
@@ -100,7 +101,7 @@ class Register extends Component {
           The best textbook exchange app ever!
         </Text>
         <TextInput
-          onChangeText={(val) => this.setState({email: val})}
+          onChangeText={(val) => this.setState({email: val.trim()})}
           style={styles.input} placeholder="Email (*required)"
         />
         <TextInput
