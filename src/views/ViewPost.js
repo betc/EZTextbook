@@ -1,11 +1,12 @@
 import React, { Component, PropTypes } from 'react';
-import { View, Text, TextInput, Picker, Linking, TouchableOpacity, Alert, Image } from 'react-native';
+import { View, Text, TextInput, Picker, Linking, TouchableOpacity, Alert, Image, ScrollView } from 'react-native';
 import Communications from 'react-native-communications';
 
 import Card from '../components/Card';
 import CardSection from '../components/CardSection';
 import ButtonSection from '../components/ButtonSection';
 import Button from '../components/Button';
+import ImageViewer from '../components/ImageViewer';
 import ApiUtils from '../ApiUtils';
 import axios from 'axios';
 
@@ -33,12 +34,14 @@ class ViewPost extends Component {
   }
 
   componentWillMount() {
+    console.log('view post props ',this.props.images);
     this.setState({
       title: this.props.title,
       description: this.props.description,
       status: this.props.status,
       condition: this.props.condition,
       price: this.props.price,
+      images: this.props.images,
     });
     ApiUtils.getToken('Login_Token').then((res) => {
       this.setState({token: res});
@@ -189,12 +192,19 @@ class ViewPost extends Component {
     } = styles;
     const role = type === 'Buying' ? 'Buyer' : 'Seller';
     const message = 'RE: ' + title;
+    console.log(this.state.images);
+    // let images = this.state.images.length > 0 ?
+    //   <ImagesViewer urls={this.state.images} /> :
+    //   null;
     let images = this.state.images.map((url) => {
       // console.log('image url ',`https://eztextbook.herokuapp.com/images/${url}?token=${this.state.token}`)
-      return <Image key={url} style={styles.image} source={{uri: `https://eztextbook.herokuapp.com/images/${url}?token=${this.state.token}`}} />;
+      return (
+        <ImageViewer key={url} url={`https://eztextbook.herokuapp.com/images/${url}?token=${this.state.token}`} />
+      );
     });
     return (
-      <Card>
+      <ScrollView>
+        <Card>
           <View style={headerContentStyle}>
             <View style={styles.cellStyle}>
               <Text style={headerTextStyle}>
@@ -276,7 +286,7 @@ class ViewPost extends Component {
                 onChangeText={this.updateField.bind(this, 'Price')}
               />
             </View>
-            <View style={{flexDirection:'row', flexWrap:'wrap', marginBottom: 20}}>
+            <View>
               {images}
             </View>
           </View>
@@ -305,7 +315,8 @@ class ViewPost extends Component {
               <Text style={styles.text}>{this.state.update}</Text>
             </View>
           </TouchableOpacity>
-      </Card>
+        </Card>
+      </ScrollView>
     )
   }
 }
