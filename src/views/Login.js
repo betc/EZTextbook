@@ -60,6 +60,10 @@ export default class Login extends Component {
 
     }
 
+    goBack() {
+        this.props.navigator.pop();
+    }
+
 	render() {
 		return (
 			<View style={styles.container}>
@@ -81,6 +85,12 @@ export default class Login extends Component {
 						    style={styles.buttonContainer}>
 							<Text style={styles.buttonText}>LOGIN</Text>
 						</TouchableOpacity>
+					</View>
+					<View>
+					<TouchableOpacity
+					    onPress={this.goBack.bind(this)}>
+					    <Text style={styles.back}>Back</Text>
+					</TouchableOpacity>
 					</View>
 			</View>
 		);
@@ -115,7 +125,7 @@ const styles = StyleSheet.create({
 		marginTop: 50,
 		padding: 20,
 		paddingBottom: 10,
-		alignSelf: 'stretch',
+		alignSelf: 'center',
 		borderWidth: 1,
 		borderColor: '#fff',
 		backgroundColor: 'rgba(255,255,255,0.2)',
@@ -151,5 +161,10 @@ const styles = StyleSheet.create({
 	error: {
 	    fontSize: 20,
 	    color: 'red'
-	} 
+	}, 
+	back: {
+	    fontSize: 15,
+	    marginTop: 50,
+	    alignSelf: 'center',
+	}
 });
