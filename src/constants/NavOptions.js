@@ -1,27 +1,33 @@
 const navOptions = [
   {
-    id: "Profile",
-    name: "Home",
+    id: 'Profile',
+    icon: 'home',
+    name: 'Home',
   },
   {
-    id: "Selling",
-    name: "View 'Selling' Posts",
+    id: 'Selling',
+    icon: 'list-ul',
+    name: 'View \'Selling\' Posts',
   },
   {
-    id: "Buying",
-    name: "View 'Buying' Post",
+    id: 'Buying',
+    icon: 'list-ul',
+    name: 'View \'Buying\' Post',
   },
   {
-    id: "Search",
-    name: "Search Textbooks",
+    id: 'Search',
+    icon: 'book',
+    name: 'Search Textbooks',
   },
   {
-    id: "BarcodeScanner",
-    name: "Scan Barcode",
+    id: 'BarcodeScanner',
+    icon: 'barcode',
+    name: 'Scan Barcode',
   },
   {
-    id: "Logout",
-    name: "Logout",
+    id: 'Logout',
+    icon: 'sign-out',
+    name: 'Logout',
   },
 ];
 
