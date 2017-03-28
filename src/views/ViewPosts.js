@@ -77,13 +77,13 @@ class ViewPosts extends Component {
           <Item label="Used - Like New" value="90" />
           <Item label="Brand New" value="100" />
         </Picker>
-        <Text>Sort Posts by Price from:</Text>
+        <Text>Sort Posts by:</Text>
         <Picker
           selectedValue={this.state.order}
           onValueChange={(order) => this.sortPosts(order)}>
-          <Item label="None" value="none" />
-          <Item label="Low to High" value="ascending" />
-          <Item label="High to Low" value="descending" />
+          <Item label="Most Recent" value="none" />
+          <Item label="Price from Low to High" value="ascending" />
+          <Item label="Price from High to Low" value="descending" />
         </Picker>
         <ScrollView style={styles.contentContainer}>
           {this.renderPosts()}
