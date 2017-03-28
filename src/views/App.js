@@ -17,7 +17,6 @@ import Register from './Register';
 import Post from './Post';
 import Search from './Search';
 import Login from './Login';
-import SellBuy from './SellBuy';
 import ViewPost from './ViewPost';
 import ViewPosts from './ViewPosts';
 import BarcodeScanner from './BarcodeScanner';
@@ -104,15 +103,15 @@ export default class App extends Component {
     } else if (route.id === 'Register') {
         scene = <Register navigator={navigator} />
     } else if (route.id === 'Selling') {
-        scene = <SellBuy type='Selling' navigator={navigator} />
+        scene = <ViewPosts criteria={{type: 'Selling'}} navigator={navigator} />
     } else if (route.id === 'Buying') {
-        scene = <SellBuy type='Buying' navigator={navigator} />
+        scene = <ViewPosts criteria={{type: 'Buying'}} navigator={navigator} />
     } else if (route.id === 'Search') {
         scene = <Search navigator={navigator} />
     } else if (route.id === 'Post') {
         scene = <Post {...route.props} />
-    } else if (route.id === 'ViewPosts') {
-        scene = <ViewPosts {...route.props} />
+    // } else if (route.id === 'ViewPosts') {
+    //     scene = <ViewPosts {...route.props} />
     } else if (route.id === 'ViewPost') {
         scene = <ViewPost {...route.props} />
     } else if (route.id === 'Login') {
