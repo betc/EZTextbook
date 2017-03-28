@@ -30,11 +30,12 @@ class ViewPost extends Component {
       autoFocus: false,
       hide: true,
       update: "Update Post",
+      inWishList: false,
+      interestsListButton: ''
     };
   }
 
   componentWillMount() {
-    console.log('view post props ',this.props.images);
     this.setState({
       title: this.props.title,
       description: this.props.description,
@@ -58,6 +59,27 @@ class ViewPost extends Component {
             if (typeof responseJson.facebook.email != 'undefined')
               this.setState({email: responseJson.facebook.email});
           }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+      fetch(`https://eztextbook.herokuapp.com/api/user/interests?token=${this.state.token}`)
+        .then((response) => response.json())
+        .then((responseJson) => {
+          console.log(responseJson);
+          const interestsList = [];
+          for(i = 0; i < responseJson.length; i++) {
+            interestsList.push(responseJson[i]._id);
+          }
+          this.setState({
+            inWishList: interestsList.indexOf(this.props._id) !== -1
+          });
+          console.log(interestsList);
+          console.log(this.props._id);
+          console.log(this.state.inWishList);
+          this.setState({
+            interestsListButton: this.state.inWishList ? 'Delete from Interest List' : 'Add To Interest List'
+          });
         })
         .catch((error) => {
           console.error(error);
@@ -96,24 +118,46 @@ class ViewPost extends Component {
     });
   }
 
-  addToList() {
-    fetch(`https://eztextbook.herokuapp.com/api/user/interests/add?token=${this.state.token}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        post: this.props._id
+  modifyInterestsList() {
+    if (this.state.inWishList) {
+      fetch(`https://eztextbook.herokuapp.com/api/user/interests/delete?token=${this.state.token}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          post: this.props._id
+        })
       })
-    })
-    .then(response => response.json())
-    .then((responseJson) => {
-        if (responseJson.success !== false) {
-          Alert.alert('Post added to your interest list');
-        } else {
-          Alert.alert("You've already added this post to your interest list");
-        }
-    });
+      .then(response => response.json())
+      .then((responseJson) => {
+        console.log(responseJson);
+        Alert.alert('Post deleted from your interest list');
+        this.setState({
+          inWishList: false,
+          interestsListButton: 'Add To Interest List'
+        });
+      });
+    } else {
+      fetch(`https://eztextbook.herokuapp.com/api/user/interests/add?token=${this.state.token}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          post: this.props._id
+        })
+      })
+      .then(response => response.json())
+      .then((responseJson) => {
+        console.log(responseJson);
+        Alert.alert('Post added to your interest list');
+        this.setState({
+          inWishList: true,
+          interestsListButton: 'Delete From Interest List'
+        });
+      });
+    }
   }
 
   updateField(fieldName, event) {
@@ -203,9 +247,8 @@ class ViewPost extends Component {
       );
     });
     return (
-      <ScrollView>
-        <Card>
-          <View style={headerContentStyle}>
+      <Card>
+        <ScrollView style={styles.headerContentStyle}>
             <View style={styles.cellStyle}>
               <Text style={headerTextStyle}>
                 Post Type:
@@ -222,6 +265,15 @@ class ViewPost extends Component {
               <TextInput
                 style={styles.input}
                 defaultValue={this.state.firstname + ' ' + this.state.lastname}
+                editable={false}
+                autoFocus={false}
+              />
+            </View>
+            <View style={styles.cellStyle}>
+              <Text style={headerTextStyle}>User Rating: </Text>
+              <TextInput
+                style={styles.input}
+                defaultValue={creator.rating + ''}
                 editable={false}
                 autoFocus={false}
               />
@@ -289,7 +341,6 @@ class ViewPost extends Component {
             <View>
               {images}
             </View>
-          </View>
           <TouchableOpacity style={styles.buttonStyle} onPress={() => Communications.email([this.state.email], null, null, message, '- Sent from EZTextbook')}>
             <View style={styles.holder}>
               <Text style={styles.text}>{`Email ${role}`}</Text>
@@ -305,9 +356,9 @@ class ViewPost extends Component {
               <Text style={styles.text}>Mark as Spam</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.buttonStyle} onPress={this.addToList.bind(this)}>
+          <TouchableOpacity style={styles.buttonStyle} onPress={this.modifyInterestsList.bind(this)}>
             <View style={styles.holder}>
-              <Text style={styles.text}>Add to Interest List</Text>
+              <Text style={styles.text}>{this.state.interestsListButton}</Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity style={[styles.buttonStyle, this.state.hide ? styles.hidden : {}]} onPress={this.editPost.bind(this)}>
@@ -315,16 +366,15 @@ class ViewPost extends Component {
               <Text style={styles.text}>{this.state.update}</Text>
             </View>
           </TouchableOpacity>
-        </Card>
-      </ScrollView>
+        </ScrollView>
+      </Card>
     )
   }
 }
 
 const styles = {
   headerContentStyle: {
-    flexDirection: 'column',
-    justifyContent: 'space-around'
+    marginBottom: 5
   },
   headerTextStyle: {
     fontSize: 13
@@ -354,8 +404,9 @@ const styles = {
     height: 0
   },
   input: {
+    marginLeft: 4,
     height: 35,
-    width: 200,
+    width: 350,
     fontSize: 13
   },
   priceInput: {
