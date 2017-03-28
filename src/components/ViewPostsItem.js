@@ -8,6 +8,7 @@ import Button from './Button';
 class ViewPostsItem extends Component {
 
   render() {
+    console.log('post props ', this.props.post);
     const { _id, title, description, creator, book, price, condition, status, dateCreated, type } = this.props.post;
     const {
       thumbnailStyle,

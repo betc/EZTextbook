@@ -25,7 +25,7 @@ export function getPosts(criteria) {
     path = '/api/user/posts';
   }
   else if (criteria.bookid) {
-    path = 'post/search/criteria';
+    path = '/api/post/search/criteria';
     bookid = criteria.bookid;
   }
   else if (criteria.wishlist) {
