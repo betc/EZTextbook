@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { View, Text, TextInput, Picker, Linking, TouchableOpacity, Alert, Image } from 'react-native';
+import { View, Text, TextInput, Picker, Linking, TouchableOpacity, Alert, Image, ScrollView } from 'react-native';
 import Communications from 'react-native-communications';
 
 import Card from '../components/Card';
@@ -35,6 +35,7 @@ class ViewPost extends Component {
   }
 
   componentWillMount() {
+    console.log(this.props);
     this.setState({
       title: this.props.title,
       description: this.props.description,
@@ -239,7 +240,7 @@ class ViewPost extends Component {
     });
     return (
       <Card>
-          <View style={headerContentStyle}>
+          <ScrollView style={styles.headerContentStyle}>
             <View style={styles.cellStyle}>
               <Text style={headerTextStyle}>
                 Post Type:
@@ -256,6 +257,15 @@ class ViewPost extends Component {
               <TextInput
                 style={styles.input}
                 defaultValue={this.state.firstname + ' ' + this.state.lastname}
+                editable={false}
+                autoFocus={false}
+              />
+            </View>
+            <View style={styles.cellStyle}>
+              <Text style={headerTextStyle}>User Rating: </Text>
+              <TextInput
+                style={styles.input}
+                defaultValue={creator.rating + ''}
                 editable={false}
                 autoFocus={false}
               />
@@ -323,7 +333,6 @@ class ViewPost extends Component {
             <View style={{flexDirection:'row', flexWrap:'wrap', marginBottom: 20}}>
               {images}
             </View>
-          </View>
           <TouchableOpacity style={styles.buttonStyle} onPress={() => Communications.email([this.state.email], null, null, message, '- Sent from EZTextbook')}>
             <View style={styles.holder}>
               <Text style={styles.text}>{`Email ${role}`}</Text>
@@ -349,6 +358,7 @@ class ViewPost extends Component {
               <Text style={styles.text}>{this.state.update}</Text>
             </View>
           </TouchableOpacity>
+        </ScrollView>
       </Card>
     )
   }
@@ -356,8 +366,7 @@ class ViewPost extends Component {
 
 const styles = {
   headerContentStyle: {
-    flexDirection: 'column',
-    justifyContent: 'space-around'
+    marginBottom: 5
   },
   headerTextStyle: {
     fontSize: 13
@@ -387,8 +396,9 @@ const styles = {
     height: 0
   },
   input: {
+    marginLeft: 4,
     height: 35,
-    width: 200,
+    width: 350,
     fontSize: 13
   },
   priceInput: {
