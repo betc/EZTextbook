@@ -86,7 +86,7 @@ class Register extends Component {
         if (responseJson.success == false) {
           alert("Entered e-mail is already in use.");
         } else {
-          Alert.alert('Verification has been sent to ' + this.state.email, ', check your e-mail to finish creating your EZTextbook account.');
+          Alert.alert('Verification has been sent to ' + this.state.email, 'Check your e-mail to finish creating your EZTextbook account.');
           this.props.navigator.push({id: "Login"});
         }
       })
