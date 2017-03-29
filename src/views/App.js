@@ -133,7 +133,7 @@ export default class App extends Component {
   }
 
   triggerLogin() {
-    console.log('trigger');
+    // console.log('trigger');
     // e.preventDefault();
     this.setState({loggedIn: true});
     this.setState({view: 'Profile'});
@@ -174,7 +174,7 @@ export default class App extends Component {
       />
     );
     let navigationView = (
-      <View style={{flex: 3, backgroundColor: '#262626'}}>
+      <View style={{flex: 3, backgroundColor: '#262626', paddingTop: 20}}>
         <Text style={styles.header}>{this.state.userName}</Text>
         {navigationButtons}
       </View>
@@ -191,7 +191,7 @@ export default class App extends Component {
               navIcon={require('../../img/menu.png')}
               onIconClicked={() => this.refs.drawer.openDrawer()}
               style={styles.toolbar}
-              title={this.state.view}
+              title={'EZTextbook'}
             />
           </View>
           <Navigator

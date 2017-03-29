@@ -5,8 +5,12 @@ import {
   TouchableHighlight,
   Text,
   View,
-  Alert
+  Alert,
+  ScrollView
 } from 'react-native';
+import FormField from '../components/FormField';
+import { H3 } from '../components/Headings';
+import { ButtonSubmit } from '../components/Buttons';
 
 class Register extends Component {
   constructor(props) {
@@ -49,19 +53,19 @@ class Register extends Component {
   async onRegisterPressed() {
     let errorsArray = [];
     if (this.state.email == "" || this.state.firstName == "" || this.state.lastName == "" || this.state.password == "" || this.state.passwordConfirmation == "") {
-      errorsArray.push("Required field must be filled out");
+      errorsArray.push("Required field must be filled out.");
     }
     if (!this.validateEmail(this.state.email)) {
-      errorsArray.push("E-mail address entered is invalid");
+      errorsArray.push("E-mail address entered is invalid.");
     }
     if (!this.validatePhone(this.state.phone)) {
-      errorsArray.push("Mobile number consists of 10 digits only")
+      errorsArray.push("Mobile number consists of 10 digits only.")
     }
     if (!this.validatePassword(this.state.password)) {
-      errorsArray.push("Password should be at least 6 characters long");
+      errorsArray.push("Password should be at least 6 characters long.");
     }
     if (this.state.password !== this.state.passwordConfirmation) {
-      errorsArray.push("Password does not match the confirm password");
+      errorsArray.push("Password does not match the confirm password.");
     }
     if (errorsArray.length == 0) {
       return fetch('https://eztextbook.herokuapp.com/api/auth/signup/local', {
@@ -80,9 +84,9 @@ class Register extends Component {
       .then(response => response.json())
       .then((responseJson) => {
         if (responseJson.success == false) {
-          alert("Entered e-mail is already in use");
+          alert("Entered e-mail is already in use.");
         } else {
-          Alert.alert('Verification has been sent to ' + this.state.email, 'Check your email to finish creating your EZTextbook account');
+          Alert.alert('Verification has been sent to ' + this.state.email, ', check your e-mail to finish creating your EZTextbook account.');
           this.props.navigator.push({id: "Login"});
         }
       })
@@ -93,48 +97,42 @@ class Register extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.heading}>
-          Sign up for your free EZTextbook account
-        </Text>
-        <Text style={styles.textStyle}>
-          The best textbook exchange app ever!
-        </Text>
-        <TextInput
+      <ScrollView style={styles.container}>
+        <H3>Email*</H3>
+        <FormField
           onChangeText={(val) => this.setState({email: val.trim()})}
-          style={styles.input} placeholder="Email (*required)"
           keyboardType={'email-address'}
         />
-        <TextInput
+        <H3>First Name*</H3>
+        <FormField
           onChangeText={(val) => this.setState({firstName: val})}
-          style={styles.input} placeholder="First Name (*required)"
         />
-        <TextInput
+        <H3>Last Name*</H3>
+        <FormField
           onChangeText={(val) => this.setState({lastName: val})}
-          style={styles.input} placeholder="Last Name (*required)"
         />
-        <TextInput
-          onChangeText={(val) => this.setState({phone: val})}
-          style={styles.input} placeholder="Mobile Number"
-          keyboardType={'phone-pad'}
-        />
-        <TextInput
+        <H3>Mobile Number*</H3>
+        <FormField
+         onChangeText={(val) => this.setState({phone: val})}
+         keyboardType={'phone-pad'}
+       />
+       <H3>Password*</H3>
+       <FormField
           onChangeText={(val) => this.setState({password: val})}
-          style={styles.input} placeholder="Password (*required)"
           secureTextEntry={true}
-        />
-        <TextInput
+       />
+       <H3>Confirm Password*</H3>
+       <FormField
           onChangeText={(val) => this.setState({passwordConfirmation: val})}
-          style={styles.input} placeholder="Confirm Password (*required)"
           secureTextEntry={true}
+       />
+        <ButtonSubmit
+          title="Submit"
+          onPress={this.onRegisterPressed.bind(this)}
+          style={{marginTop: 30}}
         />
-        <TouchableHighlight style={styles.button} onPress={this.onRegisterPressed.bind(this)}>
-          <Text style={styles.buttonText}>
-            Create Account
-          </Text>
-        </TouchableHighlight>
         <Errors errors={this.state.errors} />
-      </View>
+      </ScrollView>
     )
   }
 }
@@ -150,7 +148,8 @@ const Errors = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 20
+    marginTop: 20,
+    padding: 10
   },
   input: {
     height: 50,

@@ -32,7 +32,7 @@ export class Button extends Component {
 export class ButtonSubmit extends Component {
   render() {
     return (
-      <TouchableOpacity activeOpacity={0.6} onPress={this.props.onPress} style={styles.buttonSubmit}>
+      <TouchableOpacity activeOpacity={0.6} onPress={this.props.onPress} style={[styles.buttonSubmit, this.props.style]}>
         <Text style={styles.buttonSubmitText}>
           {this.props.title}
         </Text>
@@ -60,13 +60,14 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   button: {
-    flex: 1,
+    // flex: 1,
     backgroundColor: '#404040',
     borderRadius: 5,
     borderWidth: 1,
     borderColor: '#000',
     marginLeft: 5,
-    marginRight: 5
+    marginRight: 5,
+    width: 270,
   },
   buttonText: {
     alignSelf: 'center',

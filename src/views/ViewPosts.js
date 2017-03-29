@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, ScrollView, Text, AsyncStorage, Slider, Picker } from 'react-native';
+import { View, ScrollView, Text, AsyncStorage, Slider, Picker, Dimensions } from 'react-native';
 import SearchBar from '../components/SearchBar';
 import ViewPostsItem from '../components/ViewPostsItem';
 import { getPosts } from '../FetchUtils';
@@ -14,11 +14,15 @@ class ViewPosts extends Component {
       posts: [],
       postsCopy: [],
       update: true,
+      screenWidth: 0,
     };
     this.filterText = this.filterText.bind(this);
   }
 
   componentDidMount() {
+    var {height, width} = Dimensions.get('window');
+    this.setState({screenWidth: width});
+    console.log('screen width: ',this.state.screenWidth);
     getPosts(this.props.criteria)
     .then((response) => {
       this.setState({
@@ -64,27 +68,39 @@ class ViewPosts extends Component {
   }
 
   render() {
+    const styles = {
+      contentContainer: {
+        marginBottom: 100
+      },
+      picker: {
+        width: this.state.screenWidth/2,
+      }
+    };
+
     const Item = Picker.Item;
     return (
       <View>
         <SearchBar filterText={this.filterText} placeholder='Search Title' />
-        <Picker
-          selectedValue={this.state.condition}
-          onValueChange={(condition) => this.setState({condition})}>
-          <Item label="All Conditions" value="-1" />
-          <Item label="Used - Worn" value="30" />
-          <Item label="Used - Has Writings" value="60" />
-          <Item label="Used - Like New" value="90" />
-          <Item label="Brand New" value="100" />
-        </Picker>
-        <Text>Sort Posts by:</Text>
-        <Picker
-          selectedValue={this.state.order}
-          onValueChange={(order) => this.sortPosts(order)}>
-          <Item label="Most Recent" value="none" />
-          <Item label="Price from Low to High" value="ascending" />
-          <Item label="Price from High to Low" value="descending" />
-        </Picker>
+        <View style={{flexDirection:'row', flexWrap:'wrap'}}>
+          <Picker
+            style={styles.picker}
+            selectedValue={this.state.condition}
+            onValueChange={(condition) => this.setState({condition})}>
+            <Item label="All Conditions" value="-1" />
+            <Item label="Used - Worn" value="30" />
+            <Item label="Used - Has Writings" value="60" />
+            <Item label="Used - Like New" value="90" />
+            <Item label="Brand New" value="100" />
+          </Picker>
+          <Picker
+            style={styles.picker}
+            selectedValue={this.state.order}
+            onValueChange={(order) => this.sortPosts(order)}>
+            <Item label="Most Recent" value="none" />
+            <Item label="Price from Low to High" value="ascending" />
+            <Item label="Price from High to Low" value="descending" />
+          </Picker>
+        </View>
         <ScrollView style={styles.contentContainer}>
           {this.renderPosts()}
         </ScrollView>
@@ -93,13 +109,6 @@ class ViewPosts extends Component {
   }
 }
 
-const styles = {
-  contentContainer: {
-    marginBottom: 100
-  },
-  picker: {
-    fontSize: 9,
-  }
-};
+
 // Make the component available to other parts of the app
 export default ViewPosts;
