@@ -65,7 +65,7 @@ const styles = {
     marginBottom: 100
   },
   picker: {
-    fontSize: 9
+    fontSize: 9,
   }
 };
 // Make the component available to other parts of the app

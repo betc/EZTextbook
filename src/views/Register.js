@@ -48,19 +48,19 @@ class Register extends Component {
   async onRegisterPressed() {
     let errorsArray = [];
     if (this.state.email == "" || this.state.firstName == "" || this.state.lastName == "" || this.state.password == "" || this.state.passwordConfirmation == "") {
-      errorsArray.push("required field must be filled out");
+      errorsArray.push("Required field must be filled out");
     }
     if (!this.validateEmail(this.state.email)) {
-      errorsArray.push("e-mail address entered is invalid");
+      errorsArray.push("E-mail address entered is invalid");
     }
     if (!this.validatePhone(this.state.phone)) {
-      errorsArray.push("mobile number consists of 10 digits only")
+      errorsArray.push("Mobile number consists of 10 digits only")
     }
     if (!this.validatePassword(this.state.password)) {
-      errorsArray.push("password should be at least 6 characters long");
+      errorsArray.push("Password should be at least 6 characters long");
     }
     if (this.state.password !== this.state.passwordConfirmation) {
-      errorsArray.push("password does not match the confirm password");
+      errorsArray.push("Password does not match the confirm password");
     }
     if (errorsArray.length == 0) {
       return fetch('https://eztextbook.herokuapp.com/api/auth/signup/local', {
@@ -102,6 +102,7 @@ class Register extends Component {
         <TextInput
           onChangeText={(val) => this.setState({email: val})}
           style={styles.input} placeholder="Email (*required)"
+          keyboardType={'email-address'}
         />
         <TextInput
           onChangeText={(val) => this.setState({firstName: val})}
@@ -114,6 +115,7 @@ class Register extends Component {
         <TextInput
           onChangeText={(val) => this.setState({phone: val})}
           style={styles.input} placeholder="Mobile Number"
+          keyboardType={'phone-pad'}
         />
         <TextInput
           onChangeText={(val) => this.setState({password: val})}

@@ -3,7 +3,9 @@ import { Text, View, Image, Linking, TouchableOpacity } from 'react-native';
 import Card from './Card';
 import CardSection from './CardSection';
 import ButtonSection from './ButtonSection';
+import BookConditions from '../constants/BookConditions';
 import Button from './Button';
+import { H1, H2 } from '../components/Headings';
 
 class ViewPostsItem extends Component {
 
@@ -18,16 +20,14 @@ class ViewPostsItem extends Component {
     } = styles;
 
   return (
-    <Card>
+    <Card header={type.toUpperCase()} footer={'$'+price.toString()}>
       <TouchableOpacity onPress={() => this.props.navigator.push({id: 'ViewPost', props: {...this.props.post}})}>
         <CardSection>
           <View style={headerContentStyle}>
-            <Text style={headerTextStyle}>Post Title: {title}</Text>
-            <Text style={headerTextStyle}>Book Title: {book.title}</Text>
-            <Text style={headerTextStyle}>Description: {description}</Text>
+            <Text style={headerTextStyle}><H1>{title}</H1></Text>
+            <Text style={headerTextStyle}><H2>{book.title.trim()}</H2></Text>
             <Text style={headerTextStyle}>Status: {status}</Text>
-            <Text style={headerTextStyle}>Condition: {condition}</Text>
-            <Text style={priceTextStyle}>CND ${price}</Text>
+            <Text style={headerTextStyle}>{BookConditions[condition]}</Text>
           </View>
         </CardSection>
       </TouchableOpacity>

@@ -7,6 +7,10 @@ import CardSection from '../components/CardSection';
 import ButtonSection from '../components/ButtonSection';
 import Button from '../components/Button';
 import ImageViewer from '../components/ImageViewer';
+import { IconButton } from '../components/Buttons';
+import { H1, H2, H3 } from '../components/Headings';
+import FormField from '../components/FormField';
+import BookConditions from '../constants/BookConditions';
 import ApiUtils from '../ApiUtils';
 import axios from 'axios';
 
@@ -36,11 +40,12 @@ class ViewPost extends Component {
   }
 
   componentWillMount() {
+    // console.log('book ', BookConditions[30]);
     this.setState({
       title: this.props.title,
       description: this.props.description,
       status: this.props.status,
-      condition: this.props.condition,
+      condition: BookConditions[this.props.condition],
       price: this.props.price,
       images: this.props.images,
     });
@@ -66,7 +71,7 @@ class ViewPost extends Component {
       fetch(`https://eztextbook.herokuapp.com/api/user/interests?token=${this.state.token}`)
         .then((response) => response.json())
         .then((responseJson) => {
-          console.log(responseJson);
+          // console.log(responseJson);
           const interestsList = [];
           for(i = 0; i < responseJson.length; i++) {
             interestsList.push(responseJson[i]._id);
@@ -74,11 +79,11 @@ class ViewPost extends Component {
           this.setState({
             inWishList: interestsList.indexOf(this.props._id) !== -1
           });
-          console.log(interestsList);
-          console.log(this.props._id);
-          console.log(this.state.inWishList);
+          // console.log(interestsList);
+          // console.log(this.props._id);
+          // console.log(this.state.inWishList);
           this.setState({
-            interestsListButton: this.state.inWishList ? 'Delete from Interest List' : 'Add To Interest List'
+            interestsListButton: this.state.inWishList ? 'Remove' : 'Interested'
           });
         })
         .catch((error) => {
@@ -131,11 +136,11 @@ class ViewPost extends Component {
       })
       .then(response => response.json())
       .then((responseJson) => {
-        console.log(responseJson);
-        Alert.alert('Post deleted from your interest list');
+        // console.log(responseJson);
+        Alert.alert('Post deleted from your Interest List.');
         this.setState({
           inWishList: false,
-          interestsListButton: 'Add To Interest List'
+          interestsListButton: 'Interested'
         });
       });
     } else {
@@ -150,11 +155,11 @@ class ViewPost extends Component {
       })
       .then(response => response.json())
       .then((responseJson) => {
-        console.log(responseJson);
-        Alert.alert('Post added to your interest list');
+        // console.log(responseJson);
+        Alert.alert('Post added to your Interest List.');
         this.setState({
           inWishList: true,
-          interestsListButton: 'Delete From Interest List'
+          interestsListButton: 'Remove'
         });
       });
     }
@@ -247,125 +252,100 @@ class ViewPost extends Component {
       );
     });
     return (
-      <Card>
+      <Card header={type.toUpperCase()}>
         <ScrollView style={styles.headerContentStyle}>
             <View style={styles.cellStyle}>
-              <Text style={headerTextStyle}>
-                Post Type:
-              </Text>
-              <TextInput
-                style={styles.input}
-                defaultValue={type}
-                editable={false}
-                autoFocus={false}
-              />
-            </View>
-            <View style={styles.cellStyle}>
-              <Text style={headerTextStyle}>Creator: </Text>
-              <TextInput
-                style={styles.input}
-                defaultValue={this.state.firstname + ' ' + this.state.lastname}
-                editable={false}
-                autoFocus={false}
-              />
-            </View>
-            <View style={styles.cellStyle}>
-              <Text style={headerTextStyle}>User Rating: </Text>
-              <TextInput
-                style={styles.input}
-                defaultValue={creator.rating + ''}
-                editable={false}
-                autoFocus={false}
-              />
-            </View>
-            <View style={styles.cellStyle}>
-              <Text style={headerTextStyle}>Book Title: </Text>
-              <TextInput
-                style={styles.input}
-                defaultValue={this.props.book.title}
-                editable={false}
-                autoFocus={false}
-              />
-            </View>
-            <View style={styles.cellStyle}>
-              <Text style={headerTextStyle}>Post Title: </Text>
-              <TextInput
-                style={styles.input}
+              {this.state.editable ? <FormField
                 defaultValue={this.state.title}
                 editable={this.state.editable}
                 autoFocus={this.state.autoFocus}
                 onChangeText={this.updateField.bind(this, 'Title')}
-              />
+              /> : <H1>{this.state.title}</H1> }
             </View>
             <View style={styles.cellStyle}>
-              <Text style={headerTextStyle}>Description: </Text>
-              <TextInput
-                style={styles.input}
+              <Text style={headerTextStyle}>
+              <H2>{this.props.book.title.trim()}</H2>
+              </Text>
+            </View>
+            <View style={styles.cellStyle}>
+              <Text style={headerTextStyle}>
+              Posted by {this.state.firstname + ' ' + this.state.lastname} (Rating: {creator.rating})
+              </Text>
+            </View>
+            <View style={styles.cellStyle}>
+              <Text style={headerTextStyle}><H3>{'\n'}Description: </H3></Text>
+              {this.state.editable ? <FormField
                 defaultValue={this.state.description}
                 editable={this.state.editable}
                 autoFocus={this.state.autoFocus}
                 onChangeText={this.updateField.bind(this, 'Description')}
-              />
+              /> : <Text>{this.state.description+'\n\n'}</Text> }
             </View>
             <View style={styles.cellStyle}>
-              <Text style={headerTextStyle}>Status: </Text>
-              <Picker
+              <Text style={headerTextStyle}><H3>Status: </H3></Text>
+              {this.state.editable ? <Picker
                 enabled={this.state.editable}
                 selectedValue={this.state.status}
                 onValueChange={(val) => this.setState({status: val})}>
-                <Picker.Item label="open" value="Open" />
-                <Picker.Item label="closed" value="Closed" />
-                <Picker.Item label="on hold" value="On hold" />
-              </Picker>
+                <Picker.Item label="Open" value="Open" />
+                <Picker.Item label="Closed" value="Closed" />
+                <Picker.Item label="On hold" value="On hold" />
+              </Picker> : <Text>{this.state.status+'\n\n'}</Text> }
             </View>
             <View style={styles.cellStyle}>
-              <Text style={headerTextStyle}>Condition: </Text>
-              <TextInput
-                style={styles.input}
-                defaultValue={this.state.condition + ''}
-                editable={this.state.editable}
-                autoFocus={this.state.autoFocus}
-                onChangeText={this.updateField.bind(this, 'Condition')}
-              />
+              <Text style={headerTextStyle}><H3>Condition: </H3></Text>
+              {this.state.editable ? <Picker
+                enabled={this.state.editable}
+                selectedValue={this.state.condition}
+                onValueChange={(val) => this.setState({condition: val})}>
+                <Picker.Item label="Used - Worn" value="30" />
+                <Picker.Item label="Used - Has Writings" value="60" />
+                <Picker.Item label="Used - Like New" value="90" />
+                <Picker.Item label="Brand New" value="100" />
+              </Picker> : <Text>{this.state.condition+'\n\n'}</Text> }
             </View>
             <View style={styles.cellStyle}>
-              <Text>Price: </Text>
-              <TextInput
-                style={styles.priceInput}
+              <Text><H3>Price: </H3></Text>
+              {this.state.editable ? <FormField
                 defaultValue={this.state.price + ''}
                 editable={this.state.editable}
                 autoFocus={this.state.autoFocus}
                 onChangeText={this.updateField.bind(this, 'Price')}
-              />
+              /> : <Text>{this.state.price+'\n\n'}</Text> }
             </View>
             <View>
               {images}
             </View>
-          <TouchableOpacity style={styles.buttonStyle} onPress={() => Communications.email([this.state.email], null, null, message, '- Sent from EZTextbook')}>
-            <View style={styles.holder}>
-              <Text style={styles.text}>{`Email ${role}`}</Text>
+          <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center', marginTop: 10}}>
+            <IconButton
+              title={`Email ${role}`}
+              icon={'envelope'}
+              onPress={() => Communications.email([this.state.email], null, null, message, '\n- Sent from EZTextbook')}
+            />
+            <IconButton
+              title={`SMS Message`}
+              icon={'commenting'}
+              onPress={() => Communications.text(this.state.phone, message)}
+            />
             </View>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.buttonStyle} onPress={() => Communications.text(this.state.phone, message)}>
-            <View style={styles.holder}>
-              <Text style={styles.text}>SMS Message</Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.buttonStyle} onPress={this.markSpam.bind(this)}>
-            <View style={styles.holder}>
-              <Text style={styles.text}>Mark as Spam</Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.buttonStyle} onPress={this.modifyInterestsList.bind(this)}>
-            <View style={styles.holder}>
-              <Text style={styles.text}>{this.state.interestsListButton}</Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity style={[styles.buttonStyle, this.state.hide ? styles.hidden : {}]} onPress={this.editPost.bind(this)}>
-            <View style={styles.holder}>
-              <Text style={styles.text}>{this.state.update}</Text>
-            </View>
-          </TouchableOpacity>
+            <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center', marginTop: 10}}>
+            <IconButton
+              title={`Mark as Spam`}
+              icon={'trash'}
+              onPress={this.markSpam.bind(this)}
+            />
+            <IconButton
+              title={this.state.interestsListButton}
+              icon={'star'}
+              onPress={this.modifyInterestsList.bind(this)}
+            />
+            <IconButton
+              title={this.state.update}
+              icon={'pencil'}
+              onPress={this.editPost.bind(this)}
+              style={this.state.hide ? styles.hidden : null}
+            />
+          </View>
         </ScrollView>
       </Card>
     )
@@ -374,7 +354,8 @@ class ViewPost extends Component {
 
 const styles = {
   headerContentStyle: {
-    marginBottom: 5
+    marginBottom: 5,
+    padding: 5
   },
   headerTextStyle: {
     fontSize: 13
@@ -413,7 +394,8 @@ const styles = {
     height: 35,
     width: 200,
     fontSize: 13,
-    color: 'red'
+    fontWeight: '300',
+    color: '#ff471a'
   },
   cellStyle: {
     flexDirection: 'column'
