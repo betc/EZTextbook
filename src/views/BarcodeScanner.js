@@ -14,7 +14,7 @@ import BookDetail from '../components/BookDetail';
 import Card from '../components/Card';
 import CardSection from '../components/CardSection';
 import ButtonSection from '../components/ButtonSection';
-import Button from '../components/Button';
+import { Button } from '../components/Buttons';
 import Header from '../components/Header'
 
 class BarcodeScanner extends Component {
@@ -58,11 +58,8 @@ class BarcodeScanner extends Component {
 	});
 	if (this.state.book === '') {
 	    return (
-	        <View style={styles.scanButton}>
-	            <TouchableOpacity
-	                onPress={this.scanAgain.bind(this)}>
-	                <Text style={styles.afterScanText}>Book Not Found. Press Me To Scan Another Barcode</Text>
-	            </TouchableOpacity>
+	        <View>
+	            <Text style={styles.afterScanText}>Sorry, We Couldn't Find That Textbook</Text>
 	        </View>
         )
 	} else {
@@ -96,6 +93,12 @@ class BarcodeScanner extends Component {
 	  <ScrollView>
 		{this.renderBook()}
 	  </ScrollView>
+	  <View style={styles.container}>
+	  <Button
+	     onPress={this.scanAgain.bind(this)}>
+	     Scan Again?
+	  </Button>
+	  </View>
 	  </View>
 	  )
 	}
@@ -106,57 +109,6 @@ class BarcodeScanner extends Component {
 		this.renderBarcode()
 	);
   }
-/*  style={styles.content}
-  renderScannedBook() {
-      const { _id, title, thumbnail, feds, uwbook, amazon} = this.state.book;
-      const imgUrl = thumbnail === '' ? "https://www.littlebrown.co.uk/assets/img/newsletter_placeholder.jpg" : thumbnail;
-      return (
-        <Card>
-          <CardSection>
-            <View style={styles.thumbnailContainerStyle}>
-              <Image
-                style={styles.thumbnailStyle}
-                source={{ uri: imgUrl }}
-              />
-            </View>
-            <View style={styles.bookContentStyle}>
-              <Text style={styles.bookTitle}>{title}</Text>
-              <View style={styles.priceStyle}>
-                <Text style={styles.dealer}>Amazon: </Text>
-                <Text style={styles.bookPrice}> ${amazon}</Text>
-              </View>
-              <View style={styles.priceStyle}>
-                <Text style={styles.dealer}>UW BookStore: </Text>
-                <Text style={styles.bookPrice}> ${uwbook}</Text>
-              </View>
-              <View style={styles.priceStyle}>
-                <Text style={styles.dealer}>Feds Used Books: </Text>
-                <Text style={styles.bookPrice}> ${feds}</Text>
-              </View>
-            </View>
-          </CardSection>
-
-          <ButtonSection>
-            <Button onPress={() =>
-              this.props.navigator.push({
-                id: 'ViewPosts',
-                props: {criteria: {bookid: _id}, navigator: this.props.navigator}
-            })}>
-              View Posts
-            </Button>
-          </ButtonSection>
-          <ButtonSection>
-            <Button onPress={() => this.props.navigator.push({
-              id: 'Post',
-              props: { title: title, book: _id, navigator: this.props.navigator}
-            })}>
-              Make a Post
-            </Button>
-          </ButtonSection>
-        </Card>
-      );
-  }
-*/
 
 }
 
@@ -164,7 +116,7 @@ class BarcodeScanner extends Component {
 const styles = StyleSheet.create({
   container: {
 	flex: 1,
-	flexDirection: 'row',
+//	flexDirection: 'row',
 	justifyContent: "center",
 	alignItems: "center",
 	backgroundColor: "transparent",
@@ -173,7 +125,7 @@ const styles = StyleSheet.create({
     height: 500,
   //  width: 300,
     justifyContent: 'center',
-  //  alignItems: 'center',
+  //  alignItems: 'stretch',
    // backgroundColor: '#FFFFFF',
    paddingBottom: 200,
   },
@@ -202,7 +154,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     alignSelf: 'center',
     justifyContent: 'center',
-    color: 'white',
+    color: 'black',
   },
     bookContentStyle: {
       flexDirection: 'column',
@@ -236,6 +188,7 @@ const styles = StyleSheet.create({
     },
     viewBook: {
       marginTop: 200,
+      alignSelf: 'stretch',
     }
 
 
