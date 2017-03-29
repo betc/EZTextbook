@@ -5,7 +5,8 @@ import {
    View,
    Text,
    TouchableOpacity,
-   Alert
+   Alert,
+   ScrollView,
 } from 'react-native';
 import Camera from 'react-native-camera';
 import ApiUtils from '../ApiUtils';
@@ -14,6 +15,7 @@ import Card from '../components/Card';
 import CardSection from '../components/CardSection';
 import ButtonSection from '../components/ButtonSection';
 import Button from '../components/Button';
+import Header from '../components/Header'
 
 class BarcodeScanner extends Component {
   constructor(props) {
@@ -32,6 +34,9 @@ class BarcodeScanner extends Component {
       "Barcode Found! \nData: " + e.data
     );
   }
+  setBook(book) {
+    this.setState({book});
+  }
 
   renderBook() {
 	ApiUtils.getToken('Login_Token').then((token) => {
@@ -39,10 +44,12 @@ class BarcodeScanner extends Component {
 		.then(ApiUtils.checkStatus)
 		.then(response => response.json())
 		.then((responseJson) => {
+		    console.log(responseJson);
 			if (responseJson.success !== false) {
-				this.setState({
+			/*	this.setState({
 				  book: responseJson
-				})
+				}) */
+				this.setBook(responseJson);
 			}
 		})
 		.catch(error =>
@@ -64,12 +71,12 @@ class BarcodeScanner extends Component {
           id: 'BookDetail',
           props:{ book: this.state.book, navigator: this.props.navigator}
       });*/
-	  return <BookDetail book={this.state.book} navigator={this.props.navigator}/>
+	  return <BookDetail style={styles.viewBook} book={this.state.book} navigator={this.props.navigator}/>
 	}
   }
 
   scanAgain() {
-	this.setState({barcode: ''});
+	this.setState({barcode: '', book: ''});
   }
 
   renderBarcode() {
@@ -79,13 +86,16 @@ class BarcodeScanner extends Component {
 			ref="cam"
 			style={styles.container}
 			onBarCodeRead={this.BarCodeRead.bind(this)}
-			type={Camera.constants.Type.back}>
+			type={Camera.constants.Type.back}
+			defaultTouchToFocus>
 		</Camera>
 	  )
 	} else {
 	  return (
 	  <View style={styles.content}>
+	  <ScrollView>
 		{this.renderBook()}
+	  </ScrollView>
 	  </View>
 	  )
 	}
@@ -96,7 +106,7 @@ class BarcodeScanner extends Component {
 		this.renderBarcode()
 	);
   }
-
+/*  style={styles.content}
   renderScannedBook() {
       const { _id, title, thumbnail, feds, uwbook, amazon} = this.state.book;
       const imgUrl = thumbnail === '' ? "https://www.littlebrown.co.uk/assets/img/newsletter_placeholder.jpg" : thumbnail;
@@ -146,7 +156,7 @@ class BarcodeScanner extends Component {
         </Card>
       );
   }
-
+*/
 
 }
 
@@ -223,6 +233,9 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       marginLeft: 10,
       marginRight: 10,
+    },
+    viewBook: {
+      marginTop: 200,
     }
 
 

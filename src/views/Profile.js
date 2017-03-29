@@ -80,20 +80,24 @@ class Profile extends Component {
         autoFocus: true
       });
     } else {
-      const url = 'https://eztextbook.herokuapp.com/api/user/profile/update?token=' + this.state.token;
-      axios.post(url, {
-        firstname: this.state.firstName,
-        lastname: this.state.lastName,
-        phone: this.state.mobile
-      })
-      .then(function(response){
-        Alert.alert("Profile Updated");
-      });
-      this.setState({
-        update: "Update Profile",
-        editable: false,
-        autoFocus: false
-      });
+      if (this.state.firstName === '' || this.state.lastName === '') {
+        Alert.alert('Name field cannot be empty');
+      } else {
+        const url = 'https://eztextbook.herokuapp.com/api/user/profile/update?token=' + this.state.token;
+        axios.post(url, {
+          firstname: this.state.firstName,
+          lastname: this.state.lastName,
+          phone: this.state.mobile
+        })
+        .then(function(response){
+          Alert.alert("Profile Updated");
+        });
+        this.setState({
+          update: "Update Profile",
+          editable: false,
+          autoFocus: false
+        });
+      }
     }
   }
 
