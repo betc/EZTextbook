@@ -27,7 +27,7 @@ const styles = {
   },
   imageStyle: {
     width: 35,
-    height: 35
+    height: 35,
   },
   wrapper: {
     flexDirection: 'row',
@@ -35,6 +35,7 @@ const styles = {
     height: 36,
     borderWidth: 1,
     borderRadius: 3,
+    backgroundColor: '#fff',
     borderColor: '#c0c0c0'
   }
 };

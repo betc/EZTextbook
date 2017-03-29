@@ -29,7 +29,6 @@ class Search extends Component {
   render() {
     return (
       <View>
-      <Header headerText={'Search Books'} />
       <BookList navigator={this.props.navigator} books={this.state.books}/>
       </View>
     )

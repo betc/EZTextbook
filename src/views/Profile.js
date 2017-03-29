@@ -6,8 +6,12 @@ import {
   TextInput,
   View,
   TouchableHighlight,
-  Alert
+  Alert,
+  ScrollView
 } from 'react-native';
+import { IconButton, Button } from '../components/Buttons';
+import { H1, H2, H3 } from '../components/Headings';
+import Card from '../components/Card';
 import axios from 'axios';
 import ApiUtils from '../ApiUtils.js';
 
@@ -76,110 +80,125 @@ class Profile extends Component {
         autoFocus: true
       });
     } else {
-      const url = 'https://eztextbook.herokuapp.com/api/user/profile/update?token=' + this.state.token;
-      axios.post(url, {
-        firstname: this.state.firstName,
-        lastname: this.state.lastName,
-        phone: this.state.mobile
-      })
-      .then(function(response){
-        Alert.alert("Profile Updated");
-      });
-      this.setState({
-        update: "Update Profile",
-        editable: false,
-        autoFocus: false
-      });
+      if (this.state.firstName === '' || this.state.lastName === '') {
+        Alert.alert('Name field cannot be empty');
+      } else {
+        const url = 'https://eztextbook.herokuapp.com/api/user/profile/update?token=' + this.state.token;
+        axios.post(url, {
+          firstname: this.state.firstName,
+          lastname: this.state.lastName,
+          phone: this.state.mobile
+        })
+        .then(function(response){
+          Alert.alert("Profile Updated");
+        });
+        this.setState({
+          update: "Update Profile",
+          editable: false,
+          autoFocus: false
+        });
+      }
     }
   }
 
   render() {
 
     return (
-      <View style={styles.containerStyle}>
-        <Image
-          source={require('../../img/profile.jpg')}
-          style={styles.imageStyle}
+      <ScrollView style={styles.containerStyle}>
+      <H1>
+        Welcome {this.state.firstName}!
+      </H1>
+      <H2>
+        Rating: {this.state.rating}
+      </H2>
+      <H1>
+        {'\n'}General Information:
+      </H1>
+      <View style={styles.cellStyle}>
+        <H2>
+          First Name:
+        </H2>
+        <TextInput
+          style={styles.generalInputStyle}
+          defaultValue={this.state.firstName}
+          editable={this.state.editable}
+          autoFocus={this.state.autoFocus}
+          onChangeText={this.updateField.bind(this, 'First Name')}
         />
-        <Text style={styles.ratingStyle}>
-          Rating: {this.state.rating}
-        </Text>
-        <Text style={styles.headingStyle}>
-          General Information:
-        </Text>
-        <View style={styles.cellStyle}>
-          <Text style={styles.textStyle}>
-            First Name:
-          </Text>
-          <TextInput
-            style={styles.generalInputStyle}
-            defaultValue={this.state.firstName}
-            editable={this.state.editable}
-            autoFocus={this.state.autoFocus}
-            onChangeText={this.updateField.bind(this, 'First Name')}
-          />
-        </View>
-        <View style={styles.cellStyle}>
-          <Text style={styles.textStyle}>
-            Last Name:
-          </Text>
-          <TextInput
-            style={styles.generalInputStyle}
-            defaultValue={this.state.lastName}
-            editable={this.state.editable}
-            autoFocus={this.state.autoFocus}
-            onChangeText={this.updateField.bind(this, 'Last Name')}
-          />
-        </View>
-        <Text style={styles.headingStyle}>
-          Contact Information:
-        </Text>
-        <View style={styles.cellStyle}>
-          <Text style={styles.textStyle}>
-            Email address:
-          </Text>
-          <TextInput
-            style={styles.contactInputStyle}
-            defaultValue={this.state.email}
-            editable={false}
-          />
-        </View>
-        <View style={styles.cellStyle}>
-          <Text style={styles.textStyle}>
-            Mobile number:
-          </Text>
-          <TextInput
-            style={styles.contactInputStyle}
-            defaultValue={this.state.mobile}
-            editable={this.state.editable}
-            autoFocus={this.state.autoFocus}
-            onChangeText={this.updateField.bind(this, 'Mobile')}
-          />
-        </View>
-        <TouchableHighlight style={styles.button} onPress={this.updateProfile.bind(this)}>
-          <Text style={styles.buttonText}>
-            {this.state.update}
-          </Text>
-        </TouchableHighlight>
-        <TouchableHighlight style={styles.button}>
-          <Text style={styles.buttonText}>
-            View Interests List
-          </Text>
-        </TouchableHighlight>
-        <TouchableHighlight style={styles.button}>
-          <Text style={styles.buttonText}>
-            View My Posts
-          </Text>
-        </TouchableHighlight>
       </View>
+      <View style={styles.cellStyle}>
+        <H2>
+          Last Name:
+        </H2>
+        <TextInput
+          style={styles.generalInputStyle}
+          defaultValue={this.state.lastName}
+          editable={this.state.editable}
+          autoFocus={this.state.autoFocus}
+          onChangeText={this.updateField.bind(this, 'Last Name')}
+        />
+      </View>
+      <H1>
+        Contact Information:
+      </H1>
+      <View style={styles.cellStyle}>
+        <H2>
+          Email address:
+        </H2>
+        <TextInput
+          style={styles.contactInputStyle}
+          defaultValue={this.state.email}
+          editable={false}
+        />
+      </View>
+      <View style={styles.cellStyle}>
+        <H2>
+          Mobile number:
+        </H2>
+        <TextInput
+          style={styles.contactInputStyle}
+          defaultValue={this.state.mobile}
+          editable={this.state.editable}
+          autoFocus={this.state.autoFocus}
+          onChangeText={this.updateField.bind(this, 'Mobile')}
+        />
+      </View>
+        <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center', marginTop: 10}}>
+          <IconButton
+            title={this.state.update}
+            icon={'pencil'}
+            onPress={this.updateProfile.bind(this)}
+          />
+          <IconButton
+            title={'View Interests List'}
+            icon={'star'}
+            onPress={ () =>
+              this.props.navigator.push({
+                id: 'ViewPosts',
+                props: {criteria: {wishlist: true}, navigator: this.props.navigator}
+            })}
+          />
+          <IconButton
+            title={'View My Posts'}
+            icon={'list-ul'}
+            onPress={ () =>
+              this.props.navigator.push({
+                id: 'ViewPosts',
+                props: {criteria: {user: true}, navigator: this.props.navigator}
+            })}
+          />
+        </View>
+      </ScrollView>
     )
   }
 }
 
 const styles = StyleSheet.create({
   containerStyle: {
-    flex: 1,
-    marginTop: 10
+    // flex: 1,
+    marginTop: 10,
+    // marginLeft: 10,
+    padding: 10,
   },
   imageStyle: {
     alignSelf: 'center',
@@ -192,22 +211,23 @@ const styles = StyleSheet.create({
   ratingStyle: {
     color: '#550080',
     fontWeight: '600',
-    alignSelf: 'center'
+    // alignSelf: 'center'
   },
   headingStyle: {
     marginTop: 5,
     color: '#550080',
     fontSize: 20,
     fontWeight: '700',
-    alignSelf: 'center'
+    // alignSelf: 'center'
   },
   cellStyle: {
-    alignSelf: 'center',
-    flexDirection: 'row'
+    // alignSelf: 'center',
+    // flexDirection: 'row',
+    // marginLeft: 30,
   },
   textStyle: {
     paddingRight: 30,
-    alignSelf: 'center',
+    // alignSelf: 'center',
     fontSize: 15,
     fontWeight: '800'
   },

@@ -1,11 +1,16 @@
 import React, { Component, PropTypes } from 'react';
-import { View, Text, TextInput, Picker, ProgressBarAndroid, Linking, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, TextInput, Picker, Linking, TouchableOpacity, Alert, Image, ScrollView } from 'react-native';
 import Communications from 'react-native-communications';
 
 import Card from '../components/Card';
 import CardSection from '../components/CardSection';
 import ButtonSection from '../components/ButtonSection';
 import Button from '../components/Button';
+import ImageViewer from '../components/ImageViewer';
+import { IconButton } from '../components/Buttons';
+import { H1, H2, H3 } from '../components/Headings';
+import FormField from '../components/FormField';
+import BookConditions from '../constants/BookConditions';
 import ApiUtils from '../ApiUtils';
 import axios from 'axios';
 
@@ -15,27 +20,39 @@ class ViewPost extends Component {
     this.state = {
       token: '',
       creatorId: '',
-      id: '',
       firstname: '',
       lastname: '',
       email: '',
       phone: null,
       title: '',
       description: '',
-      status: 'open',
+      status: '',
       condition: '100',
       price: '',
+      images: [],
       editable: false,
       autoFocus: false,
       hide: true,
       update: "Update Post",
+      inWishList: false,
+      interestsListButton: ''
     };
   }
 
   componentWillMount() {
+    // console.log('book ', BookConditions[30]);
+    this.setState({
+      title: this.props.title,
+      description: this.props.description,
+      status: this.props.status,
+      condition: BookConditions[this.props.condition],
+      price: this.props.price,
+      images: this.props.images,
+    });
     ApiUtils.getToken('Login_Token').then((res) => {
       this.setState({token: res});
-      fetch(`https://eztextbook.herokuapp.com/api/user/visit/profile/${this.props.creator._id}?token=${this.state.token}`)
+      var creatorid = this.props.creator._id ? this.props.creator._id : this.props.creator;
+      fetch(`https://eztextbook.herokuapp.com/api/user/visit/profile/${creatorid}?token=${this.state.token}`)
         .then((response) => response.json())
         .then((responseJson) => {
           this.setState({firstname: responseJson.firstname});
@@ -51,16 +68,22 @@ class ViewPost extends Component {
         .catch((error) => {
           console.error(error);
         });
-      fetch(`https://eztextbook.herokuapp.com/api/post/${this.props._id}?token=${this.state.token}`)
+      fetch(`https://eztextbook.herokuapp.com/api/user/interests?token=${this.state.token}`)
         .then((response) => response.json())
         .then((responseJson) => {
+          // console.log(responseJson);
+          const interestsList = [];
+          for(i = 0; i < responseJson.length; i++) {
+            interestsList.push(responseJson[i]._id);
+          }
           this.setState({
-            id: responseJson._id,
-            title: responseJson.title,
-            description: responseJson.description,
-            status: responseJson.status,
-            condition: responseJson.condition,
-            price: responseJson.price,
+            inWishList: interestsList.indexOf(this.props._id) !== -1
+          });
+          // console.log(interestsList);
+          // console.log(this.props._id);
+          // console.log(this.state.inWishList);
+          this.setState({
+            interestsListButton: this.state.inWishList ? 'Remove' : 'Interested'
           });
         })
         .catch((error) => {
@@ -68,10 +91,15 @@ class ViewPost extends Component {
         });
     });
     ApiUtils.getToken('userId').then((result) => {
-      this.setState({creatorId: result});
-      this.setState({
-        hide: !(this.props.creator._id === this.state.creatorId)
-      });
+      if (typeof this.props.creator === 'object') {
+        this.setState({
+          hide: !(this.props.creator._id === result)
+        });
+      } else {
+        this.setState({
+          hide: !(this.props.creator === result)
+        });
+      }
     });
   }
 
@@ -95,24 +123,46 @@ class ViewPost extends Component {
     });
   }
 
-  addToList() {
-    fetch(`https://eztextbook.herokuapp.com/api/user/interests/add?token=${this.state.token}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        post: this.props._id
+  modifyInterestsList() {
+    if (this.state.inWishList) {
+      fetch(`https://eztextbook.herokuapp.com/api/user/interests/delete?token=${this.state.token}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          post: this.props._id
+        })
       })
-    })
-    .then(response => response.json())
-    .then((responseJson) => {
-        if (responseJson.success !== false) {
-          Alert.alert('Post added to your interest list');
-        } else {
-          Alert.alert("You've already added this post to your interest list");
-        }
-    });
+      .then(response => response.json())
+      .then((responseJson) => {
+        // console.log(responseJson);
+        Alert.alert('Post deleted from your Interest List.');
+        this.setState({
+          inWishList: false,
+          interestsListButton: 'Interested'
+        });
+      });
+    } else {
+      fetch(`https://eztextbook.herokuapp.com/api/user/interests/add?token=${this.state.token}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          post: this.props._id
+        })
+      })
+      .then(response => response.json())
+      .then((responseJson) => {
+        // console.log(responseJson);
+        Alert.alert('Post added to your Interest List.');
+        this.setState({
+          inWishList: true,
+          interestsListButton: 'Remove'
+        });
+      });
+    }
   }
 
   updateField(fieldName, event) {
@@ -153,7 +203,7 @@ class ViewPost extends Component {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          _id: this.state.id,
+          _id: this.props._id,
           title: this.state.title,
           description: this.state.description,
           status: this.state.status,
@@ -169,7 +219,7 @@ class ViewPost extends Component {
             Alert.alert("Post Updated");
           }
           this.setState({
-            update: "Update Profile",
+            update: "Update Post",
             editable: false,
             autoFocus: false
           });
@@ -191,103 +241,112 @@ class ViewPost extends Component {
     } = styles;
     const role = type === 'Buying' ? 'Buyer' : 'Seller';
     const message = 'RE: ' + title;
+    console.log(this.state.images);
+    // let images = this.state.images.length > 0 ?
+    //   <ImagesViewer urls={this.state.images} /> :
+    //   null;
+    let images = this.state.images.map((url) => {
+      // console.log('image url ',`https://eztextbook.herokuapp.com/images/${url}?token=${this.state.token}`)
+      return (
+        <ImageViewer key={url} url={`https://eztextbook.herokuapp.com/images/${url}?token=${this.state.token}`} />
+      );
+    });
     return (
-      <Card>
-          <View style={headerContentStyle}>
+      <Card header={type.toUpperCase()}>
+        <ScrollView style={styles.headerContentStyle}>
             <View style={styles.cellStyle}>
-              <Text style={headerTextStyle}>
-                Post Type:
-              </Text>
-              <TextInput
-                style={styles.input}
-                defaultValue={type}
-                editable={false}
-                autoFocus={false}
-              />
-            </View>
-            <View style={styles.cellStyle}>
-              <Text style={headerTextStyle}>Creator: </Text>
-              <TextInput
-                style={styles.input}
-                defaultValue={this.state.firstname + ' ' + this.state.lastname}
-                editable={false}
-                autoFocus={false}
-              />
-            </View>
-            <View style={styles.cellStyle}>
-              <Text style={headerTextStyle}>Title: </Text>
-              <TextInput
-                style={styles.input}
+              {this.state.editable ? <FormField
                 defaultValue={this.state.title}
                 editable={this.state.editable}
                 autoFocus={this.state.autoFocus}
                 onChangeText={this.updateField.bind(this, 'Title')}
-              />
+              /> : <H1>{this.state.title}</H1> }
             </View>
             <View style={styles.cellStyle}>
-              <Text style={headerTextStyle}>Description: </Text>
-              <TextInput
-                style={styles.input}
+              <Text style={headerTextStyle}>
+              <H2>{this.props.book.title.trim()}</H2>
+              </Text>
+            </View>
+            <View style={styles.cellStyle}>
+              <Text style={headerTextStyle}>
+              Posted by {this.state.firstname + ' ' + this.state.lastname} (Rating: {creator.rating})
+              </Text>
+            </View>
+            <View style={styles.cellStyle}>
+              <Text style={headerTextStyle}><H3>{'\n'}Description: </H3></Text>
+              {this.state.editable ? <FormField
                 defaultValue={this.state.description}
                 editable={this.state.editable}
                 autoFocus={this.state.autoFocus}
                 onChangeText={this.updateField.bind(this, 'Description')}
-              />
+              /> : <Text>{this.state.description+'\n\n'}</Text> }
             </View>
             <View style={styles.cellStyle}>
-              <Text style={headerTextStyle}>Status: </Text>
-              <Picker enabled={this.state.editable}>
-                <Picker.Item label="open" value="open" />
-                <Picker.Item label="close" value="close" />
-                <Picker.Item label="on hold" value="on hold" />
-              </Picker>
+              <Text style={headerTextStyle}><H3>Status: </H3></Text>
+              {this.state.editable ? <Picker
+                enabled={this.state.editable}
+                selectedValue={this.state.status}
+                onValueChange={(val) => this.setState({status: val})}>
+                <Picker.Item label="Open" value="Open" />
+                <Picker.Item label="Closed" value="Closed" />
+                <Picker.Item label="On hold" value="On hold" />
+              </Picker> : <Text>{this.state.status+'\n\n'}</Text> }
             </View>
             <View style={styles.cellStyle}>
-              <Text style={headerTextStyle}>Condition: </Text>
-              <TextInput
-                style={styles.input}
-                defaultValue={this.state.condition + ''}
-                editable={this.state.editable}
-                autoFocus={this.state.autoFocus}
-                onChangeText={this.updateField.bind(this, 'Condition')}
-              />
+              <Text style={headerTextStyle}><H3>Condition: </H3></Text>
+              {this.state.editable ? <Picker
+                enabled={this.state.editable}
+                selectedValue={this.state.condition}
+                onValueChange={(val) => this.setState({condition: val})}>
+                <Picker.Item label="Used - Worn" value="30" />
+                <Picker.Item label="Used - Has Writings" value="60" />
+                <Picker.Item label="Used - Like New" value="90" />
+                <Picker.Item label="Brand New" value="100" />
+              </Picker> : <Text>{this.state.condition+'\n\n'}</Text> }
             </View>
             <View style={styles.cellStyle}>
-              <Text>Price: </Text>
-              <TextInput
-                style={styles.priceInput}
+              <Text><H3>Price: </H3></Text>
+              {this.state.editable ? <FormField
                 defaultValue={this.state.price + ''}
                 editable={this.state.editable}
                 autoFocus={this.state.autoFocus}
                 onChangeText={this.updateField.bind(this, 'Price')}
-              />
+              /> : <Text>{this.state.price+'\n\n'}</Text> }
             </View>
+            <View>
+              {images}
+            </View>
+          <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center', marginTop: 10}}>
+            <IconButton
+              title={`Email ${role}`}
+              icon={'envelope'}
+              onPress={() => Communications.email([this.state.email], null, null, message, '\n- Sent from EZTextbook')}
+            />
+            <IconButton
+              title={`SMS Message`}
+              icon={'commenting'}
+              onPress={() => Communications.text(this.state.phone, message)}
+            />
+            </View>
+            <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center', marginTop: 10}}>
+            <IconButton
+              title={`Mark as Spam`}
+              icon={'trash'}
+              onPress={this.markSpam.bind(this)}
+            />
+            <IconButton
+              title={this.state.interestsListButton}
+              icon={'star'}
+              onPress={this.modifyInterestsList.bind(this)}
+            />
+            <IconButton
+              title={this.state.update}
+              icon={'pencil'}
+              onPress={this.editPost.bind(this)}
+              style={this.state.hide ? styles.hidden : null}
+            />
           </View>
-          <TouchableOpacity style={styles.buttonStyle} onPress={() => Communications.email([this.state.email], null, null, message, '- Sent from EZTextbook')}>
-            <View style={styles.holder}>
-              <Text style={styles.text}>{`Email ${role}`}</Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.buttonStyle} onPress={() => Communications.text(this.state.phone, message)}>
-            <View style={styles.holder}>
-              <Text style={styles.text}>SMS Message</Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.buttonStyle} onPress={this.markSpam.bind(this)}>
-            <View style={styles.holder}>
-              <Text style={styles.text}>Mark as Spam</Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.buttonStyle} onPress={this.addToList.bind(this)}>
-            <View style={styles.holder}>
-              <Text style={styles.text}>Add to Interest List</Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity style={[styles.buttonStyle, this.state.hide ? styles.hidden : {}]} onPress={this.editPost.bind(this)}>
-            <View style={styles.holder}>
-              <Text style={styles.text}>{this.state.update}</Text>
-            </View>
-          </TouchableOpacity>
+        </ScrollView>
       </Card>
     )
   }
@@ -295,8 +354,8 @@ class ViewPost extends Component {
 
 const styles = {
   headerContentStyle: {
-    flexDirection: 'column',
-    justifyContent: 'space-around'
+    marginBottom: 5,
+    padding: 5
   },
   headerTextStyle: {
     fontSize: 13
@@ -326,19 +385,26 @@ const styles = {
     height: 0
   },
   input: {
+    marginLeft: 4,
     height: 35,
-    width: 200,
+    width: 350,
     fontSize: 13
   },
   priceInput: {
     height: 35,
     width: 200,
     fontSize: 13,
-    color: 'red'
+    fontWeight: '300',
+    color: '#ff471a'
   },
   cellStyle: {
     flexDirection: 'column'
   },
+  image: {
+    borderRadius: 10,
+    width: 70,
+    height: 70
+  }
 };
 
 export default ViewPost;

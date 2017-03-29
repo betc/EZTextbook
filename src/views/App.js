@@ -10,6 +10,7 @@ import {
   BackAndroid,
   AsyncStorage
 } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 import Home from './Home';
 import Profile from './Profile';
@@ -17,12 +18,11 @@ import Register from './Register';
 import Post from './Post';
 import Search from './Search';
 import Login from './Login';
-import SellBuy from './SellBuy';
 import ViewPost from './ViewPost';
 import ViewPosts from './ViewPosts';
 import BarcodeScanner from './BarcodeScanner';
 
-import navOptions from '../constants/NavOptions';
+import NavOptions from '../constants/NavOptions';
 import NavItem from '../components/NavItem';
 import BookList from '../components/BookList';
 import Button from '../components/Button';
@@ -93,20 +93,20 @@ export default class App extends Component {
     let scene = <Home navigator={navigator} />;
     if (this.state.loggedIn) {
         console.log('logged in pls go to profile')
-        scene = <Profile />;
+        scene = <Profile navigator={navigator} />;
     }
 
     // if (route.id === 'Home') {
     //   scene = <Home navigator={navigator} />;
     // }
     if (route.id === 'Profile') {
-      scene = <Profile />;
+      scene = <Profile navigator={navigator} />;
     } else if (route.id === 'Register') {
         scene = <Register navigator={navigator} />
     } else if (route.id === 'Selling') {
-        scene = <SellBuy type='Selling' navigator={navigator} />
+        scene = <ViewPosts criteria={{type: 'Selling'}} navigator={navigator} />
     } else if (route.id === 'Buying') {
-        scene = <SellBuy type='Buying' navigator={navigator} />
+        scene = <ViewPosts criteria={{type: 'Buying'}} navigator={navigator} />
     } else if (route.id === 'Search') {
         scene = <Search navigator={navigator} />
     } else if (route.id === 'Post') {
@@ -133,17 +133,18 @@ export default class App extends Component {
   }
 
   triggerLogin() {
-    console.log('trigger');
+    // console.log('trigger');
     // e.preventDefault();
     this.setState({loggedIn: true});
     this.setState({view: 'Profile'});
   }
 
   render() {
-    let navigationButtons = navOptions.map((item) =>
+    let navigationButtons = NavOptions.map((item) =>
       <NavItem
         key={item.id}
         title={item.name}
+        icon={item.icon}
         onPress={() => {
           // console.log(this.refs.navigator)
           this.refs.drawer.closeDrawer();
@@ -173,7 +174,7 @@ export default class App extends Component {
       />
     );
     let navigationView = (
-      <View style={{flex: 3, backgroundColor: '#262626'}}>
+      <View style={{flex: 3, backgroundColor: '#262626', paddingTop: 20}}>
         <Text style={styles.header}>{this.state.userName}</Text>
         {navigationButtons}
       </View>
@@ -190,7 +191,7 @@ export default class App extends Component {
               navIcon={require('../../img/menu.png')}
               onIconClicked={() => this.refs.drawer.openDrawer()}
               style={styles.toolbar}
-              title={this.state.view}
+              title={'EZTextbook'}
             />
           </View>
           <Navigator
@@ -206,7 +207,7 @@ export default class App extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff'
+    backgroundColor: '#f2f2f2'
   },
   toolbar: {
     backgroundColor: '#ffcc00',

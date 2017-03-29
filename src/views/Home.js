@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
-import { Image, View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { Image, View, Text, StyleSheet, TouchableOpacity, Dimensions, PixelRatio } from 'react-native';
+import { Button } from '../components/Buttons';
 
 class Home extends Component {
   constructor(props) {
@@ -13,34 +14,23 @@ class Home extends Component {
     this.props.navigator.push({id: "Login"});
   }
   render() {
+    var {height, width} = Dimensions.get('window');
     return (
       <View style={styles.container}>
-        <Text style={styles.heading}>Welcome</Text>
         <Image
-          source={require('../../img/EZTextbook.png')}
-          style={styles.imageStyle}
+          source={require('../../img/AppLogo2.png')}
+          style={{width: 324, height: 96}}
         />
-        <Text style={styles.text}>Made Textbook Exchange Easy!</Text>
-        <Image
-          source={require('../../img/Logo.png')}
-          style={styles.logo}
-        />
-        <TouchableOpacity style={styles.button} onPress={this.register.bind(this)}>
-          <Text style={styles.buttonText}>
-            Sign up for an account
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={this.login.bind(this)}>
-          <Text style={styles.buttonText}>
-            Log in to EZTextbook
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.facebook}>
-          <Image
-            source={require('../../img/facebook.png')}
-            style={styles.imageStyle}
-          />
-        </TouchableOpacity>
+        <View style={{marginTop: 20}}>
+          <Button onPress={this.register.bind(this)}>
+            Register
+          </Button>
+        </View>
+        <View style={{marginTop: 20}}>
+          <Button onPress={this.login.bind(this)}>
+            Login
+          </Button>
+        </View>
       </View>
     )
   }
@@ -49,8 +39,10 @@ class Home extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF'
+    backgroundColor: '#f2f2f2'
   },
   heading: {
     fontSize: 30,
@@ -61,8 +53,8 @@ const styles = StyleSheet.create({
   },
   imageStyle: {
     marginTop: 15,
-    height: 60,
-    width: 300,
+    // height: 70,
+    // width: 300,
     borderWidth: 4,
     borderColor: '#F5FCFF'
   },

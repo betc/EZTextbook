@@ -3,42 +3,17 @@ import { Text, View, Image } from 'react-native';
 import Card from './Card';
 import CardSection from './CardSection';
 import ButtonSection from './ButtonSection';
-import Button from './Button';
-import ApiUtils from '../ApiUtils.js';
+import { Button } from './Buttons';
+import { H1, H2 } from './Headings';
+import { IconButton } from './Buttons';
 
 // const BookDetail = ({ book }) => {
 class BookDetail extends Component {
   constructor() {
     super();
     this.state = {
-      posts: [],
-      token: ""
+      posts: []
     };
-  }
-
-  componentWillMount() {
-    ApiUtils.getToken('Login_Token').then((res) => {
-      this.setState({
-        token: res
-      });
-    })
-  }
-
-  viewPosts() {
-    console.log("I am viewPosts");
-    const bookId = this.props.book._id;
-    console.log('Book id is ' + bookId);
-    console.log('Token is ' + this.state.token);
-    fetch(`https://eztextbook.herokuapp.com/api/post/search/criteria?token=${this.state.token}&book=${bookId}`)
-      .then((response) => response.json())
-      .then((responseJson) => {
-        this.setState({posts: responseJson});
-        console.log(this.state.posts);
-        this.props.navigator.push({id: "ViewPosts", props: { posts: this.state.posts, navigator: this.props.navigator}})
-      })
-      .catch((error) => {
-        console.error(error);
-      });
   }
   render() {
     const { _id, title, thumbnail, feds, uwbook, amazon} = this.props.book;
@@ -53,7 +28,7 @@ class BookDetail extends Component {
   } = styles;
   const imgUrl = thumbnail === '' ? "https://www.littlebrown.co.uk/assets/img/newsletter_placeholder.jpg" : thumbnail;
   return (
-    <Card>
+    <Card header={'TEXTBOOK'}>
       <CardSection>
         <View style={thumbnailContainerStyle}>
           <Image
@@ -62,31 +37,42 @@ class BookDetail extends Component {
           />
         </View>
         <View style={bookContentStyle}>
-          <Text style={bookTitle}>{title}</Text>
+          <H2>{title}</H2>
           <View style={priceStyle}>
             <Text style={dealer}>Amazon: </Text>
-            <Text style={bookPrice}> ${amazon}</Text>
+            <Text style={bookPrice}> {amazon !== 0 ? '$'+amazon : 'n/a'}</Text>
           </View>
           <View style={priceStyle}>
             <Text style={dealer}>UW BookStore: </Text>
-            <Text style={bookPrice}> ${uwbook}</Text>
+            <Text style={bookPrice}> {uwbook !== 0 ? '$'+uwbook : 'n/a'}</Text>
           </View>
           <View style={priceStyle}>
             <Text style={dealer}>Feds Used Books: </Text>
-            <Text style={bookPrice}> ${feds}</Text>
+            <Text style={bookPrice}> {feds !== 0 ? '$'+feds : 'n/a'}</Text>
           </View>
         </View>
       </CardSection>
 
       <ButtonSection>
-        <Button onPress={this.viewPosts.bind(this)}>
-          View Posts
-        </Button>
-      </ButtonSection>
-      <ButtonSection>
-        <Button onPress={() => this.props.navigator.push({id: "Post", props: { title: title, book: _id, navigator: this.props.navigator}})}>
-          Make a Post
-        </Button>
+        <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center', marginTop: 10}}>
+          <IconButton
+            title={'View Posts'}
+            icon={'list-ul'}
+            onPress={() =>
+              this.props.navigator.push({
+                id: 'ViewPosts',
+                props: {criteria: {bookid: _id}, navigator: this.props.navigator}
+            })}
+          />
+          <IconButton
+            title={'Make a Post'}
+            icon={'pencil-square'}
+            onPress={() => this.props.navigator.push({
+              id: 'Post',
+              props: { title: title, book: _id, navigator: this.props.navigator}
+            })}
+          />
+        </View>
       </ButtonSection>
     </Card>
   );
