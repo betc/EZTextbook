@@ -76,6 +76,7 @@ class Profile extends Component {
   }
 
   updateProfile() {
+    const nameRegex = /[A-Za-z][A-Za-z]*/;
     if (this.state.update == "Update Profile") {
       this.setState({
         update: "Save Change",
@@ -83,8 +84,10 @@ class Profile extends Component {
         autoFocus: true
       });
     } else {
-      if (this.state.firstName === '' || this.state.lastName === '') {
-        Alert.alert('Name field cannot be empty.');
+      if (!nameRegex.test(this.state.firstName) || !nameRegex.test(this.state.lastName)) {
+        console.log(this.state.firstName);
+        console.log(this.state.lastName);
+        Alert.alert('Name field is invalid');
       } else {
         const url = 'https://eztextbook.herokuapp.com/api/user/profile/update?token=' + this.state.token;
         axios.post(url, {

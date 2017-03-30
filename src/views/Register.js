@@ -26,42 +26,24 @@ class Register extends Component {
     }
   }
 
-  validateEmail(email) {
-    const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    if (emailRegex.test(email))
-      return true;
-    else
-      return false;
-  }
-
-  validatePhone(mobile) {
-    const mobileRegex = /^[0-9]{10}$/;
-    if (mobileRegex.test(mobile) || mobile === '')
-      return true;
-    else
-      return false;
-  }
-
-  validatePassword(password) {
-    const passwordRegex = /^.{6,}$/;
-    if (passwordRegex.test(password))
-      return true;
-    else
-      return false;
-  }
-
   async onRegisterPressed() {
     let errorsArray = [];
     if (this.state.email == "" || this.state.firstName == "" || this.state.lastName == "" || this.state.password == "" || this.state.passwordConfirmation == "") {
       errorsArray.push("Required field must be filled out.");
     }
-    if (!this.validateEmail(this.state.email)) {
+    if (!this.validateInput(this.state.email, 'email')) {
       errorsArray.push("E-mail address entered is invalid.");
     }
-    if (!this.validatePhone(this.state.phone)) {
-      errorsArray.push("Mobile number consists of 10 digits only.")
+    if (!this.validateInput(this.state.phone, 'phone')) {
+      errorsArray.push("Mobile number consists of 10 digits only.");
     }
-    if (!this.validatePassword(this.state.password)) {
+    if (!this.validateInput(this.state.firstName, 'name')) {
+      errorsArray.push("First Name entered is invalid");
+    }
+    if (!this.validateInput(this.state.lastName, 'name')) {
+      errorsArray.push("Last Name entere is invalid");
+    }
+    if (!this.validateInput(this.state.password, 'password')) {
       errorsArray.push("Password should be at least 6 characters long.");
     }
     if (this.state.password !== this.state.passwordConfirmation) {
@@ -92,6 +74,22 @@ class Register extends Component {
       })
     } else {
       this.setState({errors: errorsArray});
+    }
+  }
+
+  validateInput(input, type) {
+    const passwordRegex = /^.{6,}$/;
+    const mobileRegex = /^[0-9]{10}$/;
+    const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    const nameRegex = /[A-Za-z][A-Za-z]*/;
+    if (type === 'email') {
+      return emailRegex.test(input);
+    } else if (type === 'phone') {
+      return mobileRegex.test(input);
+    } else if (type === 'password') {
+      return passwordRegex.test(input);
+    } else {
+      return nameRegex.test(input);
     }
   }
 
