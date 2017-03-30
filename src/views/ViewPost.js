@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { View, Text, TextInput, Picker, Linking, TouchableOpacity, Alert, Image, ScrollView } from 'react-native';
+import { View, Text, TextInput, Picker, Linking, TouchableOpacity, Alert, Image, ScrollView, Dimensions } from 'react-native';
 import Communications from 'react-native-communications';
 
 import Card from '../components/Card';
@@ -39,13 +39,14 @@ class ViewPost extends Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     // console.log('book ', BookConditions[30]);
+
     this.setState({
       title: this.props.title,
       description: this.props.description,
       status: this.props.status,
-      condition: BookConditions[this.props.condition],
+      condition: this.props.condition,
       price: this.props.price,
       images: this.props.images,
     });
@@ -197,6 +198,14 @@ class ViewPost extends Component {
         autoFocus: true
       });
     } else {
+      console.log({
+        _id: this.props._id,
+        title: this.state.title,
+        description: this.state.description,
+        status: this.state.status,
+        condition: parseInt(this.state.condition),
+        price: parseFloat(this.state.price).toFixed(2)
+      });
       fetch(`https://eztextbook.herokuapp.com/api/post/update?token=${this.state.token}`, {
         method: 'POST',
         headers: {
@@ -207,11 +216,12 @@ class ViewPost extends Component {
           title: this.state.title,
           description: this.state.description,
           status: this.state.status,
-          condition: this.state.condition,
-          price: this.state.price
+          condition: parseInt(this.state.condition),
+          price: parseFloat(this.state.price).toFixed(2)
         })
       }).then((response) => response.json())
         .then((responseJson) => {
+          console.log(responseJson);
           if (responseJson.success === false) {
             Alert.alert('An error occurred when updating.')
           }
@@ -231,6 +241,7 @@ class ViewPost extends Component {
   }
 
   render() {
+    var {height, width} = Dimensions.get('window');
     const { _id, title, description, creator, book, price, condition, status, dateCreated, type } = this.props;
     const {
       thumbnailStyle,
@@ -252,7 +263,7 @@ class ViewPost extends Component {
       );
     });
     return (
-      <Card header={type.toUpperCase()}>
+      <Card header={type.toUpperCase()} style={{maxHeight: height-100}}>
         <ScrollView style={styles.headerContentStyle}>
             <View style={styles.cellStyle}>
               {this.state.editable ? <FormField
@@ -302,7 +313,7 @@ class ViewPost extends Component {
                 <Picker.Item label="Used - Has Writings" value="60" />
                 <Picker.Item label="Used - Like New" value="90" />
                 <Picker.Item label="Brand New" value="100" />
-              </Picker> : <Text>{this.state.condition+'\n\n'}</Text> }
+              </Picker> : <Text>{BookConditions[this.state.condition]+'\n\n'}</Text> }
             </View>
             <View style={styles.cellStyle}>
               <Text><H3>Price: </H3></Text>

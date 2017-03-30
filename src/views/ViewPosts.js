@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { View, ScrollView, Text, AsyncStorage, Slider, Picker, Dimensions } from 'react-native';
+import { View, ScrollView, Text, AsyncStorage, Slider, Picker, Dimensions, ToastAndroid } from 'react-native';
 import SearchBar from '../components/SearchBar';
 import ViewPostsItem from '../components/ViewPostsItem';
 import { getPosts } from '../FetchUtils';
+import Events from 'react-native-simple-events';
 
 class ViewPosts extends Component {
   constructor(props) {
@@ -17,12 +18,10 @@ class ViewPosts extends Component {
       screenWidth: 0,
     };
     this.filterText = this.filterText.bind(this);
+    this.fetchPosts = this.fetchPosts.bind(this);
   }
 
-  componentDidMount() {
-    var {height, width} = Dimensions.get('window');
-    this.setState({screenWidth: width});
-    console.log('screen width: ',this.state.screenWidth);
+  fetchPosts() {
     getPosts(this.props.criteria)
     .then((response) => {
       this.setState({
@@ -30,6 +29,20 @@ class ViewPosts extends Component {
         postsCopy: response
       });
     });
+  }
+
+  componentDidMount() {
+    Events.on('backPressed', 'ViewPost', () => {
+      this.fetchPosts();
+      this.render();
+      // ToastAndroid.show('rendered', ToastAndroid.SHORT);
+    })
+
+    let {height, width} = Dimensions.get('window');
+    this.setState({screenWidth: width});
+    console.log('screen width: ',this.state.screenWidth);
+
+    this.fetchPosts();
   }
 
   sortPosts(selected) {

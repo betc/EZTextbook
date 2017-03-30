@@ -12,6 +12,7 @@
     "react-native-camera": "git+https://github.com/lwansbrough/react-native-camera.git",
     "react-native-communications": "^2.2.1",
     "react-native-image-picker": "^0.26.2",
+    "react-native-simple-events": "^1.0.1",
     "react-native-vector-icons": "^4.0.0"
   },
   "devDependencies": {

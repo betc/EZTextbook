@@ -4,7 +4,7 @@ import { CardHeader } from './Headings';
 
 const Card = (props) => {
   return (
-    <View style={styles.containerStyle}>
+    <View style={[styles.containerStyle, props.style]}>
       {props.header ? <CardHeader>{props.header}</CardHeader> : null}
       {props.children}
       {props.footer ? <CardHeader footer={true}>{props.footer}</CardHeader> : null}

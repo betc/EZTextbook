@@ -27,7 +27,7 @@ export default class Post extends Component {
       this.setState({successMsg: 'Please fill out required (*) fields.'});
       return false;
     }
-    else if (parseFloat(this.state.price) < 0) {
+    else if (parseFloat(this.state.price) < 0 || isNaN(this.state.price)) {
       this.setState({successMsg: 'Please enter a valid price.'});
       return false;
     }
@@ -145,6 +145,29 @@ export default class Post extends Component {
 
   render() {
     const Item = Picker.Item;
+    const imageUploader = (
+      <View>
+      <H3>Upload Photos</H3>
+      <View style={{flexDirection:'row', flexWrap:'wrap', marginBottom: 20}}>
+        <TouchableOpacity onPress={
+          this.state.images.length <= 2 ? this.imagePicker.bind(this) : () => Alert.alert('Maximum images exceeded.')
+        }>
+          <View style={[styles.image, styles.imageContainer]}>
+            <Text>+</Text>
+          </View>
+        </TouchableOpacity>
+        {this.state.images.map((imageUrl) =>
+        <TouchableOpacity onPress={() => {
+          var images = this.state.images;
+          var index = images.indexOf(imageUrl)
+          images.splice(index, 1);
+          this.setState({images: images });
+        }}>
+          <Image style={styles.image} source={imageUrl} />
+        </TouchableOpacity>)}
+      </View>
+      </View>
+    );
     return (
       <ScrollView style={styles.container}>
         <H3>Buy/Sell</H3>
@@ -178,25 +201,7 @@ export default class Post extends Component {
           <Item label="Used - Like New" value="90" />
           <Item label="Brand New" value="100" />
         </Picker>
-        <H3>Upload Photos</H3>
-        <View style={{flexDirection:'row', flexWrap:'wrap', marginBottom: 20}}>
-          <TouchableOpacity onPress={
-            this.state.images.length <= 2 ? this.imagePicker.bind(this) : () => Alert.alert('Maximum images exceeded.')
-          }>
-            <View style={[styles.image, styles.imageContainer]}>
-              <Text>+</Text>
-            </View>
-          </TouchableOpacity>
-          {this.state.images.map((imageUrl) =>
-          <TouchableOpacity onPress={() => {
-            var images = this.state.images;
-            var index = images.indexOf(imageUrl)
-            images.splice(index, 1);
-            this.setState({images: images });
-          }}>
-            <Image style={styles.image} source={imageUrl} />
-          </TouchableOpacity>)}
-        </View>
+        {this.state.type === 'Selling' ? imageUploader : null}
         <ButtonSubmit
           title="Submit"
           onPress={this.handleSubmit.bind(this)}

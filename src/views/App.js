@@ -8,7 +8,8 @@ import {
   View,
   Navigator,
   BackAndroid,
-  AsyncStorage
+  AsyncStorage,
+  ToastAndroid
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -28,6 +29,8 @@ import BookList from '../components/BookList';
 import Button from '../components/Button';
 
 import ApiUtils from '../ApiUtils';
+
+import Events from 'react-native-simple-events';
 
 export default class App extends Component {
   constructor(props) {
@@ -52,10 +55,14 @@ export default class App extends Component {
       }
       return res;
     });
-    BackAndroid.addEventListener('hardwareBackPress', () => {
+    BackAndroid.addEventListener('hardwareBackPress', (callback) => {
       if (this.refs.navigator && this.refs.navigator.getCurrentRoutes().length > 1) {
-          this.refs.navigator.pop();
-          return true;
+        let routes = this.refs.navigator.getCurrentRoutes();
+        let current = routes[routes.length-1];
+        // ToastAndroid.show(current.id, ToastAndroid.SHORT);
+        this.refs.navigator.pop();
+        Events.trigger('backPressed', current.id)
+        return true;
       }
       return false;
     });
@@ -164,8 +171,8 @@ export default class App extends Component {
           }
           else {
             this.setState({view: item.id});
-            routes = this.refs.navigator.getCurrentRoutes();
-            current = routes[routes.length-1];
+            let routes = this.refs.navigator.getCurrentRoutes();
+            let current = routes[routes.length-1];
             if (current.id !== item.id) {
               this.refs.navigator.push({id: item.id});
             }
@@ -175,7 +182,6 @@ export default class App extends Component {
     );
     let navigationView = (
       <View style={{flex: 3, backgroundColor: '#262626', paddingTop: 20}}>
-        <Text style={styles.header}>{this.state.userName}</Text>
         {navigationButtons}
       </View>
     );
@@ -198,6 +204,16 @@ export default class App extends Component {
             initialRoute={this.state.userName ? { id: 'Profile' } : { id: 'Home' }}
             ref='navigator'
             renderScene={this.renderScene.bind(this)}
+            configureScene={() => {
+              if (this.state.loggedIn) {
+                return Navigator.SceneConfigs.FadeAndroid;
+              }
+              else {
+                return Navigator.SceneConfigs.PushFromRight;
+              }
+            }}
+            // onDidFocus={() => console.log('navigator: onDidFocus')}
+            // onWillFocus={() => console.log('navigator: onWillFocus')}
           />
       </DrawerLayoutAndroid>
     );

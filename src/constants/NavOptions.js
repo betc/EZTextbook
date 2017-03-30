@@ -12,7 +12,7 @@ const navOptions = [
   {
     id: 'Buying',
     icon: 'list-ul',
-    name: 'View \'Buying\' Post',
+    name: 'View \'Buying\' Posts',
   },
   {
     id: 'Search',

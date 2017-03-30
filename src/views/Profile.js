@@ -19,6 +19,7 @@ class Profile extends Component {
   constructor() {
     super();
     this.state = {
+      welcomeName: '',
       profile: [],
       rating: "100",
       firstName: "",
@@ -44,6 +45,7 @@ class Profile extends Component {
         if (response.status === 200) {
           this.setState({
             rating: response.data.rating,
+            welcomeName: response.data.firstname,
             firstName: response.data.firstname,
             lastName: response.data.lastname,
             email: response.data.local.email,
@@ -90,6 +92,7 @@ class Profile extends Component {
           phone: this.state.mobile
         })
         .then(function(response){
+          this.setState({welcomeName: this.state.firstName});
           Alert.alert("Profile Updated");
         });
         this.setState({
@@ -106,7 +109,7 @@ class Profile extends Component {
     return (
       <ScrollView style={styles.containerStyle}>
       <H1>
-        Welcome {this.state.firstName}!
+        Welcome {this.state.welcomeName}!
       </H1>
       <H2>
         Rating: {this.state.rating}

@@ -12,6 +12,7 @@ class SearchBar extends Component {
         <TextInput placeholder={this.props.placeholder}
         style={styles.searchBarStyle}
         onChange={this.props.filterText}
+        underlineColorAndroid={'transparent'}
         />
       </View>
     )
