@@ -20,7 +20,7 @@ class ViewPostsItem extends Component {
     } = styles;
 
   return (
-    <Card header={type.toUpperCase()} footer={'$'+price.toString()}>
+    <Card header={type.toUpperCase()} footer={'$'+price.toFixed(2).toString()}>
       <TouchableOpacity onPress={() => this.props.navigator.push({id: 'ViewPost', props: {...this.props.post}})}>
         <CardSection>
           <View style={headerContentStyle}>

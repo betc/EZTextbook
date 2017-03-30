@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { View, Text, TextInput, Picker, Linking, TouchableOpacity, Alert, Image, ScrollView, Dimensions } from 'react-native';
+import { View, Text, TextInput, Picker, Linking, TouchableOpacity, Alert, Image, ScrollView, Dimensions, ToastAndroid } from 'react-native';
 import Communications from 'react-native-communications';
 
 import Card from '../components/Card';
@@ -117,9 +117,9 @@ class ViewPost extends Component {
     .then(response => response.json())
     .then((responseJson) => {
         if (responseJson.success !== false) {
-          Alert.alert('You have reported this post as a spam');
+          ToastAndroid.show('You have reported this post as a spam.', ToastAndroid.SHORT);
         } else {
-          Alert.alert('You cannot report a post spam twice');
+          ToastAndroid.show('You cannot report a post spam twice.', ToastAndroid.SHORT);
         }
     });
   }
@@ -138,7 +138,7 @@ class ViewPost extends Component {
       .then(response => response.json())
       .then((responseJson) => {
         // console.log(responseJson);
-        Alert.alert('Post deleted from your Interest List.');
+        ToastAndroid.show('Post deleted from your Interest List.', ToastAndroid.SHORT);
         this.setState({
           inWishList: false,
           interestsListButton: 'Interested'
@@ -157,7 +157,7 @@ class ViewPost extends Component {
       .then(response => response.json())
       .then((responseJson) => {
         // console.log(responseJson);
-        Alert.alert('Post added to your Interest List.');
+        ToastAndroid.show('Post added to your Interest List.', ToastAndroid.SHORT);
         this.setState({
           inWishList: true,
           interestsListButton: 'Remove'
@@ -223,10 +223,10 @@ class ViewPost extends Component {
         .then((responseJson) => {
           console.log(responseJson);
           if (responseJson.success === false) {
-            Alert.alert('An error occurred when updating.')
+            Alert.alert('An error occurred when updating.', 'Please make sure all inputs are valid.');
           }
           else {
-            Alert.alert("Post Updated");
+            ToastAndroid.show('Post updated.', ToastAndroid.SHORT);
           }
           this.setState({
             update: "Update Post",
@@ -252,6 +252,7 @@ class ViewPost extends Component {
     } = styles;
     const role = type === 'Buying' ? 'Buyer' : 'Seller';
     const message = 'RE: ' + title;
+    const body = `Hi, I'm interested in your ${type.toLowerCase()} post for ${this.props.book.title.trim()}!\n\n- Sent from EZTextbook`;
     console.log(this.state.images);
     // let images = this.state.images.length > 0 ?
     //   <ImagesViewer urls={this.state.images} /> :
@@ -269,7 +270,7 @@ class ViewPost extends Component {
               {this.state.editable ? <FormField
                 defaultValue={this.state.title}
                 editable={this.state.editable}
-                autoFocus={this.state.autoFocus}
+                // autoFocus={this.state.autoFocus}
                 onChangeText={this.updateField.bind(this, 'Title')}
               /> : <H1>{this.state.title}</H1> }
             </View>
@@ -288,7 +289,7 @@ class ViewPost extends Component {
               {this.state.editable ? <FormField
                 defaultValue={this.state.description}
                 editable={this.state.editable}
-                autoFocus={this.state.autoFocus}
+                // autoFocus={this.state.autoFocus}
                 onChangeText={this.updateField.bind(this, 'Description')}
               /> : <Text>{this.state.description+'\n\n'}</Text> }
             </View>
@@ -320,9 +321,10 @@ class ViewPost extends Component {
               {this.state.editable ? <FormField
                 defaultValue={this.state.price + ''}
                 editable={this.state.editable}
-                autoFocus={this.state.autoFocus}
+                keyboardType='numeric'
+                // autoFocus={this.state.autoFocus}
                 onChangeText={this.updateField.bind(this, 'Price')}
-              /> : <Text>{this.state.price+'\n\n'}</Text> }
+              /> : <Text>{'$'+this.state.price+'\n\n'}</Text> }
             </View>
             <View>
               {images}
@@ -331,12 +333,13 @@ class ViewPost extends Component {
             <IconButton
               title={`Email ${role}`}
               icon={'envelope'}
-              onPress={() => Communications.email([this.state.email], null, null, message, '\n- Sent from EZTextbook')}
+              onPress={() => Communications.email([this.state.email], null, null, message, body
+              )}
             />
             <IconButton
               title={`SMS Message`}
               icon={'commenting'}
-              onPress={() => Communications.text(this.state.phone, message)}
+              onPress={() => Communications.textWithoutEncoding(this.state.phone, body)}
             />
             </View>
             <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center', marginTop: 10}}>

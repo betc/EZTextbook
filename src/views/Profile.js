@@ -7,7 +7,8 @@ import {
   View,
   TouchableHighlight,
   Alert,
-  ScrollView
+  ScrollView,
+  ToastAndroid
 } from 'react-native';
 import { IconButton, Button } from '../components/Buttons';
 import { H1, H2, H3 } from '../components/Headings';
@@ -83,7 +84,7 @@ class Profile extends Component {
       });
     } else {
       if (this.state.firstName === '' || this.state.lastName === '') {
-        Alert.alert('Name field cannot be empty');
+        Alert.alert('Name field cannot be empty.');
       } else {
         const url = 'https://eztextbook.herokuapp.com/api/user/profile/update?token=' + this.state.token;
         axios.post(url, {
@@ -93,7 +94,7 @@ class Profile extends Component {
         })
         .then(function(response){
           this.setState({welcomeName: this.state.firstName});
-          Alert.alert("Profile Updated");
+          ToastAndroid.show('Profile updated.', ToastAndroid.SHORT);
         });
         this.setState({
           update: "Update Profile",
