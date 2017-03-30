@@ -93,7 +93,7 @@ class Profile extends Component {
           phone: this.state.mobile
         })
         .then(function(response){
-          this.setState({welcomeName: this.state.firstName});
+          // this.setState({welcomeName: this.state.firstName});
           ToastAndroid.show('Profile updated.', ToastAndroid.SHORT);
         });
         this.setState({

@@ -333,13 +333,14 @@ class ViewPost extends Component {
             <IconButton
               title={`Email ${role}`}
               icon={'envelope'}
-              onPress={() => Communications.email([this.state.email], null, null, message, body
-              )}
+              onPress={() => Communications.email([this.state.email], null, null, message, body)}
+              style={!this.state.hide ? styles.hidden : null}
             />
             <IconButton
               title={`SMS Message`}
               icon={'commenting'}
               onPress={() => Communications.textWithoutEncoding(this.state.phone, body)}
+              style={!this.state.hide ? styles.hidden : null}
             />
             </View>
             <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center', marginTop: 10}}>
@@ -347,11 +348,13 @@ class ViewPost extends Component {
               title={`Mark as Spam`}
               icon={'trash'}
               onPress={this.markSpam.bind(this)}
+              style={!this.state.hide ? styles.hidden : null}
             />
             <IconButton
               title={this.state.interestsListButton}
               icon={'star'}
               onPress={this.modifyInterestsList.bind(this)}
+              style={!this.state.hide ? styles.hidden : null}
             />
             <IconButton
               title={this.state.update}

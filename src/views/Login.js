@@ -70,10 +70,12 @@ export default class Login extends Component {
     return (
       <View style={styles.container}>
         <Text style={styles.error}>{this.state.errMsg}</Text>
-        <Image
-          source={require('../../img/AppLogo2.png')}
-          style={{width: 324, height: 96}}
-        />
+        <View style={{alignItems: 'center'}}>
+          <Image
+            source={require('../../img/AppLogo2.png')}
+            style={{width: 324, height: 96}}
+          />
+        </View>
         <FormField
           style={styles.input}
           underlineColorAndroid='transparent'
