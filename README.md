@@ -1,5 +1,7 @@
 # EZTextbook
 
+Video: https://youtu.be/QaSIcaKaO3s
+
 A UWaterloo textbook exchange app.
 
 ### Installation
